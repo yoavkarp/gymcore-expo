@@ -1,37 +1,73 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { ApolloWrapper } from "@/components/GraphQLProvider";
+import { theme } from "@/paper.theme";
+import { SplashScreen, Stack } from "expo-router";
+import { PaperProvider } from "react-native-paper";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Amplify } from "aws-amplify";
+import config from "@/constants/aws-exports";
+import { useCallback, useEffect, useState } from "react";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+import i18n from "i18next";
+import { useTranslation, initReactI18next } from "react-i18next";
+
+import he from '@/locales/he.json'
+import en from '@/locales/en.json'
+
+import { View } from "react-native";
+
+Amplify.configure(config)
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+
+  const [appIsReady, setAppIsReady] = useState(false);
+  const { i18n: { dir } } = useTranslation();
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    i18n
+      .use(initReactI18next) // passes i18n down to react-i18next
+      .init({
+        // the translations
+        // (tip move them in a JSON file and import them,
+        // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
+        resources: {
+          he: { translation: he, dir: "rtl" },
+          en: { translation: en, dir: 'ltr' }
+        },
+        lng: "he", // if you're using a language detector, do not define the lng option
+        fallbackLng: "he",
+        interpolation: {
+          escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+        },
+        compatibilityJSON: 'v3'
+      })
+      .finally(() => setAppIsReady(true));
+  }, [])
 
-  if (!loaded) {
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <View onLayout={onLayoutRootView} style={{ flex: 1, direction: dir() }}>
+      <ApolloWrapper>
+        <PaperProvider theme={theme}>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+          </Stack>
+        </PaperProvider>
+      </ApolloWrapper>
+    </View>
   );
 }
