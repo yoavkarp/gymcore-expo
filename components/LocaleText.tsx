@@ -1,29 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { TextInputProps } from "react-native-paper";
-import { Text } from "react-native";
-import { useCallback } from "react";
+import { Headline, TextProps, Text } from "react-native-paper";
 
-export const LocaleText: React.FC<TextInputProps> = ({ children, ...props }) => {
-    const { t } = useTranslation();
+export const LocaleText: React.FC<Omit<TextProps<any>, "children"> & { children?: string, headline?: boolean }> = ({ children, headline = false, ...props }) => {
+    const { t, i18n: { dir } } = useTranslation();
 
-    const translateChildren = (ch: typeof children): React.ReactNode => {
+    const Component = headline ? Headline : Text;
 
-        if (!ch) return null;
-
-        return Array.isArray(ch) ? ch.map<React.ReactNode>((child, index) => {
-            if (!child) return null;
-            if (typeof child === "string") {
-                return t(child)
-            } else {
-                return translateChildren(child)
-            }
-        }) : typeof (ch) === 'string' ? t(ch) : ch
-
-    }
-
-    const TranslatedChildren = useCallback(() => translateChildren(children), [children])
-
-    return <Text {...props}>
-        <TranslatedChildren />
-    </Text>
+    return (
+        <Component {...props} style={[props.style, { writingDirection: dir() }]}>
+            {children ? t(children) : ""}
+        </Component>
+    )
 }
+

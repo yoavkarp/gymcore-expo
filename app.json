@@ -3,7 +3,7 @@
     "name": "gymcore-expo",
     "slug": "gymcore-expo",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -28,8 +28,21 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "LANDSCAPE"
+        }
+      ]
     ],
+    "locales": {
+      "he": "./locales/he.json",
+      "en": "./locales/en.json"
+    },
+    "extra": {
+      "supportsRTL": true
+    },
     "experiments": {
       "typedRoutes": true
     }

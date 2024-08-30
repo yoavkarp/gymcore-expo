@@ -2,5 +2,9 @@
     "Phone Number": "מספר טלפון",
     "Your Phone Number": "מספר הטלפון שלך",
     "Sign In": "התחברות",
-    "Change Language": "שנה שפה"
+    "Change Language": "שנה שפה",
+    "Password": "סיסמה",
+    "Phone number must be 10 digits": "מספר הטלפון חייב להיות 10 ספרות",
+    "Password must be at least 8 characters": "הסיסמה חייבת להיות לפחות 8 תווים",
+    "Login": "כניסה"
 }
