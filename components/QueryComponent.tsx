@@ -1,4 +1,5 @@
 import { ApolloError, OperationVariables, useQuery } from "@apollo/client"
+import { PropsWithChildren } from "react";
 import { Text } from "react-native-paper"
 
 type QueryComponentProps<TData = any, TVariables extends OperationVariables = OperationVariables, TProps = {}> = {
@@ -7,12 +8,12 @@ type QueryComponentProps<TData = any, TVariables extends OperationVariables = Op
     component: React.FC<ReturnType<typeof useQuery<TData, TVariables>>>;
 } & TProps;
 
-const QueryViewError: React.FC<{ error: ApolloError }> = (props) => {
-    return <Text>Error: {props.error.message}</Text>
+const QueryViewError: React.FC<PropsWithChildren<{ error: ApolloError }>> = (props) => {
+    return props.children || <Text>Error: {props.error.message}</Text>
 }
 
-const QueryViewLoading = () => {
-    return <Text>Loading...</Text>
+const QueryViewLoading = ({ children }: PropsWithChildren) => {
+    return children || <Text>Loading...</Text>
 }
 
 const QueryView: React.FC<QueryComponentProps> = (props) => {

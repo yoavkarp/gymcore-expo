@@ -5,8 +5,9 @@ import { useTranslation } from "react-i18next";
 import { LocaleText } from "@/components/LocaleText";
 import { SignInFormValues, useSignInForm } from "@/hooks/forms/useSignInForm";
 import { Controller } from 'react-hook-form'
-import React from "react";
-import { useNavigation } from "expo-router";
+import React, { useEffect } from "react";
+import { Redirect, useNavigation } from "expo-router";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
 
@@ -15,12 +16,12 @@ export default function Index() {
 
   const [phoneRef, passwordRef] = [React.useRef<TI>(null), React.useRef<TI>(null)]
   const [showPassword, setShowPassword] = React.useState(false)
-
   const { navigate } = useNavigation<any>()
 
-  const onSubmit = (data: SignInFormValues) => {
-    console.log(data)
-    navigate("(auth)")
+  const { ready, login } = useAuth()
+
+  const onSubmit = async (data: SignInFormValues) => {
+    await login(data.phone_number, data.password)
   }
 
   return (

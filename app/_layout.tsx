@@ -11,6 +11,7 @@ import { useTranslation, initReactI18next } from "react-i18next";
 import he from '@/locales/he.json'
 import en from '@/locales/en.json'
 import { I18nManager, View } from "react-native";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 Amplify.configure(config)
 SplashScreen.preventAutoHideAsync();
@@ -65,12 +66,14 @@ export default function RootLayout() {
   return (
     <ApolloWrapper>
       <PaperProvider theme={theme}>
-        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="auth/index" />
-          </Stack>
-        </View>
+        <AuthProvider>
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="auth/index" />
+            </Stack>
+          </View>
+        </AuthProvider>
       </PaperProvider>
     </ApolloWrapper>
   );
