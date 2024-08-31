@@ -2,15 +2,15 @@
 const config: any = {
     API: {
         GraphQL: {
-            endpoint: 'https://5pdnl35ky5hlbkoqylpgvn44gm.appsync-api.eu-central-1.amazonaws.com/graphql',
+            endpoint: 'https://dnatrtlngrc4voltuatgkjb5ke.appsync-api.eu-central-1.amazonaws.com/graphql',
             region: 'eu-central-1',
             defaultAuthMode: 'userPool',
         }
     },
     Auth: {
         Cognito: {
-            userPoolId: "eu-central-1_LfGbvt3BI",
-            userPoolClientId: "3oj9rofls0hok7fmrr81rec005",
+            userPoolId: "eu-central-1_rPC74KFyx",
+            userPoolClientId: "cc6hkh9nqjvvjj93dpmhu6kln",
         }
     }
 };

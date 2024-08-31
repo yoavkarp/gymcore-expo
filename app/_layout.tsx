@@ -5,13 +5,13 @@ import { PaperProvider } from "react-native-paper";
 
 import { Amplify } from "aws-amplify";
 import config from "@/constants/aws-exports";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import i18n from "i18next";
 import { useTranslation, initReactI18next } from "react-i18next";
 import he from '@/locales/he.json'
 import en from '@/locales/en.json'
 import { I18nManager, View } from "react-native";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 
 Amplify.configure(config)
 SplashScreen.preventAutoHideAsync();
@@ -36,16 +36,9 @@ i18n
 
 export default function RootLayout() {
 
-  const [appIsReady, setAppIsReady] = useState(false);
-  const { i18n: { dir }, ready } = useTranslation();
+  const { ready: translationIsReady } = useTranslation();
 
-  useEffect(() => {
-    if (ready) {
-      I18nManager.forceRTL(dir() === "rtl");
-      I18nManager.allowRTL(dir() === "rtl");
-      setAppIsReady(true);
-    }
-  }, [ready])
+  const appIsReady = useMemo(() => translationIsReady, [translationIsReady])
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
@@ -59,9 +52,7 @@ export default function RootLayout() {
     }
   }, [appIsReady])
 
-  if (!appIsReady) {
-    return null;
-  }
+  if (!appIsReady) return null;
 
   return (
     <ApolloWrapper>
@@ -70,7 +61,6 @@ export default function RootLayout() {
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="index" />
-              <Stack.Screen name="auth/index" />
             </Stack>
           </View>
         </AuthProvider>

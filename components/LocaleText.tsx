@@ -7,7 +7,7 @@ export const LocaleText: React.FC<Omit<TextProps<any>, "children"> & { children?
     const Component = headline ? Headline : Text;
 
     return (
-        <Component {...props} style={[props.style, { writingDirection: dir() }]}>
+        <Component {...props} style={[{ writingDirection: dir() }, props.style]}>
             {children ? t(children) : ""}
         </Component>
     )
