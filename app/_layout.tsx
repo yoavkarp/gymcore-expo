@@ -1,55 +1,45 @@
 import { ApolloWrapper } from "@/components/GraphQLProvider";
 import { theme } from "@/paper.theme";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import { PaperProvider } from "react-native-paper";
 
 import { Amplify } from "aws-amplify";
 import config from "@/constants/aws-exports";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
 import he from '@/locales/he.json'
 import en from '@/locales/en.json'
 import { I18nManager, View } from "react-native";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { reloadAsync } from 'expo-updates'
+import Storage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { I18n } from 'i18n-js';
+import { getLocales } from 'expo-localization'
+const translations = {
+  he,
+  en
+};
+const i18n = new I18n(translations);
+i18n.locale = getLocales()[0].languageCode ?? 'en';
+i18n.enableFallback = true;
+const { t } = i18n;
 
 Amplify.configure(config)
 SplashScreen.preventAutoHideAsync();
 
-i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .init({
-    // the translations
-    // (tip move them in a JSON file and import them,
-    // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
-    resources: {
-      he: { translation: he, dir: "rtl" },
-      en: { translation: en, dir: "ltr" }
-    },
-    lng: "he", // if you're using a language detector, do not define the lng option
-    fallbackLng: "he",
-    interpolation: {
-      escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
-    },
-    compatibilityJSON: 'v3'
-  })
-
 export default function RootLayout() {
 
-  const { ready: translationIsReady } = useTranslation();
+  const { getItem: getDir, setItem: setDir } = useAsyncStorage("locale_dir")
+  const { getItem: getLanguage, setItem: setLanguage } = useAsyncStorage("locale")
 
-  const appIsReady = useMemo(() => translationIsReady, [translationIsReady])
+  const appIsReady = useMemo(() => true, [])
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      // This tells the splash screen to hide immediately! If we call this after
-      // `setAppIsReady`, then we may see a blank screen while the app is
-      // loading its initial state and rendering its first pixels. So instead,
-      // we hide the splash screen once we know the root view has already
-      // performed layout.
-      // await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-      await SplashScreen.hideAsync();
+  useEffect(() => {
+    async function onChange() {
+      if (appIsReady) {
+        await SplashScreen.hideAsync()
+      }
     }
+    onChange();
   }, [appIsReady])
 
   if (!appIsReady) return null;
@@ -58,11 +48,7 @@ export default function RootLayout() {
     <ApolloWrapper>
       <PaperProvider theme={theme}>
         <AuthProvider>
-          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-            </Stack>
-          </View>
+          <Slot />
         </AuthProvider>
       </PaperProvider>
     </ApolloWrapper>

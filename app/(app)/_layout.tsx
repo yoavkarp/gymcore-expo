@@ -18,7 +18,6 @@ export default function Layout() {
     return <Redirect href={"/sign-in" as Href} />;
   }
 
-
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />

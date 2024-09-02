@@ -49,6 +49,23 @@ const login = (username: string, password: string) => {
     })
 }
 
+const sync = async () => {
+    return new Promise((res, rej) => {
+        ((userPool as any).storage).sync(function (err: any, result: any) {
+            if (err) {
+                rej(err)
+            } else if (result === 'SUCCESS') {
+                let cognitoUser = userPool.getCurrentUser();
+                // Continue with steps in Use case 
+                res(cognitoUser)
+            }
+            else {
+                rej(new Error(result))
+            }
+        });
+    })
+}
+
 const getCurrentUser = () => {
     return userPool.getCurrentUser();
 }
@@ -73,7 +90,7 @@ const getSession = () => {
 }
 
 
-const refreshToken = (force = false) => {
+const refreshToken = () => {
     return new Promise<CognitoUserSession>((res, rej) => {
         const currentUser = getCurrentUser();
 
@@ -113,5 +130,6 @@ export const cognito = {
     refreshToken,
     signOut,
     getSession,
-    getCurrentUser
+    getCurrentUser,
+    sync
 }

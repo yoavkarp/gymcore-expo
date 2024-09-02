@@ -28,13 +28,7 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization",
-      [
-        "expo-screen-orientation",
-        {
-          "initialOrientation": "LANDSCAPE"
-        }
-      ]
+      "expo-localization"
     ],
     "locales": {
       "he": "./locales/he.json",

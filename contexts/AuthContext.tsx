@@ -9,7 +9,7 @@ export const AuthContext = createContext<{
     logout: () => Promise<any>;
     ready: boolean;
 }>({
-    login: async (username, password) => null,
+    login: async () => null,
     logout: async () => null,
     ready: false
 });
@@ -33,12 +33,20 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        cognito.getSession()
-            .then(setUserSession)
-            .catch((e) => console.error(e))
-            .finally(() => {
+        (async () => {
+            try {
+                await cognito.sync()
+                const session = await cognito.getSession()
+                setUserSession(session)
+            }
+            catch (e) {
+                console.log(e)
+            }
+            finally {
                 setReady(true)
-            })
+            }
+
+        })()
     }, [])
 
     return (
