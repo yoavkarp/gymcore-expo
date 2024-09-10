@@ -20,7 +20,6 @@ export default function Layout() {
     return <Redirect href={"/sign-in" as Href} />;
   }
 
-
   return (
     <View style={styles.container}>
       <Header />

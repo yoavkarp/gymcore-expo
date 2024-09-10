@@ -1,6 +1,11 @@
 {
+    "dir": "ltr",
     "Phone Number": "Phone Number",
     "Your Phone Number": "Your Phone Number",
     "Sign In": "Sign In",
-    "Change Language": "Change Language"
+    "Change Language": "Change Language",
+    "Password": "Password",
+    "Phone number must be 10 digits": "מספר הטלפון חייב להיות 10 ספרות",
+    "Password must be at least 8 characters": "Password must be at least 8 characters",
+    "Login": "Login"
 }
