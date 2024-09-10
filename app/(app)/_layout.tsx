@@ -1,18 +1,20 @@
 import { Stack } from "expo-router";
-import { View } from "react-native";
-import { useAuth } from "@/contexts/AuthContext";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { Href, Redirect } from "expo-router";
 import { Text } from "react-native-paper";
+import { useSession } from "@/auth";
+import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
 
 export default function Layout() {
 
-  const { ready: authIsReady, userSession } = useAuth()
+  const { isLoading, session } = useSession()
 
-  if (!authIsReady) {
+  if (isLoading) {
     return <Text>Loading...</Text>
   }
 
-  if (!userSession) {
+  if (!session) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
     return <Redirect href={"/sign-in" as Href} />;
@@ -20,8 +22,25 @@ export default function Layout() {
 
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-    </Stack>
+    <View style={styles.container}>
+      <Header />
+      <View style={styles.body}>
+        <Sidebar />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+        </Stack>
+      </View>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: Dimensions.get('screen').height,
+  },
+  body: {
+    flex: 1,
+    flexDirection: 'row',
+  }
+})

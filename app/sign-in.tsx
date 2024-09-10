@@ -6,8 +6,8 @@ import { LocaleText } from "@/components/LocaleText";
 import { SignInFormValues, useSignInForm } from "@/hooks/forms/useSignInForm";
 import { Controller } from 'react-hook-form'
 import React from "react";
-import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
+import { useSession } from "@/auth";
 
 export default function Index() {
 
@@ -17,12 +17,15 @@ export default function Index() {
   const [phoneRef, passwordRef] = [React.useRef<TI>(null), React.useRef<TI>(null)]
   const [showPassword, setShowPassword] = React.useState(false)
 
-  const { ready, login } = useAuth()
+  const { authenticateUser } = useSession()
 
   const { colors } = useTheme();
 
   const onSubmit = async (data: SignInFormValues) => {
-    await login(data.phone_number, data.password)
+    await authenticateUser({
+      Username: data.phone_number,
+      Password: data.password
+    })
     router.replace('/');
   }
 
