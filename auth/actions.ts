@@ -1,13 +1,21 @@
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserSession, CookieStorage, IAuthenticationDetailsData } from "amazon-cognito-identity-js";
 import { AuthenticateUserResult, AuthenticateUserSuccessResult } from "./types";
+import { Amplify } from "aws-amplify";
 
 let userPool: CognitoUserPool | null = null;
 let user: CognitoUser | null;
 let requiredAttributes: string[] = [];
 let userAttributes: { [x: string]: any } = {};
 
-export function setUserPool(pool: CognitoUserPool) {
-    userPool = pool;
+export async function initializeUserPool(pool?: CognitoUserPool) {
+    const { userPoolId: UserPoolId, userPoolClientId: ClientId } = Amplify.getConfig().Auth!.Cognito;
+
+    userPool = pool || new CognitoUserPool({
+        UserPoolId: UserPoolId!,
+        ClientId: ClientId!
+    });
+
+    await sync();
     user = userPool.getCurrentUser();
 }
 
@@ -27,7 +35,7 @@ export function getNewPasswordAttributes() {
 
 export const authenticateUser = (authenticationDetails: IAuthenticationDetailsData) => {
     return new Promise<AuthenticateUserResult | null>((resolve, reject) => {
-        user = new CognitoUser({ Username: authenticationDetails.Username, Pool: userPool!, Storage: new CookieStorage({ domain: "localhost" }) });
+        user = new CognitoUser({ Username: authenticationDetails.Username, Pool: userPool! });
         if (user)
             user.authenticateUser(new AuthenticationDetails(authenticationDetails), {
                 onSuccess: (session, userConfirmationNecessary) => {
@@ -108,8 +116,8 @@ export const signOut = (callback?: () => any) => {
             reject(new Error("No user found"))
         }
         else {
-            user.signOut(() => {
-                callback?.();
+            user.signOut(async () => {
+                await callback?.();
                 user = null;
                 resolve()
             });
@@ -159,6 +167,24 @@ export const forgotPassword = (username: string) => {
             })
 
             new CognitoUser({ Username: username, Pool: userPool }).confirmPassword
+        }
+    })
+}
+
+export const sync = () => {
+    return new Promise<string>((resolve, reject) => {
+        if (!userPool) {
+            reject(new Error("No user pool found"))
+        }
+        else {
+            (userPool as any).storage.sync(function (err: Error | null, result: string) {
+                if (err) {
+                    reject(err)
+                }
+                else {
+                    resolve(result)
+                }
+            });
         }
     })
 }

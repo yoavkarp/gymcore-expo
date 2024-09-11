@@ -8,7 +8,7 @@ type AuthContextType = {
     error: Error | null;
     status: "newPasswordRequired" | "success" | null;
     authenticateUser: (authenticationDetails: IAuthenticationDetailsData) => Promise<AuthenticateUserResult | null>;
-    signOut: () => Promise<void>;
+    signOut: (callback?: () => any) => Promise<void>;
     completeNewPasswordChallenge: (newPassword: string, userAttributes: { [x: string]: any }, callback?: () => any) => Promise<AuthenticateUserSuccessResult | null>;
 }
 

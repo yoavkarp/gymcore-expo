@@ -1,35 +1,50 @@
 import { Stack } from "expo-router";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
 import { Href, Redirect } from "expo-router";
-import { Text } from "react-native-paper";
+import { Button, Headline, Text, useTheme } from "react-native-paper";
 import { useSession } from "@/auth";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import '@/initialize';
 
 export default function Layout() {
 
-  const { isLoading, session } = useSession()
+  const { isLoading, session, signOut } = useSession();
+  const theme = useTheme();
 
   if (isLoading) {
     return <Text>Loading...</Text>
   }
 
   if (!session) {
-    // On web, static rendering will stop here as the user is not authenticated
-    // in the headless Node process that the pages are rendered in.
     return <Redirect href={"/sign-in" as Href} />;
   }
 
+  const sessionPayload = session.getIdToken().decodePayload();
+
+  if (!sessionPayload["cognito:groups"].includes("club")) {
+    return <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Headline>Unauthorized</Headline>
+      <Button mode="contained-tonal" onPress={() => signOut()}>Relog</Button>
+    </SafeAreaView>
+  }
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Header />
-      <View style={styles.body}>
-        <Sidebar />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-        </Stack>
+      <View style={{ flexDirection: 'row', flex: 1 }}>
+        <View style={{ flexBasis: 250 }}>
+          <Sidebar />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Stack screenOptions={{ headerShown: false, contentStyle: { flex: 1, backgroundColor: theme.colors.background } }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="my-profile" />
+          </Stack>
+        </View>
+
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

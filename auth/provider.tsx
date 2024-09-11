@@ -1,14 +1,16 @@
 import { PropsWithChildren, useState, useEffect } from "react";
 import AuthContext from "./context";
-import { CognitoUserPool, CognitoUserSession, ICognitoUserPoolData, CookieStorage } from "amazon-cognito-identity-js";
-import { authenticateUser, completeNewPasswordChallenge, getSession, getUser, setUserPool, signOut } from "./actions";
+import { CognitoUserPool, CognitoUserSession } from "amazon-cognito-identity-js";
+import { authenticateUser, completeNewPasswordChallenge, getSession, getUser, getUserPool, initializeUserPool, signOut } from "./actions";
+import { Amplify } from "aws-amplify";
 
-export type AuthProviderProps = ICognitoUserPoolData & {
+export type AuthProviderProps = {
 
 }
 
 
-export function AuthProvider({ children, UserPoolId, ClientId }: PropsWithChildren<AuthProviderProps>) {
+export function AuthProvider({ children }: PropsWithChildren<AuthProviderProps>) {
+
     const [session, setSession] = useState<CognitoUserSession | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
@@ -20,11 +22,7 @@ export function AuthProvider({ children, UserPoolId, ClientId }: PropsWithChildr
             if (!isLoading)
                 setIsLoading(true);
 
-            setUserPool(new CognitoUserPool({
-                UserPoolId,
-                ClientId,
-                Storage: new CookieStorage({ domain: "localhost" })
-            }));
+            await initializeUserPool()
 
             const user = getUser();
 
@@ -44,10 +42,8 @@ export function AuthProvider({ children, UserPoolId, ClientId }: PropsWithChildr
                 setIsLoading(false);
             }
         }
-
-        if (UserPoolId && ClientId)
-            onEffect();
-    }, [UserPoolId, ClientId])
+        onEffect();
+    }, [])
 
     return (
         <AuthContext.Provider value={{

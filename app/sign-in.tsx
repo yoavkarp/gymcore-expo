@@ -10,12 +10,17 @@ import { useSession } from "@/auth";
 
 export default function Index() {
 
-  const { formState: { errors }, handleSubmit, control } = useSignInForm();
+  const { formState: { errors }, handleSubmit, control } = useSignInForm({
+    defaultValues: {
+      phone_number: '0505716748',
+      password: 'Abcd1234!@'
+    }
+  });
 
   const [phoneRef, passwordRef] = [React.useRef<TI>(null), React.useRef<TI>(null)]
   const [showPassword, setShowPassword] = React.useState(false)
 
-  const { ready, login } = useAuth()
+  const { authenticateUser } = useSession()
 
   const { colors } = useTheme();
 

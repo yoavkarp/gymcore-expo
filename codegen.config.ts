@@ -1,5 +1,5 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
-import awsConfig from './constants/aws-exports'
+import awsConfig from './constants/aws-config'
 
 const config: CodegenConfig = {
     schema: "schema.json",
