@@ -1,4 +1,4 @@
-import { ApolloWrapper } from "@/components/GraphQLProvider";
+import { ApolloWrapper } from "@/components/ApolloWrapper";
 import { theme } from "@/paper.theme";
 import { Slot, SplashScreen, Stack } from "expo-router";
 import { PaperProvider } from "react-native-paper";

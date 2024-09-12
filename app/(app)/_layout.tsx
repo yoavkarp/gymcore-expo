@@ -6,6 +6,7 @@ import { useSession } from "@/auth";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import '@/initialize';
+import { CognitoSessionDecodedPayload } from "@/auth/decoded-payload";
 
 export default function Layout() {
 
@@ -20,7 +21,7 @@ export default function Layout() {
     return <Redirect href={"/sign-in" as Href} />;
   }
 
-  const sessionPayload = session.getIdToken().decodePayload();
+  const sessionPayload: CognitoSessionDecodedPayload = session.getIdToken().decodePayload() as any;
 
   if (!sessionPayload["cognito:groups"].includes("club")) {
     return <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

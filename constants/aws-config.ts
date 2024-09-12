@@ -20,6 +20,4 @@ const config: ResourcesConfig = {
     }
 };
 
-console.log("cfg", config)
-
 export default config;
