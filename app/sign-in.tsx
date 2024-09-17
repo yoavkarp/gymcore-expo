@@ -1,5 +1,4 @@
 import { View, TextInput as TI } from "react-native";
-import { Button, Card, TextInput, useTheme } from "react-native-paper";
 import Feather from '@expo/vector-icons/Feather';
 import { LocaleText } from "@/components/LocaleText";
 import { SignInFormValues, useSignInForm } from "@/hooks/forms/useSignInForm";
@@ -7,28 +6,34 @@ import { Controller } from 'react-hook-form'
 import React from "react";
 import { router } from "expo-router";
 import { useSession } from "@/auth";
-
+import { Colors, TextFieldRef } from "react-native-ui-lib";
+import { TextField, Button, Card, Text } from 'react-native-ui-lib'
 export default function Index() {
 
   const { formState: { errors }, handleSubmit, control } = useSignInForm({
     defaultValues: {
       phone_number: '0505716748',
       password: 'Abcd1234!@'
-    }
+    },
+    mode: "onChange"
+
   });
 
-  const [phoneRef, passwordRef] = [React.useRef<TI>(null), React.useRef<TI>(null)]
+  let [phoneRef, passwordRef] = [React.useRef<TextFieldRef>(null), React.useRef<TextFieldRef>(null)]
   const [showPassword, setShowPassword] = React.useState(false)
 
   const { authenticateUser } = useSession()
 
-  const { colors } = useTheme();
+  console.log(errors.phone_number);
+
 
   const onSubmit = async (data: SignInFormValues) => {
-    await authenticateUser({
+    const res = await authenticateUser({
       Username: data.phone_number,
       Password: data.password
     })
+
+    console.log(res);
     router.replace('/');
   }
 
@@ -40,63 +45,65 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Card style={{ width: 350 }}>
-        <Card.Title title={<LocaleText headline>Sign In</LocaleText>} />
-        <Card.Content>
-          <Controller
-            control={control}
-            render={({ field: { onChange, ...fieldProps } }) => (
-              <TextInput
+      <Card flex center>
+        <Text h1>כניסה</Text>
+        <Text>יש להזין את פרטי משתמש המועדון כדי להמשיך</Text>
+        <Controller
+          control={control}
+          render={({ field: { onChange, ref, ...fieldProps }, fieldState: { error } }) => {
+            return (
+              <TextField
                 placeholderTextColor="#CCCCCC"
-                mode="outlined"
-                label={"Phone Number"}
-                right={<TextInput.Icon disabled icon={(props) => <Feather name="phone" {...props} />} size={24} color="black" />}
                 style={{ width: '100%' }}
-                outlineStyle={errors.phone_number && { borderColor: colors.error }}
-                placeholder={"05x-x-xxx-xxx"}
+                containerStyle={error && { borderColor: Colors.error }}
+                placeholder="מספר טלפון"
+                validate={() => { return !Boolean(error) }}
+                validationMessage={error?.message}
+                enableErrors
                 onChangeText={onChange}
                 onSubmitEditing={() => passwordRef.current?.focus()}
                 returnKeyType="next"
-                {...fieldProps}
                 blurOnSubmit={false}
-                ref={phoneRef}
-              />
-            )}
-            name="phone_number"
-          />
-          {errors.phone_number && <LocaleText style={{ color: colors.error }}>{errors.phone_number.message}</LocaleText>}
-
-          <Controller
-            rules={{
-              required: true,
-            }}
-            control={control}
-            render={({ field: { onChange, ...fieldProps } }) => (
-              <TextInput
-                placeholderTextColor="#CCCCCC"
-                mode="outlined"
-                label={"Password"}
-                right={<TextInput.Icon onPress={() => setShowPassword(prev => !prev)} icon={(props) => (
-                  <Feather name={showPassword ? 'eye-off' : 'eye'} {...props} />
-                )} size={24} color="black" />}
-                style={{ width: '100%' }}
-                outlineStyle={errors.password && { borderColor: colors.error }}
-                onChangeText={onChange}
+                ref={(r) => {
+                  ref(r);
+                  let re = phoneRef.current;
+                  re = r;
+                }}
+                floatingPlaceholder
                 {...fieldProps}
-                secureTextEntry={!showPassword}
-                returnKeyType="done"
-                ref={passwordRef}
               />
-            )}
-            name="password"
-          />
-          {errors.password && <LocaleText style={{ color: colors.error }}>{errors.password.message}</LocaleText>}
-        </Card.Content>
-        <Card.Actions>
+            )
+          }}
+          name="phone_number"
+        />
+
+        <Controller
+          rules={{
+            required: true,
+          }}
+          control={control}
+          render={({ field: { onChange, ...fieldProps } }) => (
+            <TextField
+              placeholder="סיסמה"
+              placeholderTextColor="#CCCCCC"
+              style={{ width: '100%' }}
+              containerStyle={errors.password && { borderColor: Colors.error }}
+              onChangeText={onChange}
+              {...fieldProps}
+              secureTextEntry={!showPassword}
+              returnKeyType="done"
+              floatingPlaceholder
+              ref={passwordRef}
+            />
+          )}
+          name="password"
+        />
+        {errors.password && <Text style={{ color: Colors.error }}>{errors.password.message}</Text>}
+        <Card.Section>
           <Button onPress={handleSubmit(onSubmit)}>
-            <LocaleText>Login</LocaleText>
+            התחברות
           </Button>
-        </Card.Actions>
+        </Card.Section>
       </Card>
     </View >
   );

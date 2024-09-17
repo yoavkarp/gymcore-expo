@@ -2,7 +2,7 @@ projects:
   Codegen Project:
     schemaPath: schema.json
     includes:
-      - appsync/graphql/**/*.ts
+      - appsync/**/*.ts
     excludes:
       - ./amplify/**
       - appsync/API.ts
@@ -10,9 +10,9 @@ projects:
       amplify:
         codeGenTarget: typescript
         generatedFileName: appsync/API.ts
-        docsFilePath: appsync/graphql
+        docsFilePath: appsync
         region: eu-central-1
-        apiId: qothdwnyyvgufh2zh4ivltuf6i
+        apiId: jmzn3anqr5fybnowrnec2j6i3m
         frontend: javascript
         framework: react-native
         maxDepth: 2

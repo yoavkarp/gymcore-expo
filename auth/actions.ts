@@ -8,6 +8,7 @@ let requiredAttributes: string[] = [];
 let userAttributes: { [x: string]: any } = {};
 
 export async function initializeUserPool(pool?: CognitoUserPool) {
+    console.log(Amplify.getConfig().Auth!.Cognito);
     const { userPoolId: UserPoolId, userPoolClientId: ClientId } = Amplify.getConfig().Auth!.Cognito;
 
     userPool = pool || new CognitoUserPool({
@@ -40,6 +41,7 @@ export const authenticateUser = (authenticationDetails: IAuthenticationDetailsDa
             user.authenticateUser(new AuthenticationDetails(authenticationDetails), {
                 onSuccess: (session, userConfirmationNecessary) => {
                     user!.setSignInUserSession(session)
+                    console.log(session, userConfirmationNecessary)
                     resolve({
                         type: "success",
                         payload: {

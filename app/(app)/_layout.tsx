@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, View, ActivityIndicator } from "react-native";
 import { Href, Redirect } from "expo-router";
 import { Button, Headline, Text, useTheme } from "react-native-paper";
 import { useSession } from "@/auth";
@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import '@/initialize';
 import { CognitoSessionDecodedPayload } from "@/auth/decoded-payload";
+import React from "react";
 
 export default function Layout() {
 
@@ -14,7 +15,7 @@ export default function Layout() {
   const theme = useTheme();
 
   if (isLoading) {
-    return <Text>Loading...</Text>
+    return <ActivityIndicator color={theme.colors.primary} />
   }
 
   if (!session) {
@@ -43,7 +44,6 @@ export default function Layout() {
             <Stack.Screen name="my-profile" />
           </Stack>
         </View>
-
       </View>
     </SafeAreaView>
   );
