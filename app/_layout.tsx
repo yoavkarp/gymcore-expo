@@ -3,14 +3,27 @@ import { theme } from "@/paper.theme";
 import { Slot, SplashScreen } from "expo-router";
 import { PaperProvider } from "react-native-paper";
 import { useEffect, useMemo } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, Text } from "react-native";
 import { AuthProvider } from "@/auth";
+import { useFonts } from 'expo-font';
+import ThemeProvider from "@/contexts/ThemeContext";
+import SnackBarProvider from "@/contexts/SnackbarContext";
+
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 
-  const appIsReady = useMemo(() => true, [])
+  const [loaded, error] = useFonts({
+    'regular': require('@/assets/fonts/fredoka/Fredoka-Regular.ttf'),
+    'medium': require('@/assets/fonts/fredoka/Fredoka-Medium.ttf'),
+    'bold': require('@/assets/fonts/fredoka/Fredoka-Bold.ttf'),
+    'light': require('@/assets/fonts/fredoka/Fredoka-Light.ttf'),
+    'semibold': require('@/assets/fonts/fredoka/Fredoka-SemiBold.ttf'),
+  });
+
+  const appIsReady = useMemo(() => loaded || Boolean(error), [loaded])
+
 
   useEffect(() => {
     async function onChange() {
@@ -25,13 +38,15 @@ export default function RootLayout() {
 
   return (
     <ApolloWrapper>
-      <PaperProvider theme={theme}>
+      <ThemeProvider>
         <AuthProvider>
           <SafeAreaView style={{ flex: 1 }}>
-            <Slot />
+            <SnackBarProvider>
+              <Slot />
+            </SnackBarProvider>
           </SafeAreaView>
         </AuthProvider>
-      </PaperProvider>
+      </ThemeProvider>
     </ApolloWrapper >
   );
 }

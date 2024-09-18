@@ -1,0 +1,4966 @@
+{
+    "strength": [
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Chest Press",
+                "he": "לחיצת חזה"
+            },
+            "against": "barble",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Chest Press",
+                "he": "לחיצת חזה"
+            },
+            "against": "machine",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    20,
+                    25
+                ],
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    35,
+                    45
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Chest Press",
+                "he": "לחיצת חזה"
+            },
+            "against": "dumbbells",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    15,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Upper Chest Press",
+                "he": "לחיצת חזה עליון"
+            },
+            "against": "barble",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "upper",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Upper Chest Press",
+                "he": "לחיצת חזה עליון"
+            },
+            "against": "machine",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    20,
+                    25
+                ],
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    35,
+                    45
+                ]
+            },
+            "units": "kg",
+            "position": "upper",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Upper Chest Press",
+                "he": "לחיצת חזה עליון"
+            },
+            "against": "dumbbells",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    15,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "upper",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Lower Chest Press",
+                "he": "לחיצת חזה תחתון"
+            },
+            "against": "barble",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Lower Chest Press",
+                "he": "לחיצת חזה תחתון"
+            },
+            "against": "machine",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    20,
+                    25
+                ],
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    35,
+                    45
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Lower Chest Press",
+                "he": "לחיצת חזה תחתון"
+            },
+            "against": "dumbbells",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    15,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Close Grip Chest Press",
+                "he": "לחיצת חזה אחיזה צרה"
+            },
+            "against": "dumbbells",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    15,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Close Grip Chest Press",
+                "he": "לחיצת חזה אחיזה צרה"
+            },
+            "against": "barble",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Close Grip Chest Press",
+                "he": "לחיצת חזה אחיזה צרה"
+            },
+            "against": "machine",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    20,
+                    25
+                ],
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    35,
+                    45
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Chest Press",
+                "en": "Close Grip Chest Press Smith Machine",
+                "he": "לחיצת חזה אחיזה צרה סמיט משין"
+            },
+            "against": "machine",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    20,
+                    30
+                ],
+                "advanced": [
+                    40,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's",
+                "he": "פרפר"
+            },
+            "against": "cable",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    5
+                ],
+                "intermediate": [
+                    5,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    15
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's",
+                "he": "פרפר"
+            },
+            "against": "machine",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's",
+                "he": "פרפר"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's",
+                "he": "פרפר"
+            },
+            "against": "dumbbells",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    5,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    15
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's Upper Chest Emphasis",
+                "he": "פרפר דגש חזה עליון"
+            },
+            "against": "cable",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    5
+                ],
+                "intermediate": [
+                    5,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    15
+                ]
+            },
+            "units": "kg",
+            "position": "upper",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's Upper Chest Emphasis",
+                "he": "פרפר דגש חזה עליון"
+            },
+            "against": "dumbbells",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    5,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    15
+                ]
+            },
+            "units": "kg",
+            "position": "upper",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's Lower Chest Emphasis",
+                "he": "פרפר דגש חזה תחתון"
+            },
+            "against": "cable",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    5
+                ],
+                "intermediate": [
+                    5,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    15
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Fly's",
+                "en": "Fly's Lower Chest Emphasis",
+                "he": "פרפר דגש חזה תחתון"
+            },
+            "against": "dumbbells",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    5,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    15
+                ]
+            },
+            "units": "kg",
+            "position": "lower",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Push Ups",
+                "he": "שכיבות סמיכה"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Push Ups",
+                "he": "שכיבות סמיכה"
+            },
+            "against": "plate",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Push Ups",
+                "he": "שכיבות סמיכה"
+            },
+            "against": "rubberBand",
+            "muscle": "pectoralis major",
+            "type": "isolation",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Legs Elevated Push Ups",
+                "he": "שכיבות סמיכה עם הרמת רגליים"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Wide Push Ups",
+                "he": "שכיבות סמיכה אחיזה רחבה"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Narrow Push Ups",
+                "he": "שכיבות סמיכה אחיזה צרה"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Diamond Push Ups",
+                "he": "שכיבות סמיכה יהלום"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Push Ups",
+                "en": "Spiderman Push Ups",
+                "he": "שכיבות סמיכה ספיידר-מן"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {},
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Dips",
+                "en": "Wide Dips",
+                "he": "מקבילים אחיזה רחבה"
+            },
+            "against": "machine",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Dips",
+                "en": "Wide Dips",
+                "he": "מקבילים אחיזה רחבה"
+            },
+            "against": "bodyWeight",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Dips",
+                "en": "Wide Dips",
+                "he": "מקבילים אחיזה רחבה"
+            },
+            "against": "plate",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "advanced": [
+                    5,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Dips",
+                "en": "Close Grip Dips",
+                "he": "מקבילים אחיזה צרה"
+            },
+            "against": "plate",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "advanced": [
+                    5,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Dips",
+                "en": "Close Grip Dips",
+                "he": "מקבילים אחיזה צרה"
+            },
+            "against": "machine",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Dips",
+                "en": "Close Grip Dips",
+                "he": "מקבילים אחיזה צרה"
+            },
+            "against": "bodyWeight",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Pronated Grip Pull Up",
+                "he": "מתח פרונציה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Supinated Grip Pull Up",
+                "he": "מתח סופינציה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Pronated Grip Pull Up",
+                "he": "מתח פרונציה"
+            },
+            "against": "bodyWeight",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Supinated Grip Pull Up",
+                "he": "מתח סופינציה"
+            },
+            "against": "bodyWeight",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Pronated Grip Pull Up",
+                "he": "מתח פרונציה"
+            },
+            "against": "rubberBand",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Supinated Grip Pull Up",
+                "he": "מתח סופינציה"
+            },
+            "against": "rubberBand",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Pronated Grip Pull Up",
+                "he": "מתח פרונציה"
+            },
+            "against": "plate",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "advanced": [
+                    5,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Supinated Grip Pull Up",
+                "he": "מתח סופינציה"
+            },
+            "against": "plate",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "advanced": [
+                    5,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Neutral Pull Up",
+                "he": "מתח אחיזה ניטרלית"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Neutral Pull Up",
+                "he": "מתח אחיזה ניטרלית"
+            },
+            "against": "plate",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "advanced": [
+                    5,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Neutral Pull Up",
+                "he": "מתח אחיזה ניטרלית"
+            },
+            "against": "bodyWeight",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Up",
+                "en": "Neutral Pull Up",
+                "he": "מתח אחיזה ניטרלית"
+            },
+            "against": "rubberBand",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "T Bar",
+                "en": "Close Grip T Bar",
+                "he": "טיבר אחיזה צרה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "T Bar",
+                "en": "Wide Grip T Bar",
+                "he": "טיבר אחיזה רחבה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Close Grip Row",
+                "he": "חתירה אחיזה צרה"
+            },
+            "against": "dumbbells",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Close Grip Row",
+                "he": "חתירה אחיזה צרה"
+            },
+            "against": "cable",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Close Grip One Arm Row",
+                "he": "חתירה אחיזה צרה יד-יד"
+            },
+            "against": "cable",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Bench Upper Row",
+                "he": "חתירה כלפי מעלה על ספסל"
+            },
+            "against": "cable",
+            "muscle": "middle deltoid",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Close Grip Row",
+                "he": "חתירה אחיזה צרה"
+            },
+            "against": "bodyWeight",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Close Grip Row",
+                "he": "חתירה אחיזה צרה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Close Grip Row",
+                "he": "חתירה אחיזה צרה"
+            },
+            "against": "barble",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Standing Upper Row",
+                "he": "חתירה כלפי מעלה בעמידה"
+            },
+            "against": "barble",
+            "muscle": "middle deltoid",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Wide Grip Row",
+                "he": "חתירה אחיזה רחבה"
+            },
+            "against": "dumbbells",
+            "muscle": "upper back",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Standing Upper Row",
+                "he": "חתירה כלפי מעלה בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Wide Grip One Arm Row",
+                "he": "חתירה אחיזה רחבה יד-יד"
+            },
+            "against": "dumbbells",
+            "muscle": "upper back",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Wide Grip Row",
+                "he": "חתירה אחיזה רחבה"
+            },
+            "against": "machine",
+            "muscle": "upper back",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Wide Grip Row",
+                "he": "חתירה אחיזה רחבה"
+            },
+            "against": "barble",
+            "muscle": "upper back",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Wide Grip Row",
+                "he": "חתירה אחיזה רחבה"
+            },
+            "against": "bodyWeight",
+            "muscle": "upper back",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Row",
+                "en": "Wide Grip Row",
+                "he": "חתירה אחיזה רחבה"
+            },
+            "against": "cable",
+            "muscle": "upper back",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Lat Pull Down",
+                "en": "Pronated Wide Grip Lat Pull Down",
+                "he": "משיכת פולי אחיזה רחבה פרונציה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    35,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Lat Pull Down",
+                "en": "Supinated Wide Grip Lat Pull Down",
+                "he": "משיכת פולי אחיזה רחבה סופינציה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    35,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Lat Pull Down",
+                "en": "Pronated Close Grip Lat Pull Down",
+                "he": "משיכת פולי אחיזה צרה פרונציה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    35,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Lat Pull Down",
+                "en": "Supinated Close Grip Lat Pull Down",
+                "he": "משיכת פולי אחיזה צרה סופינציה"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    35,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Over",
+                "en": "Pull Over",
+                "he": "פול אובר"
+            },
+            "against": "machine",
+            "muscle": "latissimus dorsi",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    25,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Over",
+                "en": "Rope Pull Over",
+                "he": "פול אובר עם חבל"
+            },
+            "against": "cable",
+            "muscle": "latissimus dorsi",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    20,
+                    25
+                ],
+                "advanced": [
+                    25,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Over",
+                "en": "Straight Handle Pull Over",
+                "he": "פול אובר מאחז ישר"
+            },
+            "against": "cable",
+            "muscle": "latissimus dorsi",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    20,
+                    25
+                ],
+                "advanced": [
+                    25,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Pull Over",
+                "en": "One Arm Pull Over",
+                "he": "פול אובר יד-יד"
+            },
+            "against": "cable",
+            "muscle": "latissimus dorsi",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v",
+            "motion": "pull"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Squat",
+                "he": "סקוואט"
+            },
+            "against": "bodyWeight",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Squat",
+                "he": "סקוואט"
+            },
+            "against": "barble",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    50
+                ],
+                "advanced": [
+                    60,
+                    70
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Squat",
+                "he": "סקוואט"
+            },
+            "against": "dumbbells",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Squat",
+                "he": "סקוואט"
+            },
+            "against": "machine",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    40,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Sumo Squat",
+                "he": "סקוואט מנח רחב"
+            },
+            "against": "bodyWeight",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Sumo Squat",
+                "he": "סקוואט מנח רחב"
+            },
+            "against": "barble",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    50
+                ],
+                "advanced": [
+                    60,
+                    70
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Sumo Squat",
+                "he": "סקוואט מנח רחב"
+            },
+            "against": "dumbbells",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Sumo Squat",
+                "he": "סקוואט מנח רחב"
+            },
+            "against": "machine",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    40,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Lunges",
+                "en": "Lunges",
+                "he": "לאנג'ים"
+            },
+            "against": "bodyWeight",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Lunges",
+                "en": "Lunges",
+                "he": "לאנג'ים"
+            },
+            "against": "dumbbells",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Lunges",
+                "en": "Lunges",
+                "he": "לאנג'ים"
+            },
+            "against": "barble",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    20,
+                    30
+                ],
+                "advanced": [
+                    40,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Bulgarian Split Squat",
+                "he": "בולגריין ספליט סקוואט"
+            },
+            "against": "bodyWeight",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Bulgarian Split Squat",
+                "he": "בולגריין ספליט סקוואט"
+            },
+            "against": "dumbbells",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    10,
+                    12
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Bulgarian Split Squat",
+                "he": "בולגריין ספליט סקוואט"
+            },
+            "against": "barble",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    40,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Leg Extension",
+                "en": "Leg Extension",
+                "he": "פשיטות ברכיים"
+            },
+            "against": "machine",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    20,
+                    25
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a"
+        },
+        {
+            "name": {
+                "shared": "Leg Press",
+                "en": "Leg Press",
+                "he": "לחיצת רגליים"
+            },
+            "against": "machine",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    20,
+                    25
+                ],
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Leg Press",
+                "en": "Wide Leg Press",
+                "he": "לחיצת רגליים מנח רחב"
+            },
+            "against": "machine",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    20,
+                    25
+                ],
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Cossack Squat",
+                "he": "סקוואט צידי"
+            },
+            "against": "bodyWeight",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Cossack Squat",
+                "he": "סקוואט צידי"
+            },
+            "against": "dumbbells",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    10,
+                    12
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Squat",
+                "en": "Cossack Squat",
+                "he": "סקוואט צידי"
+            },
+            "against": "barble",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "advanced": [
+                    30,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Step Up",
+                "en": "Step Up",
+                "he": "עליות מדרגה"
+            },
+            "against": "bodyWeight",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a"
+        },
+        {
+            "name": {
+                "shared": "Step Up",
+                "en": "Step Up",
+                "he": "עליות מדרגה"
+            },
+            "against": "dumbbells",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    5,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a"
+        },
+        {
+            "name": {
+                "shared": "Step Up",
+                "en": "Step Up",
+                "he": "עליות מדרגה"
+            },
+            "against": "barble",
+            "muscle": "quadriceps",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    20,
+                    25
+                ],
+                "advanced": [
+                    30,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a"
+        },
+        {
+            "name": {
+                "shared": "Hips Adduction",
+                "en": "Hips Adduction",
+                "he": "מקרבי ירך"
+            },
+            "against": "machine",
+            "muscle": "quadriceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    20,
+                    25
+                ],
+                "advanced": [
+                    30,
+                    35
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "a",
+            "motion": "push"
+        },
+        {
+            "name": {
+                "shared": "Deadlift",
+                "en": "Deadlift",
+                "he": "דדליפט"
+            },
+            "against": "barble",
+            "muscle": "hamstrings,gluts",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    70
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Deadlift",
+                "en": "Romanian Deadlift",
+                "he": "דדליפט רומני"
+            },
+            "against": "barble",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    40,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Deadlift",
+                "en": "Romanian Deadlift",
+                "he": "דדליפט רומני"
+            },
+            "against": "dumbbells",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Leg Curls",
+                "en": "Leg Curls",
+                "he": "כפיפות ברך"
+            },
+            "against": "machine",
+            "muscle": "hamstrings",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    25,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Donkey Kick",
+                "en": "Donkey Kick",
+                "he": "דונקי קיק"
+            },
+            "against": "machine",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Donkey Kick",
+                "en": "Donkey Kick",
+                "he": "דונקי קיק"
+            },
+            "against": "bodyWeight",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Donkey Kick",
+                "en": "Donkey Kick",
+                "he": "דונקי קיק"
+            },
+            "against": "cable",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Hips Abduction",
+                "en": "Hips Abduction",
+                "he": "מרחיקי ירך"
+            },
+            "against": "machine",
+            "muscle": "gluts",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    30,
+                    35
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Hip Trust",
+                "en": "Hip Trust",
+                "he": "היפ טראסט"
+            },
+            "against": "barble",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    20,
+                    40
+                ],
+                "intermediate": [
+                    40,
+                    50
+                ],
+                "advanced": [
+                    50,
+                    60
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Hip Trust",
+                "en": "Hip Trust",
+                "he": "היפ טראסט"
+            },
+            "against": "machine",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    20,
+                    40
+                ],
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Hip Trust",
+                "en": "Hip Trust",
+                "he": "היפ טראסט"
+            },
+            "against": "dumbbells",
+            "muscle": "hamstrings,gluts",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Shoulders Press",
+                "en": "Shoulders Press",
+                "he": "לחיצת כתפיים"
+            },
+            "against": "machine",
+            "muscle": "middle deltoid",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    15,
+                    20
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    30,
+                    35
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Shoulders Press",
+                "en": "Shoulders Press",
+                "he": "לחיצת כתפיים"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    20,
+                    30
+                ],
+                "advanced": [
+                    30,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Shoulders Press",
+                "en": "Shoulders Press",
+                "he": "לחיצת כתפיים"
+            },
+            "against": "barble",
+            "muscle": "anterior deltoid,middle deltoid",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    45,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Lateral Raise",
+                "he": "הרחקת כתפיים לצדדים בעמידה",
+                "en": "Standing Lateral Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Lateral Raise",
+                "he": "הרחקת כתפיים לצדדים בישיבה",
+                "en": "Seated Lateral Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Lateral Raise",
+                "he": "הרחקת כתפיים בעמידה יד-יד",
+                "en": "Standing Single Arm Lateral Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Lateral Raise",
+                "he": "הרחקת כתפיים לצדדים בעמידה",
+                "en": "Standing Lateral Raise"
+            },
+            "against": "cable",
+            "muscle": "middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Lateral Raise",
+                "he": "הרחקת כתפיים לצדדים יד-יד",
+                "en": "Single Arm Lateral Raise"
+            },
+            "against": "cable",
+            "muscle": "middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Lateral Raise",
+                "he": "הרחקת כתפיים לצדדים בישיבה",
+                "en": "Seated Lateral Raise"
+            },
+            "against": "cable",
+            "muscle": "middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Lateral Raise",
+                "he": "הרחקת כתפיים לצדדים",
+                "en": "Lateral Raise"
+            },
+            "against": "machine",
+            "muscle": "middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Calf Raise",
+                "he": "פשיטות כף רגל בישיבה",
+                "en": "Seated Calf Raise"
+            },
+            "against": "machine",
+            "muscle": "calves",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    20,
+                    30
+                ],
+                "advanced": [
+                    30,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Calf Raise",
+                "he": "פשיטות כף רגל בעמידה",
+                "en": "Standing Calf Raise"
+            },
+            "against": "machine",
+            "muscle": "calves",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    20,
+                    30
+                ],
+                "advanced": [
+                    30,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Calf Raise",
+                "he": "פשיטות כף רגל בעמידה על מדרגה",
+                "en": "Standing Calf Raise"
+            },
+            "against": "bodyWeight",
+            "muscle": "calves",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Calf Raise",
+                "he": "פשיטות כף רגל בעמידה על מדרגה רגל-רגל",
+                "en": "Single Leg Standing Calf Raise"
+            },
+            "against": "bodyWeight",
+            "muscle": "calves",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Calf Raise",
+                "he": "פשיטות כף רגל בעמידה על מדרגה רגל-רגל",
+                "en": "Single Leg Standing Calf Raise"
+            },
+            "against": "machine",
+            "muscle": "calves",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "p"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בעמידה",
+                "en": "Standing Front Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בישיבה",
+                "en": "Seated Front Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בעמידה יד-יד",
+                "en": "Standing Single Arm Front Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בישיבה יד-יד",
+                "en": "Seated Single Arm Front Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בעמידה",
+                "en": "Standing Front Raise"
+            },
+            "against": "wBarble",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    12,
+                    14
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בעמידה",
+                "en": "Standing Front Raise"
+            },
+            "against": "cable",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בישיבה",
+                "en": "Seated Front Raise"
+            },
+            "against": "cable",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בעמידה יד-יד",
+                "en": "Standing Single Arm Front Raise"
+            },
+            "against": "cable",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף בישיבה יד-יד",
+                "en": "Seated Single Arm Front Raise"
+            },
+            "against": "cable",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Front Raise",
+                "he": "כפיפת כתף עם TRX",
+                "en": "Front Raise with TRX"
+            },
+            "against": "bodyWeight",
+            "muscle": "anterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בעמידה",
+                "en": "Standing Back Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בישיבה",
+                "en": "Seated Back Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בעמידה יד-יד",
+                "en": "Single Arm Standing Back Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בישיבה יד-יד",
+                "en": "Single Arm Seated Back Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בעמידה",
+                "en": "Standing Back Raise"
+            },
+            "against": "cable",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בישיבה",
+                "en": "Seated Back Raise"
+            },
+            "against": "cable",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בעמידה יד-יד",
+                "en": "Single Arm Standing Back Raise"
+            },
+            "against": "cable",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בישיבה יד-יד",
+                "en": "Single Arm Seated Back Raise"
+            },
+            "against": "cable",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בהישענות על ספסל",
+                "en": "Bench Back Raise"
+            },
+            "against": "dumbbells",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    1,
+                    2
+                ],
+                "intermediate": [
+                    2,
+                    4
+                ],
+                "advanced": [
+                    4,
+                    6
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור בהישענות על ספסל",
+                "en": "Bench Back Raise"
+            },
+            "against": "cable",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור",
+                "en": "Back Raise"
+            },
+            "against": "machine",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Raise",
+                "he": "הרחקת כתף לאחור עם TRX",
+                "en": "Back Raise with TRX"
+            },
+            "against": "bodyWeight",
+            "muscle": "posterior deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Arnold Press",
+                "en": "Standing Arnold Press",
+                "he": "לחיצת ארנולד בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid,anterior deltoid",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    8,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    12
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Arnold Press",
+                "en": "Seated Arnold Press",
+                "he": "לחיצת ארנולד בישיבה"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid,anterior deltoid",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    8,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    12
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Cuban Press",
+                "en": "Standing Cuban Press",
+                "he": "לחיצה קובנית בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "middle deltoid,rotator cuff",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    2,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    10
+                ],
+                "advanced": [
+                    10,
+                    12
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Cuban Press",
+                "en": "Standing Cuban Press",
+                "he": "לחיצה קובנית בעמידה"
+            },
+            "against": "barble",
+            "muscle": "middle deltoid,rotator cuff",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    20,
+                    25
+                ],
+                "advanced": [
+                    25,
+                    35
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Rotator Cuff",
+                "en": "Standing Rotator Cuff",
+                "he": "סובבי כתף בעמידה"
+            },
+            "against": "cable",
+            "muscle": "rotator cuff",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    2.5,
+                    5
+                ],
+                "intermediate": [
+                    5,
+                    7.5
+                ],
+                "advanced": [
+                    7.5,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h"
+        },
+        {
+            "name": {
+                "shared": "Rotator Cuff",
+                "en": "Standing Rotator Cuff",
+                "he": "סובבי כתף בעמידה"
+            },
+            "against": "rubberBand",
+            "muscle": "rotator cuff",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h"
+        },
+        {
+            "name": {
+                "shared": "Rotator Cuff",
+                "en": "Seated One Arm Rotator Cuff",
+                "he": "סובבי כתף בישיבה יד-יד"
+            },
+            "against": "dumbbells",
+            "muscle": "rotator cuff",
+            "type": "compound",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    4,
+                    6
+                ],
+                "advanced": [
+                    6,
+                    8
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h"
+        },
+        {
+            "name": {
+                "shared": "Shrug's",
+                "en": "Standing Shrug's",
+                "he": "שרגס בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "trapezius,middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Shrug's",
+                "en": "Seated Shrug's",
+                "he": "שרגס בישיבה"
+            },
+            "against": "dumbbells",
+            "muscle": "trapezius,middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Shrug's",
+                "en": "Standing Shrug's",
+                "he": "שרגס בעמידה"
+            },
+            "against": "barble",
+            "muscle": "trapezius,middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    40,
+                    50
+                ],
+                "advanced": [
+                    60,
+                    70
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Shrug's",
+                "en": "Standing Shrug's",
+                "he": "שרגס בעמידה"
+            },
+            "against": "cable",
+            "muscle": "trapezius,middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    25,
+                    30
+                ],
+                "advanced": [
+                    35,
+                    40
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Shrug's",
+                "en": "Standing One Arm Shrug's",
+                "he": "שרגס בעמידה יד-יד"
+            },
+            "against": "cable",
+            "muscle": "trapezius,middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Shrug's",
+                "en": "Smith Machine Standing Shrug's",
+                "he": "שרגס בעמידה עם סמיט משין"
+            },
+            "against": "machine",
+            "muscle": "trapezius,middle deltoid",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    20
+                ],
+                "intermediate": [
+                    40,
+                    50
+                ],
+                "advanced": [
+                    60,
+                    70
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Standing Biceps Curls",
+                "he": "כפיפת מרפקים בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    4,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "CONCENTRATION DB CURL",
+                "en": "CONCENTRATION DB CURL",
+                "he": "CONCENTRATION DB CURL"
+            },
+            "against": "dumbbells",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    4,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "90 Degrees Bench Biceps Curls",
+                "he": "כפיפת מרפקים בישיבה על ספסל 90 מעלות"
+            },
+            "against": "dumbbells",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    4,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "45 Degrees Bench Biceps Curls",
+                "he": "כפיפת מרפקים בישיבה על ספסל 45 מעלות"
+            },
+            "against": "dumbbells",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    4,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Standing Hammers Biceps Curls",
+                "he": "כפיפת מרפקים פטישים בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    4,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "90 Degrees Bench Hammers Biceps Curls",
+                "he": "כפיפת מרפקים פטישים בישיבה על ספסל 90 מעלות"
+            },
+            "against": "dumbbells",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    4,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Single Arm Bench Hammers Biceps Curls",
+                "he": "כפיפת מרפקים פטישים בישיבה על ספסל יד-יד"
+            },
+            "against": "dumbbells",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    4,
+                    6
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Standing Biceps Curls",
+                "he": "כפיפת מרפקים בעמידה"
+            },
+            "against": "olympicBarble",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    20,
+                    25
+                ],
+                "advanced": [
+                    25,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Standing Biceps Curls",
+                "he": "כפיפת מרפקים בעמידה"
+            },
+            "against": "wBarble",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Preature Curls",
+                "en": "Preature Curls",
+                "he": "כפיפת מרפקים על ספסל ייעודי"
+            },
+            "against": "wBarble",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    30
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Straight Handle Biceps Curls",
+                "he": "כפיפת מרפקים עם מאחז ישר"
+            },
+            "against": "cable",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Rope Hammer Biceps Curls",
+                "he": "כפיפת מרפקים עם חבל"
+            },
+            "against": "cable",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Single Arm Handle Biceps Curls",
+                "he": "כפיפת מרפקים עם מאחז ייעודי יד-יד"
+            },
+            "against": "cable",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Biceps Curls",
+                "he": "כפיפת מרפקים"
+            },
+            "against": "machine",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    5,
+                    10
+                ],
+                "intermediate": [
+                    10,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Biceps Curls",
+                "en": "Biceps Curls with TRX",
+                "he": "כפיפת מרפקים עם TRX"
+            },
+            "against": "bodyWeight",
+            "muscle": "biceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "Lying Triceps Extension",
+                "he": "פשיטות מרפקים בשכיבה"
+            },
+            "against": "dumbbells",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "Standing Triceps Extension",
+                "he": "פשיטות מרפקים בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "90 Degrees Bench Triceps Extension",
+                "he": "פשיטות מרפקים על ספסל שיפוע 90 מעלות"
+            },
+            "against": "dumbbells",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    6,
+                    8
+                ],
+                "intermediate": [
+                    12,
+                    15
+                ],
+                "advanced": [
+                    15,
+                    20
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "Behind Neck Standing One Arm Triceps Extension",
+                "he": "פשיטות מרפקים מאחורי הראש יד אחת בעמידה"
+            },
+            "against": "dumbbells",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "Behind Neck Seated One Arm Triceps Extension",
+                "he": "פשיטות מרפקים מאחורי הראש יד אחת בישיבה"
+            },
+            "against": "dumbbells",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    2,
+                    4
+                ],
+                "intermediate": [
+                    6,
+                    8
+                ],
+                "advanced": [
+                    8,
+                    10
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "Straight Handle Triceps Extension",
+                "he": "פשיטות מרפקים מאחז ישר"
+            },
+            "against": "cable",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "Rope Triceps Extension",
+                "he": "פשיטות מרפקים עם חבל"
+            },
+            "against": "cable",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "Rope Behind Neck Triceps Extension",
+                "he": "פשיטות מרפקים מאחורי הראש עם חבל"
+            },
+            "against": "cable",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Triceps Extension",
+                "en": "One Arm Triceps Extension",
+                "he": "פשיטות מרפקים יד-יד"
+            },
+            "against": "cable",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    15
+                ],
+                "intermediate": [
+                    15,
+                    20
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "French Press",
+                "en": "French Press",
+                "he": "לחיצה צרפתית"
+            },
+            "against": "wBarble",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    12,
+                    15
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "French Press",
+                "en": "30 Degrees Bench French Press",
+                "he": "לחיצה צרפתית על ספסל שיפוע 30 מעלות"
+            },
+            "against": "wBarble",
+            "muscle": "triceps",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    12,
+                    15
+                ],
+                "advanced": [
+                    20,
+                    25
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Crunches",
+                "en": "Crunches",
+                "he": "כפיפות בטן בשכיבה"
+            },
+            "against": "bodyWeight",
+            "muscle": "rectus abdominis",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Crunches",
+                "en": "Crunches",
+                "he": "כפיפות בטן"
+            },
+            "against": "machine",
+            "muscle": "rectus abdominis",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    10,
+                    20
+                ],
+                "intermediate": [
+                    30,
+                    40
+                ],
+                "advanced": [
+                    40,
+                    50
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Crunches",
+                "en": "Bench Crunches",
+                "he": "כפיפות בטן בספסל ייעודי"
+            },
+            "against": "bodyWeight",
+            "muscle": "rectus abdominis",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Bicycles",
+                "en": "Bicycles",
+                "he": "אופניים בשכיבה"
+            },
+            "against": "bodyWeight",
+            "muscle": "obliques",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Plank",
+                "en": "Side Plank",
+                "he": "פלאנק צידי"
+            },
+            "against": "bodyWeight",
+            "muscle": "obliques",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Plank",
+                "en": "Side Plank Hip Raise",
+                "he": "פלאנק צידי הרמות אגן"
+            },
+            "against": "bodyWeight",
+            "muscle": "obliques",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Crunches",
+                "en": "Side Crunch",
+                "he": "קראנץ' צידי כיסא רומי"
+            },
+            "against": "bodyWeight",
+            "muscle": "obliques",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Crunches",
+                "en": "Side Crunch",
+                "he": "קראנץ' צידי כיסא רומי"
+            },
+            "against": "machine",
+            "muscle": "obliques",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Crunches",
+                "en": "Hollow Crunch",
+                "he": "כפיפות אולר"
+            },
+            "against": "bodyWeight",
+            "muscle": "rectus abdominis",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Knees To Chest",
+                "en": "Knees To Chest",
+                "he": "ברכיים לחזה"
+            },
+            "against": "bodyWeight",
+            "muscle": "rectus abdominis",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Leg Raise",
+                "en": "Hanging Leg Raise",
+                "he": "הבאת רגליים בתלייה"
+            },
+            "against": "bodyWeight",
+            "muscle": "rectus abdominis",
+            "type": "isolation",
+            "weight": {
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        },
+        {
+            "name": {
+                "shared": "Back Extension",
+                "en": "Back Extension",
+                "he": "פשיטות גו בשכיבה"
+            },
+            "against": "bodyWeight",
+            "muscle": "back erector",
+            "type": "isolation",
+            "weight": {
+                "beginner": [
+                    0,
+                    0
+                ],
+                "intermediate": [
+                    0,
+                    0
+                ],
+                "advanced": [
+                    0,
+                    0
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "v"
+        }
+    ],
+    "version": "1.0"
+}

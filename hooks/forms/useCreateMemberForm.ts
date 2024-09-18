@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateMemberInput, Gender } from '@/appsync/API';
 
 export const createMemberFormSchema = z.object({
-    phone_number: z.string().length(10, { message: "מספר טלפון לא חוקי" }),
+    phone_number: z.string().min(10, { message: "מספר טלפון לא חוקי" }).max(10, { message: "מספר טלפון לא חוקי" }),
     name: z.string().min(2).max(50),
     email: z.string().email().optional(),
     birthdate: z.string().date(),

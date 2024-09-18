@@ -30,7 +30,7 @@
     "aws-sdk": "^2.1685.0",
     "expo": "~51.0.28",
     "expo-constants": "~16.0.2",
-    "expo-font": "~12.0.9",
+    "expo-font": "~12.0.10",
     "expo-linking": "~6.3.1",
     "expo-localization": "~15.0.3",
     "expo-router": "~3.5.23",
@@ -57,7 +57,8 @@
     "react-native-ui-lib": "^7.30.0",
     "react-native-vector-icons": "^10.1.0",
     "react-native-web": "~0.19.10",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "expo-crypto": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,14 +1,37 @@
-import { Typography, Colors, Spacings } from 'react-native-ui-lib';
+import { ColorValue } from "react-native";
 
-Colors.loadColors({
-    error: Colors.red50,
-});
+export type Theme = {
+    colors: {
+        primary: ColorValue;
+        secondary: ColorValue;
+        background: ColorValue;
+        text: ColorValue;
+        border: ColorValue;
+        buttonText: ColorValue;
+        subtitle: ColorValue;
+        muted: ColorValue;
+        error: ColorValue;
+        success: ColorValue;
+        warning: ColorValue;
+    }
+}
 
-Typography.loadTypographies({
-    h1: { fontSize: 58, fontWeight: '300', lineHeight: 80 },
-    h2: { fontSize: 46, fontWeight: '300', lineHeight: 64 },
-});
+export const defaultTheme: Theme = {
+    colors: {
+        primary: "#2563eb",
+        secondary: "#3b82f6",
+        background: "#fafafa",
+        text: "#1f2937",
+        border: "#9ca3af",
+        buttonText: "#ffffff",
+        subtitle: "#9ca3af",
+        muted: "#6b7280",
+        error: "#dc2626",
+        success: "#10b981",
+        warning: "#f59e0b"
+    }
+}
 
-Spacings.loadSpacings({
-    page: 4
-});
+export const theme: Theme = {
+    ...defaultTheme
+}

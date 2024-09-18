@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import '@/initialize';
 import { CognitoSessionDecodedPayload } from "@/auth/decoded-payload";
 import React from "react";
+import '@/theme'
 
 export default function Layout() {
 
