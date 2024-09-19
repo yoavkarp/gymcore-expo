@@ -41,6 +41,7 @@ export const createMember = /* GraphQL */ `mutation CreateMember($input: CreateM
     birthdate
     gender
     registered
+    status
     measurement {
       id
       tenantId
@@ -138,6 +139,7 @@ export const register = /* GraphQL */ `mutation Register($input: RegisterInput!)
     birthdate
     gender
     registered
+    status
     measurement {
       id
       tenantId
@@ -188,6 +190,7 @@ export const updateMemberProfile = /* GraphQL */ `mutation UpdateMemberProfile($
     birthdate
     gender
     registered
+    status
     measurement {
       id
       tenantId

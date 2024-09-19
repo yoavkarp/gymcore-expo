@@ -29,7 +29,7 @@ Label.displayName = "Label";
 const styles = (theme: Theme) => StyleSheet.create<Record<(keyof LabelStyles) | "default", TextStyle>>({
     default: {
         fontSize: 18,
-        fontFamily: "medium",
+        fontWeight: "medium",
         letterSpacing: 0.5
     }
 })

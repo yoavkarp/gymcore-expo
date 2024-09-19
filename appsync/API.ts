@@ -130,6 +130,7 @@ export type Member = {
   birthdate?: string | null,
   gender?: string | null,
   registered?: boolean | null,
+  status?: string | null,
   measurement?: Measurement | null,
   goal?: Goal | null,
 };
@@ -280,6 +281,7 @@ export type CreateMemberMutation = {
     birthdate?: string | null,
     gender?: string | null,
     registered?: boolean | null,
+    status?: string | null,
     measurement?:  {
       __typename: "Measurement",
       id: string,
@@ -380,6 +382,7 @@ export type RegisterMutation = {
     birthdate?: string | null,
     gender?: string | null,
     registered?: boolean | null,
+    status?: string | null,
     measurement?:  {
       __typename: "Measurement",
       id: string,
@@ -431,6 +434,7 @@ export type UpdateMemberProfileMutation = {
     birthdate?: string | null,
     gender?: string | null,
     registered?: boolean | null,
+    status?: string | null,
     measurement?:  {
       __typename: "Measurement",
       id: string,
@@ -567,6 +571,7 @@ export type GetMemberByIdQuery = {
     birthdate?: string | null,
     gender?: string | null,
     registered?: boolean | null,
+    status?: string | null,
     measurement?:  {
       __typename: "Measurement",
       id: string,
@@ -616,4 +621,56 @@ export type GetTrainersQuery = {
     gender: Gender,
     address?: string | null,
   } > | null,
+};
+
+export type SearchMembersQueryVariables = {
+  text: string,
+};
+
+export type SearchMembersQuery = {
+  searchMembers?:  Array< {
+    __typename: "Member",
+    id: string,
+    tenantId: string,
+    created_at: string,
+    updated_at: string,
+    name?: string | null,
+    email?: string | null,
+    phone_number?: string | null,
+    profile_picture?: string | null,
+    address?: string | null,
+    birthdate?: string | null,
+    gender?: string | null,
+    registered?: boolean | null,
+    status?: string | null,
+    measurement?:  {
+      __typename: "Measurement",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      memberId: string,
+      clubId?: string | null,
+      weight?: number | null,
+      height?: number | null,
+      fat?: number | null,
+      heart_rate?: number | null,
+    } | null,
+    goal?:  {
+      __typename: "Goal",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      memberId: string,
+      clubId?: string | null,
+      title: string,
+      weight?: number | null,
+      height?: number | null,
+      fat?: number | null,
+      heart_rate?: number | null,
+      completed?: boolean | null,
+      completed_at?: string | null,
+    } | null,
+  } | null > | null,
 };

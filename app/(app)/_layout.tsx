@@ -40,8 +40,8 @@ export default function Layout() {
           <Sidebar />
         </View>
         <View style={{ flex: 1 }}>
-          <Stack screenOptions={{ headerShown: false, contentStyle: { flex: 1, backgroundColor: theme.colors.background } }}>
-            <Stack.Screen name="index" />
+          <Stack initialRouteName="(home)" screenOptions={{ headerShown: false, contentStyle: { flex: 1, backgroundColor: theme.colors.background } }}>
+            <Stack.Screen name="(home)" />
             <Stack.Screen name="my-profile" />
           </Stack>
         </View>

@@ -1,0 +1,1 @@
+export const phoneNumberRegex = /^05\d{8}$/

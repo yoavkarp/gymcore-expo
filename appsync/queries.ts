@@ -101,6 +101,7 @@ export const getMemberById = /* GraphQL */ `query GetMemberById($memberId: ID!) 
     birthdate
     gender
     registered
+    status
     measurement {
       id
       tenantId
@@ -155,4 +156,55 @@ export const getTrainers = /* GraphQL */ `query GetTrainers {
 ` as GeneratedQuery<
   APITypes.GetTrainersQueryVariables,
   APITypes.GetTrainersQuery
+>;
+export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) {
+  searchMembers(text: $text) {
+    id
+    tenantId
+    created_at
+    updated_at
+    name
+    email
+    phone_number
+    profile_picture
+    address
+    birthdate
+    gender
+    registered
+    status
+    measurement {
+      id
+      tenantId
+      created_at
+      updated_at
+      memberId
+      clubId
+      weight
+      height
+      fat
+      heart_rate
+      __typename
+    }
+    goal {
+      id
+      tenantId
+      created_at
+      updated_at
+      memberId
+      clubId
+      title
+      weight
+      height
+      fat
+      heart_rate
+      completed
+      completed_at
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SearchMembersQueryVariables,
+  APITypes.SearchMembersQuery
 >;

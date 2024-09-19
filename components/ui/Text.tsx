@@ -1,15 +1,18 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
 import { forwardRef, useMemo } from 'react';
-import { Text as T, TextProps as TP, StyleSheet, TextStyle } from 'react-native';
+import { Text as T, TextProps as TP, StyleSheet, TextStyle, View, ColorValue } from 'react-native';
 
 export type TextStyles = {
     h1?: boolean;
+    h2?: boolean;
     error?: boolean;
     subtitle?: boolean;
 }
 
-export type TextProps = TP & TextStyles
+export type TextProps = TP & TextStyles & {
+    bulletColor?: ColorValue;
+}
 
 export type TextRef = T;
 
@@ -48,7 +51,7 @@ const fontFamilyForWeight: Record<
 };
 
 
-const Text = forwardRef<TextRef, TextProps>(({ style, ...rootProps }, ref) => {
+const Text = forwardRef<TextRef, TextProps>(({ bulletColor, style, ...rootProps }, ref) => {
 
     const { theme } = useTheme();
     const _style = styles(theme);
@@ -56,20 +59,40 @@ const Text = forwardRef<TextRef, TextProps>(({ style, ...rootProps }, ref) => {
     const flattenedStyle = StyleSheet.flatten<TextStyle>([_style.default, variants, style]);
     const { fontWeight, ...otherStyles } = flattenedStyle || {};
 
-    return <T {...rootProps} ref={ref} style={{
+    const textComponent = <T {...rootProps} ref={ref} style={{
         ...otherStyles,
         fontFamily: fontFamilyForWeight[fontWeight ?? '400'],
     }} />
+
+    if (rootProps.h1) {
+        return <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 10 }]}>
+            <View style={[_style.bullet, bulletColor ? { backgroundColor: theme.colors.primary } : {}]} />
+            {textComponent}
+        </View>
+    }
+
+    return textComponent;
 })
 
 Text.displayName = "Text";
 
-const styles = (theme: Theme) => StyleSheet.create<Record<(keyof TextStyles) | "default", TextStyle>>({
+const styles = (theme: Theme) => StyleSheet.create<Record<(keyof TextStyles) | "default" | "bullet", TextStyle>>({
     default: {
         fontFamily: "regular",
-        color: theme.colors.text
+        color: theme.colors.text,
+        fontSize: 20
     },
     h1: {
+        fontSize: 35,
+        fontWeight: "medium",
+    },
+    bullet: {
+        height: 37,
+        width: 15,
+        borderRadius: 4,
+        backgroundColor: theme.colors.primary,
+    },
+    h2: {
         fontSize: 30,
         fontWeight: "medium",
     },
