@@ -1,10 +1,8 @@
 import Text from "@/components/ui/Text";
-import { FlatList, View } from "react-native";
-import { useAsyncStorage } from '@react-native-async-storage/async-storage'
-import { useStorage } from "@/hooks/storage/useStorage";
-import { Member } from "@/appsync/API";
-import { useEffect } from "react";
+import { FlatList, TouchableOpacity, View } from "react-native";
 import MemberCard from "@/components/api-ui/MemberCard";
+import { useMembersHistory } from "@/contexts/MembersHistoryContext";
+import { router } from "expo-router";
 
 interface LastMembersProps {
 
@@ -12,24 +10,21 @@ interface LastMembersProps {
 
 const LastMembers: React.FC<LastMembersProps> = () => {
 
-    const membersHistory = useStorage<Member[]>('@membersHistory', (val) => JSON.parse(val), (val) => JSON.stringify(val))
-
-    useEffect(() => {
-        if (!membersHistory.loading && !membersHistory.item) {
-            membersHistory.setItem([])
-        }
-    }, [membersHistory.loading])
+    const [membersHistory] = useMembersHistory()
 
     return (
         <View>
             <Text h1>היסטוריית מנויים</Text>
             <Text subtitle>היסטוריית מנויים שנכנסת לראות</Text>
             <FlatList
-                data={membersHistory.item}
+                data={membersHistory}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => {
                     return (
-                        <MemberCard member={item} />
+                        <TouchableOpacity onPress={() => router.navigate(`/(member)/${item.id}`)}>
+                            <MemberCard member={item} />
+                        </TouchableOpacity>
+
                     )
                 }}
             />

@@ -41,8 +41,6 @@ export default function Layout() {
         </View>
         <View style={{ flex: 1 }}>
           <Stack initialRouteName="(home)" screenOptions={{ headerShown: false, contentStyle: { flex: 1, backgroundColor: theme.colors.background } }}>
-            <Stack.Screen name="(home)" />
-            <Stack.Screen name="my-profile" />
           </Stack>
         </View>
       </View>

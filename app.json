@@ -16,7 +16,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "ExpoLocalization_supportsRTL": true
-      }
+      },
+      "bundleIdentifier": "com.anonymous.gymcoreexpo"
     },
     "android": {
       "adaptiveIcon": {

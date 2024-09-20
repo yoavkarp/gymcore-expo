@@ -27,10 +27,10 @@ const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
     })
 
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0.8}>
+        <View style={styles.container}>
             <Text h2 style={styles.text}>{member.name}</Text>
             <Text subtitle style={styles.text}>{member.phone_number?.substring(4)}</Text>
-        </TouchableOpacity>
+        </View>
     );
 }
 
