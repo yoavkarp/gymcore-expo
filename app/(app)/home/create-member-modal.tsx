@@ -6,10 +6,11 @@ import Modal from "@/components/ui/Modal";
 import Select, { SelectRef } from "@/components/ui/Select";
 import Text from "@/components/ui/Text";
 import TextInput, { TextInputRef } from "@/components/ui/TextInput";
+import { View } from "@/components/ui/View";
 import { CreateMemberFormValues, useCreateMemberForm } from "@/hooks/forms/useCreateMemberForm";
 import React from "react";
 import { Controller } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 const genders = [{
     value: "MALE",
@@ -52,7 +53,7 @@ const CreateMemberModal: React.FC<CreateMemberModalProps> = ({ visible = false, 
                 nameInputRef.current?.focus();
             }, 100);
         }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
                 <Text h1>מנוי חדש</Text>
                 <CloseButton onPress={onDismiss} />
             </View>

@@ -1,7 +1,9 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
 import { forwardRef, useMemo } from 'react';
-import { Text as T, TextProps as TP, StyleSheet, TextStyle, View, ColorValue } from 'react-native';
+import { Text as T, TextProps as TP, StyleSheet, TextStyle, ColorValue } from 'react-native';
+import { View } from './View';
+import { textLayout, viewLayout } from './utils/localeLayout';
 
 export type TextStyles = {
     h1?: boolean;
@@ -59,14 +61,14 @@ const Text = forwardRef<TextRef, TextProps>(({ bulletColor, style, ...rootProps 
     const flattenedStyle = StyleSheet.flatten<TextStyle>([_style.default, variants, style]);
     const { fontWeight, ...otherStyles } = flattenedStyle || {};
 
-    const textComponent = <T {...rootProps} ref={ref} style={{
+    const textComponent = <T {...rootProps} ref={ref} style={textLayout({
         ...otherStyles,
         fontFamily: fontFamilyForWeight[fontWeight ?? '400'],
-    }} />
+    })} />
 
     if (rootProps.h1) {
-        return <View style={[{ flexDirection: 'row', alignItems: 'center', gap: 10 }]}>
-            <View style={[_style.bullet, bulletColor ? { backgroundColor: theme.colors.primary } : {}]} />
+        return <View style={{ alignItems: 'center', gap: 10, flexDirection: 'row' }}>
+            <View style={viewLayout([_style.bullet, bulletColor ? { backgroundColor: theme.colors.primary } : {}])} />
             {textComponent}
         </View>
     }
@@ -80,7 +82,7 @@ const styles = (theme: Theme) => StyleSheet.create<Record<(keyof TextStyles) | "
     default: {
         fontFamily: "regular",
         color: theme.colors.text,
-        fontSize: 20
+        fontSize: 20,
     },
     h1: {
         fontSize: 35,

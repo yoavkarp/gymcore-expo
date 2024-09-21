@@ -1,7 +1,8 @@
 import { Member } from "@/appsync/API";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import Text from "../ui/Text";
 import { useTheme } from "@/contexts/ThemeContext";
+import { View } from "../ui/View";
 
 interface MemberCardProps {
     member: Member;
@@ -16,8 +17,8 @@ const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
             backgroundColor: theme.colors.primary,
             borderRadius: 8,
             padding: 10,
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
+            alignItems: 'flex-end',
+            justifyContent: 'flex-end',
             flex: 1,
             marginVertical: 10
         },

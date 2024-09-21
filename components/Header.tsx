@@ -3,7 +3,6 @@ import { useApolloClient } from "@apollo/client";
 import { Href, router, useNavigation, usePathname, useRouter } from "expo-router";
 import { FunctionComponent } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Button, Headline } from 'react-native-paper';
 import Text from "./ui/Text";
 
 interface HeaderProps {
@@ -18,7 +17,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
 
     return (
         <View>
-            <Headline>{session?.getIdToken().decodePayload().name}</Headline>
+            <Text h1>{session?.getIdToken().decodePayload().name}</Text>
             <TouchableOpacity onPress={() => router.back()}>
                 <Text>Go Back</Text>
             </TouchableOpacity>

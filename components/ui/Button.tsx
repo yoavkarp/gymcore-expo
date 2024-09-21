@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useMemo } from 'react';
-import { TouchableOpacity as T, TouchableOpacityProps, StyleSheet, ViewStyle, TextStyle, ActivityIndicator } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle, ActivityIndicator, TouchableOpacityProps, TouchableOpacity } from 'react-native';
 import Text from './Text';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
@@ -13,15 +13,15 @@ export type ButtonProps = TouchableOpacityProps & ButtonStyles & {
     isLoading?: boolean;
 };
 
-export type ButtenRef = T;
+export type ButtonRef = TouchableOpacity;
 
-const Button = forwardRef<ButtenRef, ButtonProps>(({ ...rootProps }, ref) => {
+const Button = forwardRef<ButtonRef, ButtonProps>(({ ...rootProps }, ref) => {
 
     const { theme } = useTheme();
     const _style = styles(theme);
     const _textStyle = textStyles(theme);
 
-    return <T disabled={rootProps.isLoading} activeOpacity={0.55} {...rootProps} ref={ref} style={[
+    return <TouchableOpacity disabled={rootProps.isLoading} activeOpacity={0.55} {...rootProps} ref={ref} style={[
         _style.default,
         rootProps.style,
         ...Object.keys(rootProps).filter((key) => key in _style && rootProps[key as keyof typeof rootProps] === true).map((key) => _style[key as keyof typeof _style])
@@ -31,7 +31,7 @@ const Button = forwardRef<ButtenRef, ButtonProps>(({ ...rootProps }, ref) => {
             ...Object.keys(rootProps).filter((key) => (key in _textStyle) && rootProps[key as keyof typeof rootProps] === true).map((key) => _textStyle[key as keyof typeof _textStyle])
         ]}>{rootProps.children}</Text>
         <ActivityIndicator style={{ display: rootProps.isLoading ? 'flex' : 'none' }} color={theme.colors.background} />
-    </T>
+    </TouchableOpacity>
 })
 
 Button.displayName = "Button";
@@ -44,7 +44,6 @@ const styles = (theme: Theme) => StyleSheet.create<Record<(keyof ButtonStyles) |
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
-        flexDirection: 'row',
         gap: 10
     },
     disabled: {

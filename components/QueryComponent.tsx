@@ -1,7 +1,6 @@
 import { ApolloError, OperationVariables, useQuery } from "@apollo/client"
 import { PropsWithChildren } from "react";
-import { Text } from "react-native-paper"
-
+import Text from './ui/Text';
 type QueryComponentProps<TData = any, TVariables extends OperationVariables = OperationVariables, TProps = {}> = {
     query: Parameters<typeof useQuery<TData, TVariables>>[0];
     options?: Parameters<typeof useQuery<TData, TVariables>>[1];

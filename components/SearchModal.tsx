@@ -1,11 +1,12 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
 import React, { useState } from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Text from './ui/Text';
 import TextInput, { TextInputRef } from './ui/TextInput';
 import { MaterialIcons } from '@expo/vector-icons';
 import Modal from './ui/Modal';
+import { View } from './ui/View';
 
 type SearchResultItem = { title: string, value: string }
 export type SearchModalProps = {
@@ -65,7 +66,7 @@ const SearchModal: React.FC<SearchModalProps> = (props) => {
                     searchInputRef.current?.focus();
                 }, 100);
             }} dismissable={props.dismissable} onDismiss={() => setIsVisible(false)}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
                     <Text h1>{props.title || "חיפוש"}</Text>
                     <TouchableOpacity style={{ padding: 10 }} onPress={() => setIsVisible(false)}>
                         <MaterialIcons name="close" size={30} />

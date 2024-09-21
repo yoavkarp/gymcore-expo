@@ -2,6 +2,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { Theme } from "@/theme";
 import { useMemo } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
+import { viewLayout } from "./utils/localeLayout";
 
 type CardProps = ViewProps & {
 
@@ -11,11 +12,11 @@ const Card: React.FC<CardProps> = ({ ...rootProps }) => {
     const { theme } = useTheme();
     const _style = useMemo(() => styles(theme), [theme]);
     return (
-        <View {...rootProps} style={[
+        <View {...rootProps} style={viewLayout([
             _style.default,
             rootProps.style,
             ...Object.keys(rootProps).filter((key) => key in _style).map((key) => _style[key as keyof typeof _style])
-        ]} />
+        ])} />
     );
 }
 

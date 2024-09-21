@@ -1,50 +1,52 @@
-import React, { createContext, PropsWithChildren, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { useContext } from "react";
 import { randomUUID } from "expo-crypto";
 import { View } from "react-native";
 import { Member } from "@/appsync/API";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
-type SetMembersHistoryFn = (member: Member) => void
-type UseMembersHistoryHook = [Member[], SetMembersHistoryFn];
-
 type MembersHistoryContextType = {
-    push: SetMembersHistoryFn
-    item: Member[]
+    push: (member: Member) => any;
+    items: Member[];
 }
 const MembersHistoryContext = createContext<MembersHistoryContextType>({
     push: () => null,
-    item: []
+    items: []
 });
 
 MembersHistoryContext.displayName = "MembersHistoryContext";
 
-export function MembersHistoryProvider({ children }: PropsWithChildren) {
+type MembersHistoryProviderProps = {
 
-    const { getItem, setItem } = useAsyncStorage('@membersHistory');
+}
+
+export function MembersHistoryProvider({ children }: PropsWithChildren<MembersHistoryProviderProps>) {
+
+    const { getItem, setItem } = useAsyncStorage("@membersHistory");
     const [membersHistory, setMembersHistory] = useState<Member[]>([]);
+
+    const getMembersHistory: () => Promise<Member[]> = async () => {
+        const val = await getItem();
+        return val ? JSON.parse(val) : [];
+    }
 
     useEffect(() => {
         const get = async () => {
-            const value = await getItem();
-            if (value) {
-                setMembersHistory(JSON.parse(value))
-            }
+            const val = await getMembersHistory();
+            setMembersHistory(val);
         }
 
         get();
     }, [])
 
-    const push = (value: Member) => {
-        const newValue = [value, ...membersHistory.filter((member) => member.id !== value.id).slice(0, 5)];
-        setMembersHistory(prev => [value, ...prev].filter((member) => member.id !== value.id).slice(0, 5));
-        setItem(JSON.stringify(newValue));
-    }
-
     return (
         <MembersHistoryContext.Provider value={{
-            push,
-            item: membersHistory
+            push: async (member) => {
+                const prev = await getMembersHistory();
+                setMembersHistory([member, ...prev.filter((item) => item.id !== member.id)].slice(0, 5));
+                await setItem(JSON.stringify([member, ...prev.filter((item) => item.id !== member.id)].slice(0, 5)));
+            },
+            items: membersHistory
         }}
         >
             {children}
@@ -52,7 +54,7 @@ export function MembersHistoryProvider({ children }: PropsWithChildren) {
     )
 };
 
-export function useMembersHistory(): UseMembersHistoryHook {
+export function useMembersHistory(): [Member[], (member: Member) => any] {
     const value = useContext(MembersHistoryContext);
 
     if (process.env.NODE_ENV !== 'production') {
@@ -60,7 +62,7 @@ export function useMembersHistory(): UseMembersHistoryHook {
             throw new Error('useMembersHistory must be wrapped in a <MembersHistoryProvider />');
         }
     }
-    return [value.item, value.push];
+    return [value.items, value.push];
 }
 
 

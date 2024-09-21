@@ -1,7 +1,8 @@
 import Select from "@/components/ui/Select";
 import { FunctionComponent, useMemo, useState } from 'react';
-import { View } from "react-native";
 import Text from "./Text";
+import { View } from "./View";
+import { viewLayout } from "./utils/localeLayout";
 
 interface DateSelectProps {
     isoDate?: string;
@@ -64,7 +65,7 @@ const DateSelect: FunctionComponent<DateSelectProps> = ({ isoDate = new Date().t
     const [date, setDate] = useState(new Date(isoDate));
 
     return (
-        <View style={{ flexDirection: 'row-reverse', gap: 5, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start' }}>
+        <View style={viewLayout({ gap: 5, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start', flexDirection: 'row' })}>
             <DayPicker date={date} onChange={(_date) => {
                 const newDate = new Date(new Date(date).setDate(_date))
                 setDate(newDate);

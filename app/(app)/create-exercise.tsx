@@ -1,8 +1,5 @@
-import { useSession } from "@/auth";
-import Combobox from "@/components/Combobox";
-import { useEffect, useState, useTransition } from "react";
-import { I18nManager, SafeAreaView, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native";
 import exercisesJson from '@/assets/exercises.json'
 
 function getTopMatches(input: string, sentences: string[], topN?: number) {
@@ -72,7 +69,7 @@ const Index = () => {
                 })
                 console.log(phoneNumber)
             }}>Create Member</Button> */}
-            <Combobox onChangeText={setText} data={data} />
+            {/* <Combobox onChangeText={setText} data={data} /> */}
         </SafeAreaView>
     );
 }

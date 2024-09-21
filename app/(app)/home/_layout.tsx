@@ -1,15 +1,18 @@
 import { View } from "react-native";
 import Text from "@/components/ui/Text";
 import HomePage from ".";
+import MembersHistoryProvider from "@/contexts/MembersHistoryContext";
 interface HomePageProps {
 
 }
 
 const HomeLayout: React.FC<HomePageProps> = () => {
     return (
-        <View style={{ flex: 1 }}>
-            <HomePage />
-        </View>
+        <MembersHistoryProvider>
+            <View style={{ flex: 1 }}>
+                <HomePage />
+            </View>
+        </MembersHistoryProvider>
     );
 }
 

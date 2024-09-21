@@ -6,9 +6,10 @@ import Card from "./ui/Card";
 import { TextInputRef } from "./ui/TextInput";
 import { Theme } from "@/theme";
 import Text from "./ui/Text";
-import { Modal, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Modal, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Select from "./ui/Select";
+import { View } from "./ui/View";
 
 interface CreateMemberModalProps {
     onSubmit: (input: CreateMemberInput) => void;
@@ -42,7 +43,7 @@ const CreateMemberModal: FunctionComponent<CreateMemberModalProps> = ({ visible 
         <Modal animationType="fade" onRequestClose={onDismiss} transparent visible={visible} onDismiss={onDismiss}>
             <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: "#00000077" }}>
                 <Card style={{ minWidth: 500 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
                         <Text h1>הוספת מנוי חדש</Text>
                         <TouchableOpacity style={{ padding: 10 }} onPress={onDismiss}>
                             <MaterialIcons name="close" size={30} />
