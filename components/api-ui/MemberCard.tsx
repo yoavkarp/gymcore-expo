@@ -17,8 +17,8 @@ const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
             backgroundColor: theme.colors.primary,
             borderRadius: 8,
             padding: 10,
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
             flex: 1,
             marginVertical: 10
         },

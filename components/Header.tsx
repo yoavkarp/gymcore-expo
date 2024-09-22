@@ -4,6 +4,7 @@ import { Href, router, useNavigation, usePathname, useRouter } from "expo-router
 import { FunctionComponent } from "react";
 import { TouchableOpacity, View } from "react-native";
 import Text from "./ui/Text";
+import { Breadcrumbs } from "./Breadcrumbs";
 
 interface HeaderProps {
 
@@ -18,6 +19,8 @@ const Header: FunctionComponent<HeaderProps> = () => {
     return (
         <View>
             <Text h1>{session?.getIdToken().decodePayload().name}</Text>
+            <Breadcrumbs />
+
             <TouchableOpacity onPress={() => router.back()}>
                 <Text>Go Back</Text>
             </TouchableOpacity>

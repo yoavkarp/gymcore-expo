@@ -14,6 +14,11 @@ import Text from "@/components/ui/Text";
 import Button from "@/components/ui/Button";
 import { View } from "@/components/ui/View";
 
+export const unstable_settings = {
+  // Ensure that reloading on `/modal` keeps a back button present.
+  initialRouteName: "home/index",
+};
+
 export default function Layout() {
 
   const { isLoading, session, signOut } = useSession();
@@ -44,7 +49,10 @@ export default function Layout() {
           <Sidebar />
         </View>
         <View style={{ flex: 1 }}>
-          <Stack />
+          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.background } }}>
+            <Stack.Screen name="home" options={{ headerShown: false }} />
+            <Stack.Screen name="(member)/[id]" />
+          </Stack>
         </View>
       </View>
     </SafeAreaView>

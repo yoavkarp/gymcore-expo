@@ -1,17 +1,7 @@
-import Text from "@/components/ui/Text";
+import MemberPage from "@/pages/auth/member";
 import { useLocalSearchParams } from "expo-router";
 
-interface MemberPageProps {
-
+export default function Index() {
+    const { id }: { id: string } = useLocalSearchParams();
+    return (<MemberPage memberId={id} />)
 }
-
-const MemberPage: React.FC<MemberPageProps> = () => {
-    const { id } = useLocalSearchParams();
-    return (
-        <Text>
-            MemberPage {id}
-        </Text>
-    );
-}
-
-export default MemberPage;

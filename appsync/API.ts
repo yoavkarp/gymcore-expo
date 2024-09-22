@@ -262,6 +262,27 @@ export type CreateMeasurementMutation = {
   } | null,
 };
 
+export type CreateMeasurementForMemberMutationVariables = {
+  memberId: string,
+  input: CreateMeasurementInput,
+};
+
+export type CreateMeasurementForMemberMutation = {
+  createMeasurementForMember?:  {
+    __typename: "Measurement",
+    id: string,
+    tenantId: string,
+    created_at: string,
+    updated_at: string,
+    memberId: string,
+    clubId?: string | null,
+    weight?: number | null,
+    height?: number | null,
+    fat?: number | null,
+    heart_rate?: number | null,
+  } | null,
+};
+
 export type CreateMemberMutationVariables = {
   input: CreateMemberInput,
 };

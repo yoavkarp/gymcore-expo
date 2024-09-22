@@ -10,6 +10,7 @@ export type TextStyles = {
     h2?: boolean;
     error?: boolean;
     subtitle?: boolean;
+    center?: boolean;
 }
 
 export type TextProps = TP & TextStyles & {
@@ -105,6 +106,9 @@ const styles = (theme: Theme) => StyleSheet.create<Record<(keyof TextStyles) | "
         lineHeight: 30,
         color: theme.colors.subtitle
     },
+    center: {
+        textAlign: 'center'
+    }
 })
 
 export default Text;

@@ -1,0 +1,481 @@
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+const defaultOptions = {} as const;
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  AWSDate: { input: any; output: any; }
+  AWSDateTime: { input: any; output: any; }
+  AWSEmail: { input: any; output: any; }
+  AWSJSON: { input: any; output: any; }
+  AWSPhone: { input: string; output: string; }
+  AWSURL: { input: any; output: any; }
+};
+
+export type Club = Document & {
+  __typename?: 'Club';
+  address: Scalars['String']['output'];
+  created_at: Scalars['AWSDateTime']['output'];
+  email: Scalars['AWSEmail']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  phone_number: Scalars['AWSPhone']['output'];
+  profile_picture: Scalars['AWSURL']['output'];
+  tenantId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type ClubConnection = {
+  __typename?: 'ClubConnection';
+  items?: Maybe<Array<Club>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type CreateExerciseInput = {
+  angle?: InputMaybe<ExerciseValueInput>;
+  distance?: InputMaybe<ExerciseValueInput>;
+  duration?: InputMaybe<ExerciseValueInput>;
+  intensity?: InputMaybe<ExerciseValueInput>;
+  machine_number?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  reps?: InputMaybe<ExerciseValueInput>;
+  resistance?: InputMaybe<ExerciseValueInput>;
+  rest?: InputMaybe<ExerciseValueInput>;
+  seat_height?: InputMaybe<Scalars['String']['input']>;
+  section: ExerciseSection;
+  sets?: InputMaybe<Scalars['Int']['input']>;
+  tempo?: InputMaybe<ExerciseValueInput>;
+  weight?: InputMaybe<ExerciseValueInput>;
+};
+
+export type CreateMeasurementInput = {
+  fat?: InputMaybe<Scalars['Float']['input']>;
+  heart_rate?: InputMaybe<Scalars['Float']['input']>;
+  height?: InputMaybe<Scalars['Float']['input']>;
+  memberId?: InputMaybe<Scalars['ID']['input']>;
+  weight?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type CreateMemberInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  birthdate: Scalars['AWSDate']['input'];
+  email?: InputMaybe<Scalars['AWSEmail']['input']>;
+  gender: Gender;
+  measurement?: InputMaybe<CreateMemberMeasurementInput>;
+  name: Scalars['String']['input'];
+  phone_number: Scalars['AWSPhone']['input'];
+};
+
+export type CreateMemberMeasurementInput = {
+  fat?: InputMaybe<Scalars['Float']['input']>;
+  heart_rate?: InputMaybe<Scalars['Float']['input']>;
+  height?: InputMaybe<Scalars['Float']['input']>;
+  weight?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type CreateTrainerInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  birthdate: Scalars['AWSDate']['input'];
+  email?: InputMaybe<Scalars['AWSEmail']['input']>;
+  gender: Gender;
+  name: Scalars['String']['input'];
+  phone_number: Scalars['AWSPhone']['input'];
+};
+
+export type CreateWorkoutInput = {
+  clubId: Scalars['ID']['input'];
+  exercises: Array<CreateExerciseInput>;
+  memberId?: InputMaybe<Scalars['ID']['input']>;
+  name: Scalars['String']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  trainerId: Scalars['ID']['input'];
+};
+
+export type Document = {
+  created_at: Scalars['AWSDateTime']['output'];
+  id: Scalars['ID']['output'];
+  tenantId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type Exercise = {
+  __typename?: 'Exercise';
+  angle?: Maybe<ExerciseValue>;
+  distance?: Maybe<ExerciseValue>;
+  duration?: Maybe<ExerciseValue>;
+  id: Scalars['ID']['output'];
+  intensity?: Maybe<ExerciseValue>;
+  machine_number?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  reps?: Maybe<ExerciseValue>;
+  resistance?: Maybe<ExerciseValue>;
+  rest?: Maybe<ExerciseValue>;
+  seat_height?: Maybe<Scalars['String']['output']>;
+  section: ExerciseSection;
+  sets?: Maybe<Scalars['Int']['output']>;
+  tempo?: Maybe<ExerciseValue>;
+  weight?: Maybe<ExerciseValue>;
+  xid: Scalars['ID']['output'];
+};
+
+export enum ExerciseSection {
+  Cardio = 'CARDIO',
+  Cooldown = 'COOLDOWN',
+  Strength = 'STRENGTH',
+  Warmup = 'WARMUP'
+}
+
+export type ExerciseValue = {
+  __typename?: 'ExerciseValue';
+  max?: Maybe<Scalars['Float']['output']>;
+  min?: Maybe<Scalars['Float']['output']>;
+  unit?: Maybe<Scalars['String']['output']>;
+  val?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ExerciseValueInput = {
+  max?: InputMaybe<Scalars['Float']['input']>;
+  min?: InputMaybe<Scalars['Float']['input']>;
+  unit?: InputMaybe<Scalars['String']['input']>;
+  val?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export enum Gender {
+  Female = 'FEMALE',
+  Male = 'MALE',
+  Other = 'OTHER'
+}
+
+export type Goal = Document & {
+  __typename?: 'Goal';
+  clubId?: Maybe<Scalars['ID']['output']>;
+  completed?: Maybe<Scalars['Boolean']['output']>;
+  completed_at?: Maybe<Scalars['AWSDateTime']['output']>;
+  created_at: Scalars['AWSDateTime']['output'];
+  fat?: Maybe<Scalars['Float']['output']>;
+  heart_rate?: Maybe<Scalars['Float']['output']>;
+  height?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  memberId: Scalars['ID']['output'];
+  tenantId: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+  weight?: Maybe<Scalars['Float']['output']>;
+};
+
+export type GoalConnection = {
+  __typename?: 'GoalConnection';
+  items?: Maybe<Array<Goal>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type Measurement = Document & {
+  __typename?: 'Measurement';
+  clubId?: Maybe<Scalars['ID']['output']>;
+  created_at: Scalars['AWSDateTime']['output'];
+  fat?: Maybe<Scalars['Float']['output']>;
+  heart_rate?: Maybe<Scalars['Float']['output']>;
+  height?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  memberId: Scalars['ID']['output'];
+  tenantId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+  weight?: Maybe<Scalars['Float']['output']>;
+};
+
+export type MeasurementConnection = {
+  __typename?: 'MeasurementConnection';
+  items?: Maybe<Array<Measurement>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type Member = Document & {
+  __typename?: 'Member';
+  address?: Maybe<Scalars['String']['output']>;
+  birthdate?: Maybe<Scalars['AWSDate']['output']>;
+  created_at: Scalars['AWSDateTime']['output'];
+  email?: Maybe<Scalars['AWSEmail']['output']>;
+  gender?: Maybe<Scalars['String']['output']>;
+  goal?: Maybe<Goal>;
+  id: Scalars['ID']['output'];
+  measurement?: Maybe<Measurement>;
+  name?: Maybe<Scalars['String']['output']>;
+  phone_number?: Maybe<Scalars['AWSPhone']['output']>;
+  profile_picture?: Maybe<Scalars['AWSURL']['output']>;
+  registered?: Maybe<Scalars['Boolean']['output']>;
+  status?: Maybe<Scalars['AWSJSON']['output']>;
+  tenantId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type MemberConnection = {
+  __typename?: 'MemberConnection';
+  items?: Maybe<Array<Member>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createMeasurement?: Maybe<Measurement>;
+  createMeasurementForMember?: Maybe<Measurement>;
+  createMember?: Maybe<Member>;
+  createTrainer?: Maybe<Trainer>;
+  createWorkout?: Maybe<Workout>;
+  register?: Maybe<Member>;
+  updateMemberProfile?: Maybe<Member>;
+};
+
+
+export type MutationCreateMeasurementArgs = {
+  input: CreateMeasurementInput;
+};
+
+
+export type MutationCreateMeasurementForMemberArgs = {
+  input: CreateMeasurementInput;
+  memberId: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateMemberArgs = {
+  input: CreateMemberInput;
+};
+
+
+export type MutationCreateTrainerArgs = {
+  input: CreateTrainerInput;
+};
+
+
+export type MutationCreateWorkoutArgs = {
+  input: CreateWorkoutInput;
+};
+
+
+export type MutationRegisterArgs = {
+  input: RegisterInput;
+};
+
+
+export type MutationUpdateMemberProfileArgs = {
+  input: UpdateMemberProfileInput;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getClubById?: Maybe<Club>;
+  getMemberById?: Maybe<Member>;
+  getTenant?: Maybe<Tenant>;
+  getTrainerById?: Maybe<Trainer>;
+  getTrainers?: Maybe<Array<Trainer>>;
+  getWorkoutById?: Maybe<Workout>;
+  searchMembers?: Maybe<Array<Maybe<Member>>>;
+};
+
+
+export type QueryGetClubByIdArgs = {
+  clubId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetMemberByIdArgs = {
+  memberId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetTrainerByIdArgs = {
+  trainerId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetWorkoutByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QuerySearchMembersArgs = {
+  text: Scalars['String']['input'];
+};
+
+export type RegisterInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  birthdate: Scalars['AWSDate']['input'];
+  email?: InputMaybe<Scalars['AWSEmail']['input']>;
+  gender: Gender;
+  name: Scalars['String']['input'];
+  profile_picture?: InputMaybe<Scalars['AWSURL']['input']>;
+};
+
+export type Tenant = {
+  __typename?: 'Tenant';
+  address: Scalars['String']['output'];
+  created_at: Scalars['AWSDateTime']['output'];
+  email: Scalars['AWSEmail']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  phone_number: Scalars['AWSPhone']['output'];
+  profile_picture: Scalars['AWSURL']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type Trainer = Document & {
+  __typename?: 'Trainer';
+  address?: Maybe<Scalars['String']['output']>;
+  birthdate: Scalars['AWSDate']['output'];
+  created_at: Scalars['AWSDateTime']['output'];
+  email?: Maybe<Scalars['AWSEmail']['output']>;
+  gender: Gender;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  phone_number: Scalars['AWSPhone']['output'];
+  tenantId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type TrainerConnection = {
+  __typename?: 'TrainerConnection';
+  items?: Maybe<Array<Trainer>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type UpdateMemberProfileInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  birthdate?: InputMaybe<Scalars['AWSDate']['input']>;
+  email?: InputMaybe<Scalars['AWSEmail']['input']>;
+  gender?: InputMaybe<Gender>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  profile_picture?: InputMaybe<Scalars['AWSURL']['input']>;
+};
+
+export type Workout = Document & {
+  __typename?: 'Workout';
+  created_at: Scalars['AWSDateTime']['output'];
+  exercises: Array<Exercise>;
+  id: Scalars['ID']['output'];
+  memberId?: Maybe<Scalars['ID']['output']>;
+  name: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  tenantId: Scalars['ID']['output'];
+  trainerId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type CreateMeasurementForMemberMutationVariables = Exact<{
+  memberId: Scalars['ID']['input'];
+  input: CreateMeasurementInput;
+}>;
+
+
+export type CreateMeasurementForMemberMutation = { __typename?: 'Mutation', createMeasurementForMember?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null };
+
+export type GetMemberByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetMemberByIdQuery = { __typename?: 'Query', getMemberById?: { __typename?: 'Member', id: string, name?: string | null, phone_number?: string | null, email?: any | null, created_at: any, gender?: string | null, birthdate?: any | null, address?: string | null, measurement?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null } | null };
+
+
+export const CreateMeasurementForMemberDocument = gql`
+    mutation CreateMeasurementForMember($memberId: ID!, $input: CreateMeasurementInput!) {
+  createMeasurementForMember(memberId: $memberId, input: $input) {
+    height
+    weight
+    fat
+    heart_rate
+  }
+}
+    `;
+export type CreateMeasurementForMemberMutationFn = Apollo.MutationFunction<CreateMeasurementForMemberMutation, CreateMeasurementForMemberMutationVariables>;
+
+/**
+ * __useCreateMeasurementForMemberMutation__
+ *
+ * To run a mutation, you first call `useCreateMeasurementForMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMeasurementForMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMeasurementForMemberMutation, { data, loading, error }] = useCreateMeasurementForMemberMutation({
+ *   variables: {
+ *      memberId: // value for 'memberId'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateMeasurementForMemberMutation(baseOptions?: Apollo.MutationHookOptions<CreateMeasurementForMemberMutation, CreateMeasurementForMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMeasurementForMemberMutation, CreateMeasurementForMemberMutationVariables>(CreateMeasurementForMemberDocument, options);
+      }
+export type CreateMeasurementForMemberMutationHookResult = ReturnType<typeof useCreateMeasurementForMemberMutation>;
+export type CreateMeasurementForMemberMutationResult = Apollo.MutationResult<CreateMeasurementForMemberMutation>;
+export type CreateMeasurementForMemberMutationOptions = Apollo.BaseMutationOptions<CreateMeasurementForMemberMutation, CreateMeasurementForMemberMutationVariables>;
+export const GetMemberByIdDocument = gql`
+    query GetMemberById($id: ID!) {
+  getMemberById(memberId: $id) {
+    id
+    name
+    phone_number
+    email
+    created_at
+    gender
+    birthdate
+    address
+    measurement {
+      height
+      weight
+      fat
+      heart_rate
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMemberByIdQuery__
+ *
+ * To run a query within a React component, call `useGetMemberByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMemberByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMemberByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetMemberByIdQuery(baseOptions: Apollo.QueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables> & ({ variables: GetMemberByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
+      }
+export function useGetMemberByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
+        }
+export function useGetMemberByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
+        }
+export type GetMemberByIdQueryHookResult = ReturnType<typeof useGetMemberByIdQuery>;
+export type GetMemberByIdLazyQueryHookResult = ReturnType<typeof useGetMemberByIdLazyQuery>;
+export type GetMemberByIdSuspenseQueryHookResult = ReturnType<typeof useGetMemberByIdSuspenseQuery>;
+export type GetMemberByIdQueryResult = Apollo.QueryResult<GetMemberByIdQuery, GetMemberByIdQueryVariables>;

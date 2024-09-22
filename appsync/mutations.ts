@@ -27,6 +27,28 @@ export const createMeasurement = /* GraphQL */ `mutation CreateMeasurement($inpu
   APITypes.CreateMeasurementMutationVariables,
   APITypes.CreateMeasurementMutation
 >;
+export const createMeasurementForMember = /* GraphQL */ `mutation CreateMeasurementForMember(
+  $memberId: ID!
+  $input: CreateMeasurementInput!
+) {
+  createMeasurementForMember(memberId: $memberId, input: $input) {
+    id
+    tenantId
+    created_at
+    updated_at
+    memberId
+    clubId
+    weight
+    height
+    fat
+    heart_rate
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMeasurementForMemberMutationVariables,
+  APITypes.CreateMeasurementForMemberMutation
+>;
 export const createMember = /* GraphQL */ `mutation CreateMember($input: CreateMemberInput!) {
   createMember(input: $input) {
     id

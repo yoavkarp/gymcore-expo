@@ -3,13 +3,15 @@ import awsConfig from './constants/aws-config'
 
 const config: CodegenConfig = {
     schema: "schema.json",
-    documents: ["**/*.tsx"],
+    documents: ["graphql/**/*.graphql"],
     generates: {
-        'graphql/index.tsx': {
+        'graphql/index.ts': {
             plugins: ["typescript", "typescript-operations", "typescript-react-apollo"],
             config: {
                 withHooks: true,
-                withComponents: true,
+                scalars: {
+                    "AWSPhone": "string"
+                }
             }
         }
     }

@@ -2,7 +2,7 @@ import { ViewStyle, TextStyle, StyleProp, StyleSheet } from "react-native";
 
 export const viewLayout = (styleProp?: StyleProp<ViewStyle>, dir: 'rtl' | 'ltr' = 'rtl'): StyleProp<ViewStyle> => {
 
-    if (dir === 'ltr')
+    if (dir === 'rtl')
         return styleProp;
 
     if (!styleProp) {
@@ -19,7 +19,7 @@ export const viewLayout = (styleProp?: StyleProp<ViewStyle>, dir: 'rtl' | 'ltr' 
 }
 
 export const textLayout = (styleProp?: StyleProp<TextStyle>, dir: 'rtl' | 'ltr' = 'rtl'): StyleProp<TextStyle> => {
-    if (dir === 'ltr')
+    if (dir === 'rtl')
         return styleProp;
 
     if (!styleProp) {
@@ -31,7 +31,7 @@ export const textLayout = (styleProp?: StyleProp<TextStyle>, dir: 'rtl' | 'ltr' 
     const styles: TextStyle = {
         ...flattenStyle,
         flexDirection: flattenStyle.flexDirection === 'row' ? 'row-reverse' : flattenStyle.flexDirection === 'row-reverse' ? 'row' : flattenStyle.flexDirection,
-        textAlign: dir === 'rtl' ? 'right' : 'left',
+        textAlign: dir === 'ltr' ? 'right' : 'left',
         writingDirection: dir
     }
     return styles;

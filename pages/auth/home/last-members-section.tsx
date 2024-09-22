@@ -1,9 +1,10 @@
 import Text from "@/components/ui/Text";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import MemberCard from "@/components/api-ui/MemberCard";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 import { useMembersHistory } from "@/contexts/MembersHistoryContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Member } from "@/appsync/API";
 
 interface LastMembersProps {
 
@@ -12,7 +13,10 @@ interface LastMembersProps {
 const LastMembers: React.FC<LastMembersProps> = () => {
 
     const [membersHistory] = useMembersHistory();
-    AsyncStorage.clear();
+
+    const handleMemberCardPress = (member: Member) => {
+        router.navigate(`(member)/${member.id}` as Href)
+    }
 
     return (
         <View>
@@ -23,7 +27,7 @@ const LastMembers: React.FC<LastMembersProps> = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity onPress={() => router.navigate(`/(member)/${item.id}`)}>
+                        <TouchableOpacity onPress={() => handleMemberCardPress(item)}>
                             <MemberCard member={item} />
                         </TouchableOpacity>
                     )

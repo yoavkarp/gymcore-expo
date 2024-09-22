@@ -1,4 +1,4 @@
-import { CreateMemberMutation, CreateMemberMutationVariables, Gender, SearchMembersQuery, SearchMembersQueryVariables } from "@/appsync/API";
+import { CreateMemberMutation, CreateMemberMutationVariables, Gender, Member, SearchMembersQuery, SearchMembersQueryVariables } from "@/appsync/API";
 import Button from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import TextInput from "@/components/ui/TextInput";
@@ -13,6 +13,7 @@ import { phoneNumberRegex } from "@/constants/regex";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { View } from "@/components/ui/View";
 import { useMembersHistory } from "@/contexts/MembersHistoryContext";
+import { Href, router } from "expo-router";
 
 
 interface CreateMemberSectionProps {
@@ -76,6 +77,11 @@ const CreateMemberSection: React.FC<CreateMemberSectionProps> = () => {
 
     const [_, pushToMembersHistory] = useMembersHistory();
 
+    const handleMemberCardPress = (member: Member) => {
+        pushToMembersHistory(member)
+        router.navigate(`(member)/${member.id}` as Href)
+    }
+
     return (
         <View>
             <Text h1>חיפוש מנויים</Text>
@@ -87,7 +93,7 @@ const CreateMemberSection: React.FC<CreateMemberSectionProps> = () => {
                 data={searchMembersQueryData?.searchMembers}
                 keyExtractor={item => item?.id!}
                 renderItem={({ item }) => item ? (
-                    <TouchableOpacity activeOpacity={0.8} onPress={() => pushToMembersHistory(item)}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => handleMemberCardPress(item)}>
                         <MemberCard member={item} />
                     </TouchableOpacity>
                 ) : null}

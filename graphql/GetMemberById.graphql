@@ -1,0 +1,18 @@
+query GetMemberById($id: ID!) {
+    getMemberById(memberId: $id) {
+        id
+        name
+        phone_number
+        email
+        created_at
+        gender
+        birthdate
+        address
+        measurement {
+            height
+            weight
+            fat
+            heart_rate
+        }
+    }
+}

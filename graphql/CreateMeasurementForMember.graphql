@@ -1,0 +1,8 @@
+mutation CreateMeasurementForMember($memberId: ID!, $input: CreateMeasurementInput!) {
+    createMeasurementForMember(memberId: $memberId, input: $input) {
+        height
+        weight
+        fat
+        heart_rate
+    }
+}
