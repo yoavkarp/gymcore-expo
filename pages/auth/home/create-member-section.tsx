@@ -66,7 +66,6 @@ const CreateMemberSection: React.FC<CreateMemberSectionProps> = () => {
                 setFromCache(prev => [...prev, text])
                 setTimeout(() => {
                     setFromCache(prev => prev.filter((e) => e !== text))
-                    console.log("Cache cleaned:", text)
                 }, 30000);
             },
             fetchPolicy: fromCache.includes(text) ? "cache-first" : "network-only"
@@ -88,7 +87,7 @@ const CreateMemberSection: React.FC<CreateMemberSectionProps> = () => {
             <Text subtitle>יש לרשום מספר טלפון להצגת תוצאות</Text>
             <TextInput value={searchText} onChangeText={handleChange} style={{ maxWidth: 400, textAlign: 'center' }} />
             <FlatList
-                style={{ alignSelf: 'flex-start', width: 400 }}
+                style={{ alignSelf: 'flex-start', width: 400, maxHeight: 600 }}
                 keyboardShouldPersistTaps="always"
                 data={searchMembersQueryData?.searchMembers}
                 keyExtractor={item => item?.id!}
@@ -98,12 +97,11 @@ const CreateMemberSection: React.FC<CreateMemberSectionProps> = () => {
                     </TouchableOpacity>
                 ) : null}
                 ListEmptyComponent={() => {
-                    return isSearchingMembers ? <LoadingIndicator size={30} style={{ alignSelf: "center", padding: 20 }} /> : null
+                    return isSearchingMembers ? <LoadingIndicator size={30} style={{ alignSelf: "center", padding: 20 }} /> : userDoesNotExists && <View style={{ alignItems: 'center', gap: 10, paddingVertical: 10, flexDirection: 'row' }}>
+                        <Text>{searchText} לא קיים</Text>
+                        <Button onPress={() => setShowCreateMemberModal(true)}>הוסף מנוי</Button>
+                    </View>
                 }} />
-            {userDoesNotExists && <View style={{ alignItems: 'center', gap: 10, paddingVertical: 10, flexDirection: 'row' }}>
-                <Text>{searchText} לא קיים</Text>
-                <Button onPress={() => setShowCreateMemberModal(true)}>הוסף מנוי</Button>
-            </View>}
             <CreateMemberModal onSubmit={async (info) => {
                 await createMemberMutation({
                     variables: {

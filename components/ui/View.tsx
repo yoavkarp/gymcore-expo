@@ -6,6 +6,7 @@ type ViewProps = VP & {
 }
 
 export const View: React.FC<ViewProps> = ({ style, ...props }) => {
+
     return (
         <V {...props} style={viewLayout(style)} />
     )

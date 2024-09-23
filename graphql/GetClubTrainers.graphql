@@ -1,0 +1,8 @@
+query GetClubTrainers {
+    getClubTrainers {
+        id
+        name
+        email
+        phone_number
+    }
+}

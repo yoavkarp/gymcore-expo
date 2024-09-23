@@ -14,7 +14,7 @@ export default function SignInPage() {
 
     const { register, formState: { errors, isSubmitting }, handleSubmit, control } = useSignInForm({
         defaultValues: {
-            phone_number: '0505716748',
+            phone_number: '0501111112',
             password: 'Abcd1234!@'
         },
         mode: "onBlur",
@@ -23,20 +23,24 @@ export default function SignInPage() {
     const phoneNumberInputRef: React.MutableRefObject<TextInputRef | null> = useRef<TextInputRef | null>(null);
     const passwordInputRef: React.MutableRefObject<TextInputRef | null> = useRef<TextInputRef | null>(null);
 
-    let refs = {
+    let refs = useMemo(() => ({
         phone_number: phoneNumberInputRef,
         password: passwordInputRef
-    }
+    }), [phoneNumberInputRef, passwordInputRef])
 
     const { authenticateUser } = useSession()
 
     const onSubmit = async (data: SignInFormValues) => {
-        const res = await authenticateUser({
-            Username: data.phone_number,
-            Password: data.password
-        })
-
-        router.replace('/');
+        try {
+            const res = await authenticateUser({
+                Username: data.phone_number,
+                Password: data.password
+            })
+            router.replace('/');
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 
     const onInvalid = (err: typeof errors) => {

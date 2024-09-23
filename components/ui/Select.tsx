@@ -1,7 +1,7 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
 import assert from 'node:assert';
-import React, { useState, ComponentType, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { View, TouchableOpacity, Modal, FlatList, StyleSheet, ViewProps, ViewStyle } from 'react-native';
 import Text from './Text';
 

@@ -65,7 +65,7 @@ const DateSelect: FunctionComponent<DateSelectProps> = ({ isoDate = new Date().t
     const [date, setDate] = useState(new Date(isoDate));
 
     return (
-        <View style={viewLayout({ gap: 5, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start', flexDirection: 'row' })}>
+        <View style={viewLayout({ gap: 5, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start', flexDirection: 'row-reverse' })}>
             <DayPicker date={date} onChange={(_date) => {
                 const newDate = new Date(new Date(date).setDate(_date))
                 setDate(newDate);

@@ -277,10 +277,10 @@ export type MutationUpdateMemberProfileArgs = {
 export type Query = {
   __typename?: 'Query';
   getClubById?: Maybe<Club>;
+  getClubTrainers?: Maybe<Array<Trainer>>;
   getMemberById?: Maybe<Member>;
   getTenant?: Maybe<Tenant>;
   getTrainerById?: Maybe<Trainer>;
-  getTrainers?: Maybe<Array<Trainer>>;
   getWorkoutById?: Maybe<Workout>;
   searchMembers?: Maybe<Array<Maybe<Member>>>;
 };
@@ -381,6 +381,18 @@ export type CreateMeasurementForMemberMutationVariables = Exact<{
 
 export type CreateMeasurementForMemberMutation = { __typename?: 'Mutation', createMeasurementForMember?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null };
 
+export type CreateTrainerMutationVariables = Exact<{
+  input: CreateTrainerInput;
+}>;
+
+
+export type CreateTrainerMutation = { __typename?: 'Mutation', createTrainer?: { __typename?: 'Trainer', id: string, name: string, email?: any | null, phone_number: string } | null };
+
+export type GetClubTrainersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetClubTrainersQuery = { __typename?: 'Query', getClubTrainers?: Array<{ __typename?: 'Trainer', id: string, name: string, email?: any | null, phone_number: string }> | null };
+
 export type GetMemberByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -426,6 +438,84 @@ export function useCreateMeasurementForMemberMutation(baseOptions?: Apollo.Mutat
 export type CreateMeasurementForMemberMutationHookResult = ReturnType<typeof useCreateMeasurementForMemberMutation>;
 export type CreateMeasurementForMemberMutationResult = Apollo.MutationResult<CreateMeasurementForMemberMutation>;
 export type CreateMeasurementForMemberMutationOptions = Apollo.BaseMutationOptions<CreateMeasurementForMemberMutation, CreateMeasurementForMemberMutationVariables>;
+export const CreateTrainerDocument = gql`
+    mutation CreateTrainer($input: CreateTrainerInput!) {
+  createTrainer(input: $input) {
+    id
+    name
+    email
+    phone_number
+  }
+}
+    `;
+export type CreateTrainerMutationFn = Apollo.MutationFunction<CreateTrainerMutation, CreateTrainerMutationVariables>;
+
+/**
+ * __useCreateTrainerMutation__
+ *
+ * To run a mutation, you first call `useCreateTrainerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTrainerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTrainerMutation, { data, loading, error }] = useCreateTrainerMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateTrainerMutation(baseOptions?: Apollo.MutationHookOptions<CreateTrainerMutation, CreateTrainerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTrainerMutation, CreateTrainerMutationVariables>(CreateTrainerDocument, options);
+      }
+export type CreateTrainerMutationHookResult = ReturnType<typeof useCreateTrainerMutation>;
+export type CreateTrainerMutationResult = Apollo.MutationResult<CreateTrainerMutation>;
+export type CreateTrainerMutationOptions = Apollo.BaseMutationOptions<CreateTrainerMutation, CreateTrainerMutationVariables>;
+export const GetClubTrainersDocument = gql`
+    query GetClubTrainers {
+  getClubTrainers {
+    id
+    name
+    email
+    phone_number
+  }
+}
+    `;
+
+/**
+ * __useGetClubTrainersQuery__
+ *
+ * To run a query within a React component, call `useGetClubTrainersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetClubTrainersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetClubTrainersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetClubTrainersQuery(baseOptions?: Apollo.QueryHookOptions<GetClubTrainersQuery, GetClubTrainersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetClubTrainersQuery, GetClubTrainersQueryVariables>(GetClubTrainersDocument, options);
+      }
+export function useGetClubTrainersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetClubTrainersQuery, GetClubTrainersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetClubTrainersQuery, GetClubTrainersQueryVariables>(GetClubTrainersDocument, options);
+        }
+export function useGetClubTrainersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetClubTrainersQuery, GetClubTrainersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetClubTrainersQuery, GetClubTrainersQueryVariables>(GetClubTrainersDocument, options);
+        }
+export type GetClubTrainersQueryHookResult = ReturnType<typeof useGetClubTrainersQuery>;
+export type GetClubTrainersLazyQueryHookResult = ReturnType<typeof useGetClubTrainersLazyQuery>;
+export type GetClubTrainersSuspenseQueryHookResult = ReturnType<typeof useGetClubTrainersSuspenseQuery>;
+export type GetClubTrainersQueryResult = Apollo.QueryResult<GetClubTrainersQuery, GetClubTrainersQueryVariables>;
 export const GetMemberByIdDocument = gql`
     query GetMemberById($id: ID!) {
   getMemberById(memberId: $id) {

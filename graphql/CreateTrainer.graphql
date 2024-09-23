@@ -1,0 +1,8 @@
+mutation CreateTrainer($input: CreateTrainerInput!) {
+    createTrainer(input: $input) {
+        id
+        name
+        email
+        phone_number
+    }
+}

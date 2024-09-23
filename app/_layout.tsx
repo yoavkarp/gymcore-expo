@@ -11,11 +11,6 @@ export {
   ErrorBoundary,
 } from "expo-router";
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "sign-in",
-};
-
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -30,15 +25,14 @@ export default function RootLayout() {
 
   const appIsReady = useMemo(() => loaded || Boolean(error), [loaded])
 
-
   useEffect(() => {
     async function onChange() {
-      if (appIsReady) {
+      if (loaded) {
         await SplashScreen.hideAsync()
       }
     }
     onChange();
-  }, [appIsReady])
+  }, [loaded])
 
   if (!appIsReady) return null;
 

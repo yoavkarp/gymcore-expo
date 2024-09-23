@@ -34,7 +34,7 @@ interface CreateMemberModalProps {
 }
 
 const CreateMemberModal: React.FC<CreateMemberModalProps> = ({ visible = false, onDismiss, defaultPhoneNumberValue, onSubmit }) => {
-    const { control, watch, handleSubmit, reset } = useCreateMemberForm({
+    const { control, formState: { isSubmitting }, handleSubmit, reset } = useCreateMemberForm({
         defaultValues: {
             phone_number: defaultPhoneNumberValue,
             birthdate: new Date().toISOString().slice(0, 10)
@@ -65,7 +65,7 @@ const CreateMemberModal: React.FC<CreateMemberModalProps> = ({ visible = false, 
                         return (
                             <View style={styles.formField}>
                                 <Label>שם מלא *</Label>
-                                <TextInput style={styles.formInput} onChange={onChange} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={nameInputRef} onSubmitEditing={() => phoneNumberInputRef.current?.focus()} {...field} />
+                                <TextInput readOnly={isSubmitting} style={styles.formInput} onChange={onChange} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={nameInputRef} onSubmitEditing={() => phoneNumberInputRef.current?.focus()} {...field} />
                                 {error && <Text error>{error.message}</Text>}
                             </View>
                         )
@@ -75,18 +75,17 @@ const CreateMemberModal: React.FC<CreateMemberModalProps> = ({ visible = false, 
                         return (
                             <View style={styles.formField}>
                                 <Label>טלפון *</Label>
-                                <TextInput style={styles.formInput} onChange={onChange} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={phoneNumberInputRef} onSubmitEditing={() => emailInputRef.current?.focus()} {...field} />
+                                <TextInput keyboardType="phone-pad" readOnly={isSubmitting} style={styles.formInput} onChange={onChange} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={phoneNumberInputRef} onSubmitEditing={() => emailInputRef.current?.focus()} {...field} />
                                 {error && <Text error>{error.message}</Text>}
                             </View>
                         )
                     }} name="phone_number" />
 
                     <Controller control={control} render={({ field: { ref, value, ...field }, fieldState: { error } }) => {
-                        console.log(error, value);
                         return (
                             <View style={styles.formField}>
                                 <Label>אימייל</Label>
-                                <TextInput style={styles.formInput} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={emailInputRef} onSubmitEditing={() => {
+                                <TextInput keyboardType="email-address" readOnly={isSubmitting} style={styles.formInput} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={emailInputRef} onSubmitEditing={() => {
                                     emailInputRef.current?.blur();
                                     genderSelectRef.current?.focus()
                                 }} {...field} onChangeText={field.onChange} value={value} />
@@ -116,7 +115,7 @@ const CreateMemberModal: React.FC<CreateMemberModalProps> = ({ visible = false, 
                     }} name="birthdate" />
                 </View>
 
-                <Button onPress={onSubmit ? handleSubmit(onSubmit) : undefined}>
+                <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={onSubmit ? handleSubmit(onSubmit) : undefined}>
                     הזמנה
                 </Button>
 

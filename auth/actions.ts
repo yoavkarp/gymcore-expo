@@ -7,6 +7,8 @@ let user: CognitoUser | null;
 let requiredAttributes: string[] = [];
 let userAttributes: { [x: string]: any } = {};
 
+let initialized = false;
+
 export async function initializeUserPool(pool?: CognitoUserPool) {
     const { userPoolId: UserPoolId, userPoolClientId: ClientId } = Amplify.getConfig().Auth!.Cognito;
 
@@ -14,8 +16,10 @@ export async function initializeUserPool(pool?: CognitoUserPool) {
         UserPoolId: UserPoolId!,
         ClientId: ClientId!
     });
-
-    await sync();
+    if (!initialized) {
+        await sync();
+        initialized = true;
+    }
     user = userPool.getCurrentUser();
 }
 
@@ -40,7 +44,6 @@ export const authenticateUser = (authenticationDetails: IAuthenticationDetailsDa
             user.authenticateUser(new AuthenticationDetails(authenticationDetails), {
                 onSuccess: (session, userConfirmationNecessary) => {
                     user!.setSignInUserSession(session)
-                    console.log(session, userConfirmationNecessary)
                     resolve({
                         type: "success",
                         payload: {
@@ -175,6 +178,7 @@ export const forgotPassword = (username: string) => {
 export const sync = () => {
     return new Promise<string>((resolve, reject) => {
         if (!userPool) {
+            console.log("Sync completed")
             reject(new Error("No user pool found"))
         }
         else {

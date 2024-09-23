@@ -38,12 +38,10 @@ export function SnackbarProvider({ children }: PropsWithChildren<SnackbarProvide
     return (
         <SnackbarContext.Provider value={{
             show: (message, type = "success", delay = 3000) => {
-                console.log("Here")
                 const id = randomUUID();
                 setDisplayed(prev => [{ message, type, id }, ...prev])
 
                 const timeoutHandle = setTimeout(() => {
-                    console.log(id);
                     setDisplayed(prev => prev.filter(m => m.id !== id))
                     clearTimeout(timeoutHandlers[id]);
                 }, delay)

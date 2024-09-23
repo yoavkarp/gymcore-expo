@@ -87,6 +87,25 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($id: ID!) {
   APITypes.GetWorkoutByIdQueryVariables,
   APITypes.GetWorkoutByIdQuery
 >;
+export const getClubTrainers = /* GraphQL */ `query GetClubTrainers {
+  getClubTrainers {
+    id
+    tenantId
+    created_at
+    updated_at
+    phone_number
+    name
+    email
+    birthdate
+    gender
+    address
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetClubTrainersQueryVariables,
+  APITypes.GetClubTrainersQuery
+>;
 export const getMemberById = /* GraphQL */ `query GetMemberById($memberId: ID!) {
   getMemberById(memberId: $memberId) {
     id
@@ -137,25 +156,6 @@ export const getMemberById = /* GraphQL */ `query GetMemberById($memberId: ID!) 
 ` as GeneratedQuery<
   APITypes.GetMemberByIdQueryVariables,
   APITypes.GetMemberByIdQuery
->;
-export const getTrainers = /* GraphQL */ `query GetTrainers {
-  getTrainers {
-    id
-    tenantId
-    created_at
-    updated_at
-    phone_number
-    name
-    email
-    birthdate
-    gender
-    address
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.GetTrainersQueryVariables,
-  APITypes.GetTrainersQuery
 >;
 export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) {
   searchMembers(text: $text) {

@@ -31,8 +31,6 @@ const MemberMeasurementsCard: React.FC<MemberMeasurementsCardProps> = ({ measure
     const [createMeasurementForMember, { error }] = useCreateMeasurementForMemberMutation();
     const [showToast] = useSnackbar();
 
-    console.log(dirtyFields, watch())
-
     const onSubmit = async (data: CreateMeasurementFormValues) => {
         await createMeasurementForMember({
             variables: {

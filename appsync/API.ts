@@ -573,6 +573,25 @@ export type GetWorkoutByIdQuery = {
   } | null,
 };
 
+export type GetClubTrainersQueryVariables = {
+};
+
+export type GetClubTrainersQuery = {
+  getClubTrainers?:  Array< {
+    __typename: "Trainer",
+    id: string,
+    tenantId: string,
+    created_at: string,
+    updated_at: string,
+    phone_number: string,
+    name: string,
+    email?: string | null,
+    birthdate: string,
+    gender: Gender,
+    address?: string | null,
+  } > | null,
+};
+
 export type GetMemberByIdQueryVariables = {
   memberId: string,
 };
@@ -623,25 +642,6 @@ export type GetMemberByIdQuery = {
       completed_at?: string | null,
     } | null,
   } | null,
-};
-
-export type GetTrainersQueryVariables = {
-};
-
-export type GetTrainersQuery = {
-  getTrainers?:  Array< {
-    __typename: "Trainer",
-    id: string,
-    tenantId: string,
-    created_at: string,
-    updated_at: string,
-    phone_number: string,
-    name: string,
-    email?: string | null,
-    birthdate: string,
-    gender: Gender,
-    address?: string | null,
-  } > | null,
 };
 
 export type SearchMembersQueryVariables = {

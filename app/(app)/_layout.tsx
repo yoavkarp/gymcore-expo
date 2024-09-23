@@ -1,38 +1,31 @@
-import { Slot, Stack } from "expo-router";
-import { Dimensions, SafeAreaView, StyleSheet } from "react-native";
-import { Href, Redirect } from "expo-router";
+import { Stack, Href, Redirect } from "expo-router";
+import { SafeAreaView } from "react-native";
 import { useSession } from "@/auth";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
-import '@/initialize';
 import { CognitoSessionDecodedPayload } from "@/auth/decoded-payload";
-import React from "react";
-import '@/theme'
-import { useTheme } from "@/contexts/ThemeContext";
+import React, { useMemo } from "react";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import Text from "@/components/ui/Text";
 import Button from "@/components/ui/Button";
 import { View } from "@/components/ui/View";
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "home/index",
-};
+import { theme } from "@/theme";
+import '@/initialize';
+import ClubProvider from "@/contexts/ClubContext";
 
 export default function Layout() {
 
   const { isLoading, session, signOut } = useSession();
-  const { theme } = useTheme();
+
+  const sessionPayload: CognitoSessionDecodedPayload = useMemo(() => session?.getIdToken().decodePayload() as any, [session]);
 
   if (isLoading) {
     return <LoadingIndicator style={{ alignSelf: 'center' }} />
   }
 
   if (!session) {
-    return <Redirect href="/sign-in" />
+    return <Redirect href={"/sign-in" as Href} />
   }
-
-  const sessionPayload: CognitoSessionDecodedPayload = session.getIdToken().decodePayload() as any;
 
   if (!sessionPayload["cognito:groups"].includes("club")) {
     return <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -42,19 +35,18 @@ export default function Layout() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <Header />
-      <View style={{ flex: 1, flexDirection: 'row' }}>
-        <View style={{ flexBasis: 250 }}>
-          <Sidebar />
+    <ClubProvider>
+      <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <Header />
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ flexBasis: 250 }}>
+            <Sidebar />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Stack screenOptions={{ headerShown: false, animation: "fade_from_bottom", contentStyle: { backgroundColor: theme.colors.background }, statusBarHidden: true }} />
+          </View>
         </View>
-        <View style={{ flex: 1 }}>
-          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.background } }}>
-            <Stack.Screen name="home" options={{ headerShown: false }} />
-            <Stack.Screen name="(member)/[id]" />
-          </Stack>
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ClubProvider>
   );
 }

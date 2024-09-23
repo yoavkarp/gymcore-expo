@@ -84,6 +84,7 @@ const styles = (theme: Theme) => StyleSheet.create<Record<(keyof TextStyles) | "
         fontFamily: "regular",
         color: theme.colors.text,
         fontSize: 20,
+        paddingBottom: 3 // fix for text not aligning to the bottom
     },
     h1: {
         fontSize: 35,

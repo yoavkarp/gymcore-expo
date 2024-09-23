@@ -18,7 +18,7 @@ export type Theme = {
 
 export const defaultTheme: Theme = {
     colors: {
-        primary: "#2563eb",
+        primary: "#0ea5e9",
         secondary: "#3b82f6",
         background: "#fafafa",
         text: "#1f2937",
@@ -27,8 +27,8 @@ export const defaultTheme: Theme = {
         subtitle: "#9ca3af",
         muted: "#6b7280",
         error: "#dc2626",
-        success: "#10b981",
-        warning: "#f59e0b"
+        success: "#4ade80",
+        warning: "#fcd34d"
     }
 }
 

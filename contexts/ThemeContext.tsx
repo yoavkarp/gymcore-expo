@@ -16,7 +16,9 @@ type ThemeProviderProps = {
 
 export function ThemeProvider({ children, theme = defaultTheme }: PropsWithChildren<ThemeProviderProps>) {
     return (
-        <ThemeContext.Provider value={{ theme }} children={children} />
+        <ThemeContext.Provider value={{ theme }}>
+            {children}
+        </ThemeContext.Provider>
     )
 };
 

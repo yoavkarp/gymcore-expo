@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo } from 'react';
+import { forwardRef } from 'react';
 import { StyleSheet, ViewStyle, TextStyle, ActivityIndicator, TouchableOpacityProps, TouchableOpacity } from 'react-native';
 import Text from './Text';
 import { useTheme } from '@/contexts/ThemeContext';
