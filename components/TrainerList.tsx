@@ -17,7 +17,7 @@ const TrainerList: React.FC<TrainerListProps> = ({ trainers, onPressNewTrainer, 
         <View style={{ gap: 10 }}>
             <Text h1>בחירת מאמן</Text>
             <List
-                items={trainers.map((trainer) => ({
+                data={trainers.map((trainer) => ({
                     key: trainer.id || "",
                     title: trainer.name || ""
                 }))}

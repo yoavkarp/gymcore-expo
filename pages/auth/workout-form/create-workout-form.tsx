@@ -1,6 +1,9 @@
+import Button from "@/components/ui/Button";
+import Label from "@/components/ui/Label";
+import TextInput from "@/components/ui/TextInput";
 import { View } from "@/components/ui/View";
 import { useWorkoutForm } from "@/contexts/WorkoutContext";
-import { Controller } from "react-hook-form";
+import { useState } from "react";
 
 interface CreateWorkoutFormProps {
 
@@ -8,15 +11,17 @@ interface CreateWorkoutFormProps {
 
 const CreateWorkoutForm: React.FC<CreateWorkoutFormProps> = () => {
 
-    const { control } = useWorkoutForm();
+    const { setValue } = useWorkoutForm();
+    const [workoutName, setWorkoutName] = useState("");
 
     return (
-        <View>
-            <Controller control={control} name="name"
-                render={({ field }) => (
-                    <input {...field} placeholder="שם האימון" />
-                )}
-            />
+        <View style={{ gap: 8 }}>
+            <View>
+                <Label>שם האימון</Label>
+                <TextInput onChangeText={setWorkoutName} />
+            </View>
+
+            <Button onPress={() => setValue("name", workoutName)}>הבא</Button>
         </View>
     );
 }

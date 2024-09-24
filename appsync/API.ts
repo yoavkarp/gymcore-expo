@@ -203,12 +203,11 @@ export type CreateWorkoutInput = {
   exercises: Array< CreateExerciseInput >,
   trainerId: string,
   memberId?: string | null,
-  clubId: string,
 };
 
 export type CreateExerciseInput = {
   name: string,
-  section: ExerciseSection,
+  type: ExerciseType,
   notes?: string | null,
   machine_number?: string | null,
   seat_height?: string | null,
@@ -218,11 +217,9 @@ export type CreateExerciseInput = {
   intervals?: Array< CardioExerciseIntervalInput | null > | null,
 };
 
-export enum ExerciseSection {
-  WARMUP = "WARMUP",
+export enum ExerciseType {
   STRENGTH = "STRENGTH",
   CARDIO = "CARDIO",
-  COOLDOWN = "COOLDOWN",
 }
 
 
@@ -234,6 +231,7 @@ export type ParameterInput = {
 };
 
 export type StrengthExerciseSetInput = {
+  id: string,
   reps?: ParameterInput | null,
   rest?: ParameterInput | null,
   weight?: ParameterInput | null,
@@ -241,6 +239,7 @@ export type StrengthExerciseSetInput = {
 };
 
 export type CardioExerciseIntervalInput = {
+  id: string,
   duration?: ParameterInput | null,
   distance?: ParameterInput | null,
   tempo?: ParameterInput | null,

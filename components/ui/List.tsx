@@ -25,17 +25,18 @@ const RenderListItem: React.FC<ListRenderItemInfo<ListItem> & Pick<TouchableOpac
 }
 
 type ListProps = Partial<FlatListProps<ListItem>> & {
-    items: ListItem[];
+    data: ListItem[];
     onPressItem?: (item: ListItem) => any;
     defaultSelectedKey?: string;
+    renderItem?: (info: ListRenderItemInfo<ListItem> & { selected?: boolean, onPressItem?: (item: ListItem) => any }) => JSX.Element;
 }
 
-const List: React.FC<ListProps> = ({ items, onPressItem, defaultSelectedKey }) => {
+const List: React.FC<ListProps> = ({ data, onPressItem, defaultSelectedKey, renderItem: RenderListItemFromProps, ...flatListProps }) => {
 
-    const [selected, setSelected] = useState<ListItem | null>(items.find(item => item.key === defaultSelectedKey) || null);
+    const [selected, setSelected] = useState<ListItem | null>(data.find(item => item.key === defaultSelectedKey) || null);
 
     useEffect(() => {
-        setSelected(items.find(item => item.key === defaultSelectedKey) || null);
+        setSelected(data.find(item => item.key === defaultSelectedKey) || null);
     }, [defaultSelectedKey])
 
     const handlePress = (item: ListItem) => {
@@ -45,14 +46,19 @@ const List: React.FC<ListProps> = ({ items, onPressItem, defaultSelectedKey }) =
 
     return (
         <FlatList
-            data={items}
+            data={data}
             keyExtractor={item => item.key}
-            renderItem={(info) => <RenderListItem
-                {...info}
-                selected={selected?.key === info.item.key}
-                onPress={() => handlePress(info.item)}
-            />
+            renderItem={(info) => RenderListItemFromProps ? (
+                <RenderListItemFromProps selected={selected?.key === info.item.key} {...info} onPressItem={handlePress} />
+            ) : (
+                <RenderListItem
+                    {...info}
+                    selected={selected?.key === info.item.key}
+                    onPress={() => handlePress(info.item)}
+                />
+            )
             }
+            {...flatListProps}
         />
     );
 }

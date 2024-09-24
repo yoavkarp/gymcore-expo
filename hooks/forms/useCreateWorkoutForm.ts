@@ -4,8 +4,8 @@ import { z } from "zod";
 const parameterInputSchema = z.object({
     max: z.number().optional(),
     min: z.number().optional(),
-    unit: z.string().trim().max(255),
-    val: z.number(),
+    unit: z.string().trim().max(255).optional(),
+    val: z.number().optional(),
 })
     .refine(data => {
         if (data.max && data.min) {
@@ -27,6 +27,7 @@ const parameterInputSchema = z.object({
     }, { message: "ערך לא יכול להיות מוגדר יחד עם ערך מינימלי או מקסימלי" })
 
 const intervalSchema = z.object({
+    id: z.string().trim().uuid(),
     angle: parameterInputSchema.optional(),
     distance: parameterInputSchema.optional(),
     duration: parameterInputSchema.optional(),
@@ -43,6 +44,7 @@ const intervalSchema = z.object({
     }, { message: "אתה חייב להגדיר לפחות פרמטר אחד" })
 
 const setSchema = z.object({
+    id: z.string().trim().uuid(),
     reps: parameterInputSchema.optional(),
     rest: parameterInputSchema.optional(),
     times: parameterInputSchema.optional(),
@@ -56,6 +58,7 @@ const setSchema = z.object({
     }, { message: "אתה חייב להגדיר לפחות פרמטר אחד" })
 
 const exerciseSchema = z.object({
+    id: z.string().trim().uuid().optional(),
     angle: parameterInputSchema.optional(),
     machine_number: z.string().trim().min(1).max(255).optional(),
     name: z.string().trim().min(1).max(255).optional(),
@@ -64,7 +67,7 @@ const exerciseSchema = z.object({
     seat_height: z.string().trim().min(1).max(255).optional(),
 
     intervals: z.array(intervalSchema).min(1).max(20).optional(),
-    sets: z.array(z.number()).optional(),
+    sets: z.array(setSchema).optional(),
 })
     .refine(data => {
         if (data.intervals && data.sets) {
@@ -93,7 +96,7 @@ const exerciseSchema = z.object({
 
 const createWorkoutSchema = z.object({
     clubId: z.string().trim().uuid(),
-    exercises: exerciseSchema,
+    exercises: z.array(exerciseSchema).optional(),
     memberId: z.string().trim().uuid().or(z.undefined()).optional(),
     name: z.string().trim().min(1).max(255),
     notes: z.string().trim().max(255).or(z.undefined()).optional(),

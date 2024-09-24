@@ -51,6 +51,7 @@ export type CardioExerciseIntervalInput = {
   angle?: InputMaybe<ParameterInput>;
   distance?: InputMaybe<ParameterInput>;
   duration?: InputMaybe<ParameterInput>;
+  id: Scalars['ID']['input'];
   intensity?: InputMaybe<ParameterInput>;
   resistance?: InputMaybe<ParameterInput>;
   rest?: InputMaybe<ParameterInput>;
@@ -84,8 +85,8 @@ export type CreateExerciseInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
   resistance?: InputMaybe<ParameterInput>;
   seat_height?: InputMaybe<Scalars['String']['input']>;
-  section: ExerciseSection;
   sets?: InputMaybe<Array<InputMaybe<StrengthExerciseSetInput>>>;
+  type: ExerciseType;
 };
 
 export type CreateMeasurementInput = {
@@ -123,7 +124,6 @@ export type CreateTrainerInput = {
 };
 
 export type CreateWorkoutInput = {
-  clubId: Scalars['ID']['input'];
   exercises: Array<CreateExerciseInput>;
   memberId?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
@@ -140,11 +140,9 @@ export type Document = {
 
 export type Exercise = CardioExercise | StrengthExercise;
 
-export enum ExerciseSection {
+export enum ExerciseType {
   Cardio = 'CARDIO',
-  Cooldown = 'COOLDOWN',
-  Strength = 'STRENGTH',
-  Warmup = 'WARMUP'
+  Strength = 'STRENGTH'
 }
 
 export enum Gender {
@@ -350,6 +348,7 @@ export type StrengthExerciseSet = {
 };
 
 export type StrengthExerciseSetInput = {
+  id: Scalars['ID']['input'];
   reps?: InputMaybe<ParameterInput>;
   rest?: InputMaybe<ParameterInput>;
   times?: InputMaybe<ParameterInput>;

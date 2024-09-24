@@ -1,8 +1,12 @@
-import SearchModal from "@/components/SearchModal";
+import SearchModal, { SearchResultItem } from "@/components/SearchModal";
 import { useState, useTransition } from "react";
 import exercisesJSON from "@/assets/exercises2.json";
 
-const SearchExerciseModal = () => {
+type SearchExerciseModalProps = {
+    onChangeValue?: (value: SearchResultItem) => void;
+}
+
+const SearchExerciseModal: React.FC<SearchExerciseModalProps> = ({ onChangeValue }) => {
 
     const [items, setItems] = useState<{ value: string, title: string }[]>([]);
     const [isPending, startTransition] = useTransition();
@@ -26,7 +30,9 @@ const SearchExerciseModal = () => {
             title="חיפוש תרגיל מהמאגר"
             subtitle="יש להתחיל להקליד על מנת לראות תוצאות"
             searching={isPending}
-            onChangeText={searchExercise} items={items} />
+            onChangeText={searchExercise} items={items}
+            onChangeValue={onChangeValue}
+        />
     );
 }
 

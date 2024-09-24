@@ -1,7 +1,8 @@
 import { createContext, PropsWithChildren, useState } from "react";
 import { useContext } from "react";
 import { Workout } from "@/graphql";
-import { useCreateWorkoutForm } from "@/hooks/forms/useCreateWorkoutForm";
+import { CreateWorkoutFormInput, useCreateWorkoutForm } from "@/hooks/forms/useCreateWorkoutForm";
+import { UseFormProps } from "react-hook-form";
 
 type WorkoutContextType = {
     workout: Partial<Workout> | null;
@@ -24,7 +25,11 @@ export function WorkoutProvider({ children }: PropsWithChildren<WorkoutProviderP
 
     const [workout, setWorkout] = useState<Partial<Workout> | null>(null);
 
-    const form = useCreateWorkoutForm();
+    const form = useCreateWorkoutForm({
+        defaultValues: {
+
+        }
+    });
 
     return (
         <WorkoutContext.Provider value={{
@@ -38,7 +43,7 @@ export function WorkoutProvider({ children }: PropsWithChildren<WorkoutProviderP
     )
 };
 
-export function useWorkoutForm(): ReturnType<typeof useCreateWorkoutForm> {
+export function useWorkoutForm(options?: UseFormProps<CreateWorkoutFormInput>): ReturnType<typeof useCreateWorkoutForm> {
     const { form } = useContext(WorkoutContext);
 
     if (process.env.NODE_ENV !== 'production') {

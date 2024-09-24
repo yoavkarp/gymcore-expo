@@ -2,22 +2,19 @@ import TextInput, { TextInputProps, TextInputRef } from "./ui/TextInput";
 import { useEffect, useRef, useState } from "react";
 import Text from "./ui/Text";
 import { View } from "./ui/View";
+import { ParameterInput } from "@/graphql";
 
-export type RangedValue = {
-    val?: number;
-    max?: number;
-}
 
 export type RangedInputProps = {
-    value?: RangedValue;
-    onChangeValue?: (value: RangedValue) => void;
+    value?: ParameterInput;
+    onChangeValue?: (value: ParameterInput) => void;
     onSubmitEditing?: TextInputRef['props']['onSubmitEditing']
     returnKeyType?: TextInputRef['props']['returnKeyType']
 }
 
 const RangedInput: React.FC<RangedInputProps> = (props) => {
 
-    const [value, setValue] = useState<RangedValue>(props.value || {});
+    const [value, setValue] = useState<ParameterInput>(props.value || {});
     const [valRef, maxRef] = [useRef<TextInputRef>(null), useRef<TextInputRef>(null)];
 
     useEffect(() => {

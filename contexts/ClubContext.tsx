@@ -6,15 +6,17 @@ import Modal from "@/components/ui/Modal";
 import Text from "@/components/ui/Text";
 import CreateTrainerModal from "@/components/CreateTrainerModal";
 import TrainerList from "@/components/TrainerList";
+import { useSession } from "@/auth";
 
 type ClubContextType = {
     currentTrainer: Partial<Trainer> | null;
     trainers: Partial<Trainer>[];
     isLoading: boolean;
+    tenant: Tenant | null;
+    clubId: string | null;
     setCurrentTrainer: (trainerId: string) => void;
     createTrainer: (trainer: CreateTrainerInput) => void;
     deleteTrainer: (trainerId: string) => void;
-    tenant: Tenant | null;
     setIsCreateTrainerModalVisible: (visible: boolean) => void;
     setIsTrainersListVisible: (visible: boolean) => void;
 }
@@ -24,6 +26,7 @@ const ClubContext = createContext<ClubContextType>({
     trainers: [],
     isLoading: true,
     tenant: null,
+    clubId: null,
     setCurrentTrainer: () => null,
     createTrainer: () => null,
     deleteTrainer: () => null,
@@ -43,6 +46,7 @@ export function ClubProvider({ children }: PropsWithChildren<ClubProviderProps>)
     const [tenant, setTenant] = useState<Tenant | null>(null);
     const [isCreateTrainerModalVisible, setIsCreateTrainerModalVisible] = useState(false);
     const [isTrainersListVisible, setIsTrainersListVisible] = useState(true);
+    const { session } = useSession();
 
     const { loading: loadingClubTrainers, data: clubTrainersData, error, refetch, networkStatus } = useGetClubTrainersQuery({
         onCompleted(data) {
@@ -83,6 +87,7 @@ export function ClubProvider({ children }: PropsWithChildren<ClubProviderProps>)
 
     return (
         <ClubContext.Provider value={{
+            clubId: session?.getIdToken().decodePayload().sub,
             isLoading,
             currentTrainer,
             trainers: clubTrainersData?.getClubTrainers || [],

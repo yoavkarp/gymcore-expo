@@ -8,7 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Modal from './ui/Modal';
 import { View } from './ui/View';
 
-type SearchResultItem = { title: string, value: string }
+export type SearchResultItem = { title: string, value: string }
 export type SearchModalProps = {
     items: SearchResultItem[];
     onChangeValue?: (item: SearchResultItem) => any;

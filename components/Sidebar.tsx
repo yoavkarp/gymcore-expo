@@ -59,6 +59,12 @@ const Sidebar: FunctionComponent<SidebarProps> = () => {
                 href="/library"
             />
 
+            <SidebarMenuItem
+                icon={({ style }) => <Icon style={style} name="train" size={24} />}
+                text="יצירת אימון"
+                href="/workout-form"
+            />
+
         </View>
     );
 }
