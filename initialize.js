@@ -4,7 +4,6 @@ import { polyfill as polyfillFetch } from "react-native-polyfill-globals/src/fet
 import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
 import { Amplify } from "aws-amplify";
 import config from "@/constants/aws-config";
-
 loadDevMessages();
 loadErrorMessages();
 

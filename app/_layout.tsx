@@ -1,7 +1,8 @@
 import { ApolloWrapper } from "@/components/ApolloWrapper";
 import { Slot, SplashScreen } from "expo-router";
 import { useEffect, useMemo } from "react";
-import { SafeAreaView, Text } from "react-native";
+import { I18nManager, SafeAreaView, Text, Platform } from "react-native";
+import * as Updates from 'expo-updates';
 import { AuthProvider } from "@/auth";
 import { useFonts } from 'expo-font';
 import ThemeProvider from "@/contexts/ThemeContext";
@@ -25,6 +26,14 @@ export default function RootLayout() {
 
   const appIsReady = useMemo(() => loaded || Boolean(error), [loaded])
 
+  const shouldBeRTL = true;
+
+  if (shouldBeRTL !== I18nManager.isRTL && Platform.OS !== 'web') {
+    I18nManager.allowRTL(shouldBeRTL);
+    I18nManager.forceRTL(shouldBeRTL);
+    Updates.reloadAsync();
+  }
+
   useEffect(() => {
     async function onChange() {
       if (loaded) {
@@ -34,7 +43,7 @@ export default function RootLayout() {
     onChange();
   }, [loaded])
 
-  if (!appIsReady) return null;
+  if (!loaded) return null;
 
   return (
     <AuthProvider>

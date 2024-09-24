@@ -68,15 +68,22 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($id: ID!) {
     name
     notes
     exercises {
-      id
-      xid
-      name
-      section
-      notes
-      machine_number
-      seat_height
-      sets
-      __typename
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        notes
+        machine_number
+        seat_height
+      }
     }
     trainerId
     memberId

@@ -23,6 +23,40 @@ export type Scalars = {
   AWSURL: { input: any; output: any; }
 };
 
+export type CardioExercise = {
+  __typename?: 'CardioExercise';
+  angle?: Maybe<Parameter>;
+  id: Scalars['ID']['output'];
+  intervals?: Maybe<Array<Maybe<CardioExerciseInterval>>>;
+  machine_number?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  resistance?: Maybe<Parameter>;
+  seat_height?: Maybe<Scalars['String']['output']>;
+  xid: Scalars['ID']['output'];
+};
+
+export type CardioExerciseInterval = {
+  __typename?: 'CardioExerciseInterval';
+  angle?: Maybe<Parameter>;
+  distance?: Maybe<Parameter>;
+  duration?: Maybe<Parameter>;
+  intensity?: Maybe<Parameter>;
+  resistance?: Maybe<Parameter>;
+  rest?: Maybe<Parameter>;
+  tempo?: Maybe<Parameter>;
+};
+
+export type CardioExerciseIntervalInput = {
+  angle?: InputMaybe<ParameterInput>;
+  distance?: InputMaybe<ParameterInput>;
+  duration?: InputMaybe<ParameterInput>;
+  intensity?: InputMaybe<ParameterInput>;
+  resistance?: InputMaybe<ParameterInput>;
+  rest?: InputMaybe<ParameterInput>;
+  tempo?: InputMaybe<ParameterInput>;
+};
+
 export type Club = Document & {
   __typename?: 'Club';
   address: Scalars['String']['output'];
@@ -43,21 +77,15 @@ export type ClubConnection = {
 };
 
 export type CreateExerciseInput = {
-  angle?: InputMaybe<ExerciseValueInput>;
-  distance?: InputMaybe<ExerciseValueInput>;
-  duration?: InputMaybe<ExerciseValueInput>;
-  intensity?: InputMaybe<ExerciseValueInput>;
+  angle?: InputMaybe<ParameterInput>;
+  intervals?: InputMaybe<Array<InputMaybe<CardioExerciseIntervalInput>>>;
   machine_number?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   notes?: InputMaybe<Scalars['String']['input']>;
-  reps?: InputMaybe<ExerciseValueInput>;
-  resistance?: InputMaybe<ExerciseValueInput>;
-  rest?: InputMaybe<ExerciseValueInput>;
+  resistance?: InputMaybe<ParameterInput>;
   seat_height?: InputMaybe<Scalars['String']['input']>;
   section: ExerciseSection;
-  sets?: InputMaybe<Scalars['Int']['input']>;
-  tempo?: InputMaybe<ExerciseValueInput>;
-  weight?: InputMaybe<ExerciseValueInput>;
+  sets?: InputMaybe<Array<InputMaybe<StrengthExerciseSetInput>>>;
 };
 
 export type CreateMeasurementInput = {
@@ -110,26 +138,7 @@ export type Document = {
   updated_at: Scalars['AWSDateTime']['output'];
 };
 
-export type Exercise = {
-  __typename?: 'Exercise';
-  angle?: Maybe<ExerciseValue>;
-  distance?: Maybe<ExerciseValue>;
-  duration?: Maybe<ExerciseValue>;
-  id: Scalars['ID']['output'];
-  intensity?: Maybe<ExerciseValue>;
-  machine_number?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
-  notes?: Maybe<Scalars['String']['output']>;
-  reps?: Maybe<ExerciseValue>;
-  resistance?: Maybe<ExerciseValue>;
-  rest?: Maybe<ExerciseValue>;
-  seat_height?: Maybe<Scalars['String']['output']>;
-  section: ExerciseSection;
-  sets?: Maybe<Scalars['Int']['output']>;
-  tempo?: Maybe<ExerciseValue>;
-  weight?: Maybe<ExerciseValue>;
-  xid: Scalars['ID']['output'];
-};
+export type Exercise = CardioExercise | StrengthExercise;
 
 export enum ExerciseSection {
   Cardio = 'CARDIO',
@@ -137,21 +146,6 @@ export enum ExerciseSection {
   Strength = 'STRENGTH',
   Warmup = 'WARMUP'
 }
-
-export type ExerciseValue = {
-  __typename?: 'ExerciseValue';
-  max?: Maybe<Scalars['Float']['output']>;
-  min?: Maybe<Scalars['Float']['output']>;
-  unit?: Maybe<Scalars['String']['output']>;
-  val?: Maybe<Scalars['Float']['output']>;
-};
-
-export type ExerciseValueInput = {
-  max?: InputMaybe<Scalars['Float']['input']>;
-  min?: InputMaybe<Scalars['Float']['input']>;
-  unit?: InputMaybe<Scalars['String']['input']>;
-  val?: InputMaybe<Scalars['Float']['input']>;
-};
 
 export enum Gender {
   Female = 'FEMALE',
@@ -274,6 +268,21 @@ export type MutationUpdateMemberProfileArgs = {
   input: UpdateMemberProfileInput;
 };
 
+export type Parameter = {
+  __typename?: 'Parameter';
+  max?: Maybe<Scalars['Float']['output']>;
+  min?: Maybe<Scalars['Float']['output']>;
+  unit?: Maybe<Scalars['String']['output']>;
+  val?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ParameterInput = {
+  max?: InputMaybe<Scalars['Float']['input']>;
+  min?: InputMaybe<Scalars['Float']['input']>;
+  unit?: InputMaybe<Scalars['String']['input']>;
+  val?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getClubById?: Maybe<Club>;
@@ -317,6 +326,34 @@ export type RegisterInput = {
   gender: Gender;
   name: Scalars['String']['input'];
   profile_picture?: InputMaybe<Scalars['AWSURL']['input']>;
+};
+
+export type StrengthExercise = {
+  __typename?: 'StrengthExercise';
+  angle?: Maybe<Parameter>;
+  id: Scalars['ID']['output'];
+  machine_number?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  resistance?: Maybe<Parameter>;
+  seat_height?: Maybe<Scalars['String']['output']>;
+  sets?: Maybe<Array<Maybe<StrengthExerciseSet>>>;
+  xid: Scalars['ID']['output'];
+};
+
+export type StrengthExerciseSet = {
+  __typename?: 'StrengthExerciseSet';
+  reps?: Maybe<Parameter>;
+  rest?: Maybe<Parameter>;
+  times?: Maybe<Parameter>;
+  weight?: Maybe<Parameter>;
+};
+
+export type StrengthExerciseSetInput = {
+  reps?: InputMaybe<ParameterInput>;
+  rest?: InputMaybe<ParameterInput>;
+  times?: InputMaybe<ParameterInput>;
+  weight?: InputMaybe<ParameterInput>;
 };
 
 export type Tenant = {

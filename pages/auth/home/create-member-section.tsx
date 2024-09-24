@@ -78,7 +78,7 @@ const CreateMemberSection: React.FC<CreateMemberSectionProps> = () => {
 
     const handleMemberCardPress = (member: Member) => {
         pushToMembersHistory(member)
-        router.navigate(`(member)/${member.id}` as Href)
+        router.navigate(`member/${member.id}` as Href)
     }
 
     return (

@@ -79,41 +79,60 @@ export type Workout = {
   memberId?: string | null,
 };
 
-export type Exercise = {
-  __typename: "Exercise",
+export type Exercise = StrengthExercise | CardioExercise
+
+
+export type StrengthExercise = {
+  __typename: "StrengthExercise",
   id: string,
   xid: string,
   name: string,
-  section: ExerciseSection,
   notes?: string | null,
   machine_number?: string | null,
   seat_height?: string | null,
-  angle?: ExerciseValue | null,
-  resistance?: ExerciseValue | null,
-  sets?: number | null,
-  reps?: ExerciseValue | null,
-  rest?: ExerciseValue | null,
-  weight?: ExerciseValue | null,
-  duration?: ExerciseValue | null,
-  distance?: ExerciseValue | null,
-  tempo?: ExerciseValue | null,
-  intensity?: ExerciseValue | null,
+  angle?: Parameter | null,
+  resistance?: Parameter | null,
+  sets?:  Array<StrengthExerciseSet | null > | null,
 };
 
-export enum ExerciseSection {
-  WARMUP = "WARMUP",
-  STRENGTH = "STRENGTH",
-  CARDIO = "CARDIO",
-  COOLDOWN = "COOLDOWN",
-}
-
-
-export type ExerciseValue = {
-  __typename: "ExerciseValue",
+export type Parameter = {
+  __typename: "Parameter",
   min?: number | null,
   max?: number | null,
   val?: number | null,
   unit?: string | null,
+};
+
+export type StrengthExerciseSet = {
+  __typename: "StrengthExerciseSet",
+  reps?: Parameter | null,
+  rest?: Parameter | null,
+  weight?: Parameter | null,
+  times?: Parameter | null,
+};
+
+export type CardioExercise = {
+  __typename: "CardioExercise",
+  id: string,
+  xid: string,
+  name: string,
+  notes?: string | null,
+  machine_number?: string | null,
+  seat_height?: string | null,
+  angle?: Parameter | null,
+  resistance?: Parameter | null,
+  intervals?:  Array<CardioExerciseInterval | null > | null,
+};
+
+export type CardioExerciseInterval = {
+  __typename: "CardioExerciseInterval",
+  duration?: Parameter | null,
+  distance?: Parameter | null,
+  tempo?: Parameter | null,
+  intensity?: Parameter | null,
+  angle?: Parameter | null,
+  resistance?: Parameter | null,
+  rest?: Parameter | null,
 };
 
 export type Member = {
@@ -193,23 +212,42 @@ export type CreateExerciseInput = {
   notes?: string | null,
   machine_number?: string | null,
   seat_height?: string | null,
-  angle?: ExerciseValueInput | null,
-  resistance?: ExerciseValueInput | null,
-  sets?: number | null,
-  reps?: ExerciseValueInput | null,
-  rest?: ExerciseValueInput | null,
-  weight?: ExerciseValueInput | null,
-  duration?: ExerciseValueInput | null,
-  distance?: ExerciseValueInput | null,
-  tempo?: ExerciseValueInput | null,
-  intensity?: ExerciseValueInput | null,
+  angle?: ParameterInput | null,
+  resistance?: ParameterInput | null,
+  sets?: Array< StrengthExerciseSetInput | null > | null,
+  intervals?: Array< CardioExerciseIntervalInput | null > | null,
 };
 
-export type ExerciseValueInput = {
+export enum ExerciseSection {
+  WARMUP = "WARMUP",
+  STRENGTH = "STRENGTH",
+  CARDIO = "CARDIO",
+  COOLDOWN = "COOLDOWN",
+}
+
+
+export type ParameterInput = {
   min?: number | null,
   max?: number | null,
   val?: number | null,
   unit?: string | null,
+};
+
+export type StrengthExerciseSetInput = {
+  reps?: ParameterInput | null,
+  rest?: ParameterInput | null,
+  weight?: ParameterInput | null,
+  times?: ParameterInput | null,
+};
+
+export type CardioExerciseIntervalInput = {
+  duration?: ParameterInput | null,
+  distance?: ParameterInput | null,
+  tempo?: ParameterInput | null,
+  intensity?: ParameterInput | null,
+  angle?: ParameterInput | null,
+  resistance?: ParameterInput | null,
+  rest?: ParameterInput | null,
 };
 
 export type RegisterInput = {
@@ -368,17 +406,24 @@ export type CreateWorkoutMutation = {
     updated_at: string,
     name: string,
     notes?: string | null,
-    exercises:  Array< {
-      __typename: "Exercise",
-      id: string,
-      xid: string,
-      name: string,
-      section: ExerciseSection,
-      notes?: string | null,
-      machine_number?: string | null,
-      seat_height?: string | null,
-      sets?: number | null,
-    } >,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) >,
     trainerId: string,
     memberId?: string | null,
   } | null,
@@ -557,17 +602,24 @@ export type GetWorkoutByIdQuery = {
     updated_at: string,
     name: string,
     notes?: string | null,
-    exercises:  Array< {
-      __typename: "Exercise",
-      id: string,
-      xid: string,
-      name: string,
-      section: ExerciseSection,
-      notes?: string | null,
-      machine_number?: string | null,
-      seat_height?: string | null,
-      sets?: number | null,
-    } >,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) >,
     trainerId: string,
     memberId?: string | null,
   } | null,

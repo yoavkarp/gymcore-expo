@@ -12,7 +12,7 @@ projects:
         generatedFileName: appsync/API.ts
         docsFilePath: appsync
         region: eu-central-1
-        apiId: jmzn3anqr5fybnowrnec2j6i3m
+        apiId: j6c6oyngdvbivcc6z7vla5hicq
         frontend: javascript
         framework: react-native
         maxDepth: 2

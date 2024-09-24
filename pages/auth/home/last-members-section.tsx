@@ -15,7 +15,7 @@ const LastMembers: React.FC<LastMembersProps> = () => {
     const [membersHistory] = useMembersHistory();
 
     const handleMemberCardPress = (member: Member) => {
-        router.navigate(`(member)/${member.id}` as Href)
+        router.navigate(`member/${member.id}` as Href)
     }
 
     return (
