@@ -1,6 +1,6 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Text from './ui/Text';
 import TextInput, { TextInputRef } from './ui/TextInput';
@@ -54,6 +54,12 @@ const SearchModal: React.FC<SearchModalProps> = (props) => {
         props.onChangeValue?.(item);
         setIsVisible(false);
     };
+
+    useEffect(() => {
+        console.log(props.defaultValue)
+        console.log(props.items.find((item) => props.defaultValue === item.value))
+        setSelectedOption(props.items.find((item) => props.defaultValue === item.value));
+    }, [props.defaultValue, props.items])
 
     return (
         <View style={_styles.container}>

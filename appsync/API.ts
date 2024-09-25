@@ -92,14 +92,13 @@ export type StrengthExercise = {
   seat_height?: string | null,
   angle?: Parameter | null,
   resistance?: Parameter | null,
-  sets?:  Array<StrengthExerciseSet | null > | null,
+  sets:  Array<StrengthExerciseSet | null >,
 };
 
 export type Parameter = {
   __typename: "Parameter",
-  min?: number | null,
-  max?: number | null,
   val?: number | null,
+  max?: number | null,
   unit?: string | null,
 };
 
@@ -121,7 +120,7 @@ export type CardioExercise = {
   seat_height?: string | null,
   angle?: Parameter | null,
   resistance?: Parameter | null,
-  intervals?:  Array<CardioExerciseInterval | null > | null,
+  intervals:  Array<CardioExerciseInterval | null >,
 };
 
 export type CardioExerciseInterval = {
@@ -206,6 +205,8 @@ export type CreateWorkoutInput = {
 };
 
 export type CreateExerciseInput = {
+  id: string,
+  xid: string,
   name: string,
   type: ExerciseType,
   notes?: string | null,
@@ -224,9 +225,8 @@ export enum ExerciseType {
 
 
 export type ParameterInput = {
-  min?: number | null,
-  max?: number | null,
   val?: number | null,
+  max?: number | null,
   unit?: string | null,
 };
 

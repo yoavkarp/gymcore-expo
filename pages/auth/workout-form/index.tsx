@@ -4,10 +4,10 @@ import CreateWorkoutForm from "./create-workout-form";
 import { useWorkoutForm } from "@/contexts/WorkoutContext";
 import MainWorkoutScreen from "./main-screen";
 import Modal from "@/components/ui/Modal";
-import Button, { ButtonRef } from "@/components/ui/Button";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { Href, router, useNavigation } from "expo-router";
-import { EventArg, EventListenerCallback, EventMapCore, NavigationAction } from "@react-navigation/native";
+import Button from "@/components/ui/Button";
+import { useEffect, useState } from "react";
+import { useNavigation } from "expo-router";
+import { EventArg, NavigationAction } from "@react-navigation/native";
 
 interface WorkoutFormPageProps {
 

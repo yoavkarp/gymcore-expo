@@ -5,7 +5,7 @@ import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import { View, TouchableOpacity, Modal, FlatList, StyleSheet, ViewProps, ViewStyle } from 'react-native';
 import Text from './Text';
 
-type SelectItem = { title: string, value: string }
+export type SelectItem = { title: string, value: string }
 export type SelectProps = {
     items: SelectItem[];
     onChangeValue?: (item: SelectItem) => void;

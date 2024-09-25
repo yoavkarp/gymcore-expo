@@ -27,7 +27,7 @@ export type CardioExercise = {
   __typename?: 'CardioExercise';
   angle?: Maybe<Parameter>;
   id: Scalars['ID']['output'];
-  intervals?: Maybe<Array<Maybe<CardioExerciseInterval>>>;
+  intervals: Array<Maybe<CardioExerciseInterval>>;
   machine_number?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
@@ -79,6 +79,7 @@ export type ClubConnection = {
 
 export type CreateExerciseInput = {
   angle?: InputMaybe<ParameterInput>;
+  id: Scalars['ID']['input'];
   intervals?: InputMaybe<Array<InputMaybe<CardioExerciseIntervalInput>>>;
   machine_number?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
@@ -87,6 +88,7 @@ export type CreateExerciseInput = {
   seat_height?: InputMaybe<Scalars['String']['input']>;
   sets?: InputMaybe<Array<InputMaybe<StrengthExerciseSetInput>>>;
   type: ExerciseType;
+  xid: Scalars['ID']['input'];
 };
 
 export type CreateMeasurementInput = {
@@ -269,14 +271,12 @@ export type MutationUpdateMemberProfileArgs = {
 export type Parameter = {
   __typename?: 'Parameter';
   max?: Maybe<Scalars['Float']['output']>;
-  min?: Maybe<Scalars['Float']['output']>;
   unit?: Maybe<Scalars['String']['output']>;
   val?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ParameterInput = {
   max?: InputMaybe<Scalars['Float']['input']>;
-  min?: InputMaybe<Scalars['Float']['input']>;
   unit?: InputMaybe<Scalars['String']['input']>;
   val?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -335,7 +335,7 @@ export type StrengthExercise = {
   notes?: Maybe<Scalars['String']['output']>;
   resistance?: Maybe<Parameter>;
   seat_height?: Maybe<Scalars['String']['output']>;
-  sets?: Maybe<Array<Maybe<StrengthExerciseSet>>>;
+  sets: Array<Maybe<StrengthExerciseSet>>;
   xid: Scalars['ID']['output'];
 };
 

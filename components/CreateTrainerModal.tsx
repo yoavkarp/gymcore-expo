@@ -12,18 +12,20 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import { StyleSheet } from "react-native";
 
-const genders = [{
-    value: "MALE",
-    title: "זכר"
-},
-{
-    value: "FEMALE",
-    title: "נקבה"
-},
-{
-    value: "OTHER",
-    title: "אחר"
-}]
+const genders = [
+    {
+        value: "MALE",
+        title: "זכר"
+    },
+    {
+        value: "FEMALE",
+        title: "נקבה"
+    },
+    {
+        value: "OTHER",
+        title: "אחר"
+    }
+]
 
 
 interface CreateTrainerModalProps {
