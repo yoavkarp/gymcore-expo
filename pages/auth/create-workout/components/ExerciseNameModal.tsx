@@ -28,7 +28,7 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
     useImperativeHandle(ref, () => {
         return {
             open: (exerciseId) => {
-                const exerciseIndex = getValues("exercises").findIndex((exercise) => exercise.id === exerciseId);
+                const exerciseIndex = getValues("exercises")?.findIndex((exercise) => exercise.id === exerciseId);
                 setOpenProps({ exerciseIndex });
 
                 setVisible(true);

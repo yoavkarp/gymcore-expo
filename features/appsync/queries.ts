@@ -59,10 +59,11 @@ export const getTenant = /* GraphQL */ `query GetTenant {
   }
 }
 ` as GeneratedQuery<APITypes.GetTenantQueryVariables, APITypes.GetTenantQuery>;
-export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($id: ID!) {
-  getWorkoutById(id: $id) {
+export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID!) {
+  getWorkoutById(workoutId: $workoutId) {
     id
     tenantId
+    clubId
     created_at
     updated_at
     name

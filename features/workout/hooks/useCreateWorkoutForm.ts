@@ -5,20 +5,17 @@ import { z } from "zod";
 import { createExerciseSchema } from "./useCreateExerciseForm";
 
 export const createWorkoutSchema = z.object({
-    clubId: z.string().trim().uuid(),
-    exercises: z.array(createExerciseSchema),
-    exercisesOrder: z.array(z.string().trim().uuid()).default([]),
-    memberId: z.string().trim().uuid().or(z.undefined()).optional(),
+    exercises: z.array(createExerciseSchema).default([]),
     name: z.string().trim().min(1).max(255),
     notes: z.string().trim().max(255).or(z.undefined()).optional(),
-    trainerId: z.string().trim().uuid()
 })
 
 export type CreateWorkoutFormInput = z.infer<typeof createWorkoutSchema>;
 
 export const useCreateWorkoutForm = (options?: UseFormProps<CreateWorkoutFormInput>) => {
     const form = useForm<CreateWorkoutFormInput>({
-        resolver: zodResolver(createWorkoutSchema)
+        resolver: zodResolver(createWorkoutSchema),
+        ...options
     });
     return form;
 }

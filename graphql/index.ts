@@ -309,7 +309,7 @@ export type QueryGetTrainerByIdArgs = {
 
 
 export type QueryGetWorkoutByIdArgs = {
-  id: Scalars['ID']['input'];
+  workoutId: Scalars['ID']['input'];
 };
 
 
@@ -398,6 +398,7 @@ export type UpdateMemberProfileInput = {
 
 export type Workout = Document & {
   __typename?: 'Workout';
+  clubId: Scalars['ID']['output'];
   created_at: Scalars['AWSDateTime']['output'];
   exercises: Array<Exercise>;
   id: Scalars['ID']['output'];
@@ -456,6 +457,13 @@ export type CreateWorkoutMutationVariables = Exact<{
 
 
 export type CreateWorkoutMutation = { __typename?: 'Mutation', createWorkout?: { __typename?: 'Workout', id: string } | null };
+
+export type GetWorkoutByIdQueryVariables = Exact<{
+  workoutId: Scalars['ID']['input'];
+}>;
+
+
+export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', name: string } | null };
 
 
 export const CreateMeasurementForMemberDocument = gql`
@@ -737,3 +745,43 @@ export function useCreateWorkoutMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateWorkoutMutationHookResult = ReturnType<typeof useCreateWorkoutMutation>;
 export type CreateWorkoutMutationResult = Apollo.MutationResult<CreateWorkoutMutation>;
 export type CreateWorkoutMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutMutation, CreateWorkoutMutationVariables>;
+export const GetWorkoutByIdDocument = gql`
+    query GetWorkoutById($workoutId: ID!) {
+  getWorkoutById(workoutId: $workoutId) {
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetWorkoutByIdQuery__
+ *
+ * To run a query within a React component, call `useGetWorkoutByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWorkoutByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWorkoutByIdQuery({
+ *   variables: {
+ *      workoutId: // value for 'workoutId'
+ *   },
+ * });
+ */
+export function useGetWorkoutByIdQuery(baseOptions: Apollo.QueryHookOptions<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables> & ({ variables: GetWorkoutByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>(GetWorkoutByIdDocument, options);
+      }
+export function useGetWorkoutByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>(GetWorkoutByIdDocument, options);
+        }
+export function useGetWorkoutByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>(GetWorkoutByIdDocument, options);
+        }
+export type GetWorkoutByIdQueryHookResult = ReturnType<typeof useGetWorkoutByIdQuery>;
+export type GetWorkoutByIdLazyQueryHookResult = ReturnType<typeof useGetWorkoutByIdLazyQuery>;
+export type GetWorkoutByIdSuspenseQueryHookResult = ReturnType<typeof useGetWorkoutByIdSuspenseQuery>;
+export type GetWorkoutByIdQueryResult = Apollo.QueryResult<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>;

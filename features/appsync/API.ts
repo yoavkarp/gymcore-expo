@@ -70,11 +70,12 @@ export type Workout = {
   __typename: "Workout",
   id: string,
   tenantId: string,
+  clubId: string,
   created_at: string,
   updated_at: string,
   name: string,
   notes?: string | null,
-  exercises: Array<Exercise>,
+  exercises:  Array<Exercise >,
   trainerId: string,
   memberId?: string | null,
 };
@@ -92,7 +93,7 @@ export type StrengthExercise = {
   seat_height?: string | null,
   angle?: Parameter | null,
   resistance?: Parameter | null,
-  sets: Array<StrengthExerciseSet | null>,
+  sets:  Array<StrengthExerciseSet | null >,
 };
 
 export type Parameter = {
@@ -120,7 +121,7 @@ export type CardioExercise = {
   seat_height?: string | null,
   angle?: Parameter | null,
   resistance?: Parameter | null,
-  intervals: Array<CardioExerciseInterval | null>,
+  intervals:  Array<CardioExerciseInterval | null >,
 };
 
 export type CardioExerciseInterval = {
@@ -199,7 +200,7 @@ export type CreateTrainerInput = {
 export type CreateWorkoutInput = {
   name: string,
   notes?: string | null,
-  exercises: Array<CreateExerciseInput>,
+  exercises: Array< CreateExerciseInput >,
   trainerId: string,
   memberId?: string | null,
 };
@@ -214,8 +215,8 @@ export type CreateExerciseInput = {
   seat_height?: string | null,
   angle?: ParameterInput | null,
   resistance?: ParameterInput | null,
-  sets?: Array<StrengthExerciseSetInput | null> | null,
-  intervals?: Array<CardioExerciseIntervalInput | null> | null,
+  sets?: Array< StrengthExerciseSetInput | null > | null,
+  intervals?: Array< CardioExerciseIntervalInput | null > | null,
 };
 
 export enum ExerciseType {
@@ -284,7 +285,7 @@ export type CreateMeasurementMutationVariables = {
 };
 
 export type CreateMeasurementMutation = {
-  createMeasurement?: {
+  createMeasurement?:  {
     __typename: "Measurement",
     id: string,
     tenantId: string,
@@ -305,7 +306,7 @@ export type CreateMeasurementForMemberMutationVariables = {
 };
 
 export type CreateMeasurementForMemberMutation = {
-  createMeasurementForMember?: {
+  createMeasurementForMember?:  {
     __typename: "Measurement",
     id: string,
     tenantId: string,
@@ -325,7 +326,7 @@ export type CreateMemberMutationVariables = {
 };
 
 export type CreateMemberMutation = {
-  createMember?: {
+  createMember?:  {
     __typename: "Member",
     id: string,
     tenantId: string,
@@ -340,7 +341,7 @@ export type CreateMemberMutation = {
     gender?: string | null,
     registered?: boolean | null,
     status?: string | null,
-    measurement?: {
+    measurement?:  {
       __typename: "Measurement",
       id: string,
       tenantId: string,
@@ -353,7 +354,7 @@ export type CreateMemberMutation = {
       fat?: number | null,
       heart_rate?: number | null,
     } | null,
-    goal?: {
+    goal?:  {
       __typename: "Goal",
       id: string,
       tenantId: string,
@@ -377,7 +378,7 @@ export type CreateTrainerMutationVariables = {
 };
 
 export type CreateTrainerMutation = {
-  createTrainer?: {
+  createTrainer?:  {
     __typename: "Trainer",
     id: string,
     tenantId: string,
@@ -397,32 +398,33 @@ export type CreateWorkoutMutationVariables = {
 };
 
 export type CreateWorkoutMutation = {
-  createWorkout?: {
+  createWorkout?:  {
     __typename: "Workout",
     id: string,
     tenantId: string,
+    clubId: string,
     created_at: string,
     updated_at: string,
     name: string,
     notes?: string | null,
-    exercises: Array<({
-      __typename: "StrengthExercise",
-      id: string,
-      xid: string,
-      name: string,
-      notes?: string | null,
-      machine_number?: string | null,
-      seat_height?: string | null,
-    } | {
-      __typename: "CardioExercise",
-      id: string,
-      xid: string,
-      name: string,
-      notes?: string | null,
-      machine_number?: string | null,
-      seat_height?: string | null,
-    }
-    )>,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) >,
     trainerId: string,
     memberId?: string | null,
   } | null,
@@ -433,7 +435,7 @@ export type RegisterMutationVariables = {
 };
 
 export type RegisterMutation = {
-  register?: {
+  register?:  {
     __typename: "Member",
     id: string,
     tenantId: string,
@@ -448,7 +450,7 @@ export type RegisterMutation = {
     gender?: string | null,
     registered?: boolean | null,
     status?: string | null,
-    measurement?: {
+    measurement?:  {
       __typename: "Measurement",
       id: string,
       tenantId: string,
@@ -461,7 +463,7 @@ export type RegisterMutation = {
       fat?: number | null,
       heart_rate?: number | null,
     } | null,
-    goal?: {
+    goal?:  {
       __typename: "Goal",
       id: string,
       tenantId: string,
@@ -485,7 +487,7 @@ export type UpdateMemberProfileMutationVariables = {
 };
 
 export type UpdateMemberProfileMutation = {
-  updateMemberProfile?: {
+  updateMemberProfile?:  {
     __typename: "Member",
     id: string,
     tenantId: string,
@@ -500,7 +502,7 @@ export type UpdateMemberProfileMutation = {
     gender?: string | null,
     registered?: boolean | null,
     status?: string | null,
-    measurement?: {
+    measurement?:  {
       __typename: "Measurement",
       id: string,
       tenantId: string,
@@ -513,7 +515,7 @@ export type UpdateMemberProfileMutation = {
       fat?: number | null,
       heart_rate?: number | null,
     } | null,
-    goal?: {
+    goal?:  {
       __typename: "Goal",
       id: string,
       tenantId: string,
@@ -537,7 +539,7 @@ export type GetClubByIdQueryVariables = {
 };
 
 export type GetClubByIdQuery = {
-  getClubById?: {
+  getClubById?:  {
     __typename: "Club",
     id: string,
     tenantId: string,
@@ -556,7 +558,7 @@ export type GetTrainerByIdQueryVariables = {
 };
 
 export type GetTrainerByIdQuery = {
-  getTrainerById?: {
+  getTrainerById?:  {
     __typename: "Trainer",
     id: string,
     tenantId: string,
@@ -575,7 +577,7 @@ export type GetTenantQueryVariables = {
 };
 
 export type GetTenantQuery = {
-  getTenant?: {
+  getTenant?:  {
     __typename: "Tenant",
     id: string,
     name: string,
@@ -589,36 +591,37 @@ export type GetTenantQuery = {
 };
 
 export type GetWorkoutByIdQueryVariables = {
-  id: string,
+  workoutId: string,
 };
 
 export type GetWorkoutByIdQuery = {
-  getWorkoutById?: {
+  getWorkoutById?:  {
     __typename: "Workout",
     id: string,
     tenantId: string,
+    clubId: string,
     created_at: string,
     updated_at: string,
     name: string,
     notes?: string | null,
-    exercises: Array<({
-      __typename: "StrengthExercise",
-      id: string,
-      xid: string,
-      name: string,
-      notes?: string | null,
-      machine_number?: string | null,
-      seat_height?: string | null,
-    } | {
-      __typename: "CardioExercise",
-      id: string,
-      xid: string,
-      name: string,
-      notes?: string | null,
-      machine_number?: string | null,
-      seat_height?: string | null,
-    }
-    )>,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) >,
     trainerId: string,
     memberId?: string | null,
   } | null,
@@ -628,7 +631,7 @@ export type GetClubTrainersQueryVariables = {
 };
 
 export type GetClubTrainersQuery = {
-  getClubTrainers?: Array<{
+  getClubTrainers?:  Array< {
     __typename: "Trainer",
     id: string,
     tenantId: string,
@@ -640,7 +643,7 @@ export type GetClubTrainersQuery = {
     birthdate: string,
     gender: Gender,
     address?: string | null,
-  }> | null,
+  } > | null,
 };
 
 export type GetMemberByIdQueryVariables = {
@@ -648,7 +651,7 @@ export type GetMemberByIdQueryVariables = {
 };
 
 export type GetMemberByIdQuery = {
-  getMemberById?: {
+  getMemberById?:  {
     __typename: "Member",
     id: string,
     tenantId: string,
@@ -663,7 +666,7 @@ export type GetMemberByIdQuery = {
     gender?: string | null,
     registered?: boolean | null,
     status?: string | null,
-    measurement?: {
+    measurement?:  {
       __typename: "Measurement",
       id: string,
       tenantId: string,
@@ -676,7 +679,7 @@ export type GetMemberByIdQuery = {
       fat?: number | null,
       heart_rate?: number | null,
     } | null,
-    goal?: {
+    goal?:  {
       __typename: "Goal",
       id: string,
       tenantId: string,
@@ -700,7 +703,7 @@ export type SearchMembersQueryVariables = {
 };
 
 export type SearchMembersQuery = {
-  searchMembers?: Array<{
+  searchMembers?:  Array< {
     __typename: "Member",
     id: string,
     tenantId: string,
@@ -715,7 +718,7 @@ export type SearchMembersQuery = {
     gender?: string | null,
     registered?: boolean | null,
     status?: string | null,
-    measurement?: {
+    measurement?:  {
       __typename: "Measurement",
       id: string,
       tenantId: string,
@@ -728,7 +731,7 @@ export type SearchMembersQuery = {
       fat?: number | null,
       heart_rate?: number | null,
     } | null,
-    goal?: {
+    goal?:  {
       __typename: "Goal",
       id: string,
       tenantId: string,
@@ -744,5 +747,5 @@ export type SearchMembersQuery = {
       completed?: boolean | null,
       completed_at?: string | null,
     } | null,
-  } | null> | null,
+  } | null > | null,
 };

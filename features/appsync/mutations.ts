@@ -123,6 +123,7 @@ export const createWorkout = /* GraphQL */ `mutation CreateWorkout($input: Creat
   createWorkout(input: $input) {
     id
     tenantId
+    clubId
     created_at
     updated_at
     name

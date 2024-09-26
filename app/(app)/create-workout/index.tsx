@@ -1,3 +1,3 @@
-import WorkoutPage from "@/pages/auth/workout";
+import CreateWorkoutPage from "@/pages/auth/create-workout";
 
-export default WorkoutPage;
+export default CreateWorkoutPage;

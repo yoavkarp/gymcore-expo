@@ -63,7 +63,6 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect }) => {
                                 onChangeSelect(exerciseId)
                             }}
                             onPressDelete={() => yesNoDialogRef.current?.open(() => {
-                                setValue(`exercisesOrder`, (getValues('exercisesOrder') || []).filter((id) => id !== item?.id));
                                 setValue(`exercises`, getValues('exercises').filter((exercise) => exercise.id !== item?.id));
                                 setSelectedExerciseId(null)
                                 onChangeSelect(null);

@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "get-schema": "npx @aws-amplify/cli codegen",
+    "appsync": "ts-node scripts/appsync.ts",
     "codegen": "graphql-codegen --config codegen.config.ts"
   },
   "jest": {

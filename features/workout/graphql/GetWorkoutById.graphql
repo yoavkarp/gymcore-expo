@@ -1,0 +1,5 @@
+query GetWorkoutById($workoutId: ID!) {
+    getWorkoutById(workoutId: $workoutId) {
+        name
+    }
+}

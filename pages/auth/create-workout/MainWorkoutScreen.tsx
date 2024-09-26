@@ -10,6 +10,8 @@ import React from "react";
 import ExerciseList from "./components/ExerciseList";
 import { CreateExerciseInput, ExerciseType } from "@/graphql";
 import StrengthExerciseForm from "./components/StrengthExerciseForm";
+import Button from "@/components/ui/Button";
+import { useClub } from "@/features/club";
 
 const exerciseTypes = [{
     title: "קרדיו",
@@ -24,11 +26,14 @@ interface MainWorkoutScreenProps {
 }
 
 const MainWorkoutScreen: React.FC<MainWorkoutScreenProps> = () => {
-    const { control, watch, setValue } = useCreateWorkout();
+    const { control, watch, setValue, submitForm, formState: { errors, isSubmitSuccessful } } = useCreateWorkout();
     const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
 
-    const [exercises] = [watch("exercises")];
-    const selectedExercise = useMemo(() => exercises.find((exercise) => exercise.id === selectedExerciseId), [selectedExerciseId])
+    const exercises = watch("exercises");
+    const selectedExercise = exercises?.find((exercise) => exercise.id === selectedExerciseId)
+
+    const { currentTrainer } = useClub();
+
 
     return (
         <View style={{ padding: 8 }}>
@@ -50,6 +55,10 @@ const MainWorkoutScreen: React.FC<MainWorkoutScreenProps> = () => {
                     <View>
                         <Label>רשימת תרגילים</Label>
                         <ExerciseList onChangeSelect={setSelectedExerciseId} />
+                        <Button onPress={submitForm(currentTrainer?.id!)}>סיום</Button>
+                        <Text>
+                            {JSON.stringify(errors, null, 2)}
+                        </Text>
                     </View>
                 </View>
                 {selectedExercise && <View style={{ flexBasis: "48%", paddingTop: 10 }}>

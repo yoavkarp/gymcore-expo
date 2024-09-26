@@ -6,9 +6,9 @@ import { createSetSchema } from "./useCreateSetForm";
 import { createIntervalSchema } from "./useCreateIntervalForm";
 
 export const createExerciseSchema = z.object({
-    id: z.string().trim().uuid().optional(),
+    id: z.string().trim().uuid(),
     xid: z.string().trim().uuid(),
-    type: z.enum(Object.values(ExerciseType) as [string, ...string[]]),
+    type: z.enum(Object.values(ExerciseType) as [string, ...string[]]) as z.ZodEnum<[ExerciseType.Cardio | ExerciseType.Strength, ...(ExerciseType.Cardio | ExerciseType.Strength)[]]>,
     angle: createParameterInputSchema.optional(),
     machine_number: z.string().trim().min(1).max(255).optional(),
     name: z.string().trim().min(1).max(255),
@@ -44,7 +44,7 @@ export const createExerciseSchema = z.object({
         return true;
     }, { message: "אתה חייב להגדיר סטים או אינטרוולים" })
 
-export type CreateExerciseFormInput = z.infer<typeof createExerciseSchema>;
+export type CreateExerciseFormInput = z.infer<typeof createExerciseSchema>
 
 export const useCreateExerciseForm = (options?: UseFormProps<CreateExerciseFormInput>) => {
     const form = useForm<CreateExerciseFormInput>(options);

@@ -6,7 +6,7 @@ export const createSetSchema = z.object({
     id: z.string().trim().uuid(),
     reps: z.preprocess((val) => ['undefined', 'null'].includes(typeof (val)) ? undefined : Object.keys(val as any).length === 0 ? undefined : val, createParameterInputSchema.optional()),
     rest: z.preprocess((val) => ['undefined', 'null'].includes(typeof (val)) ? undefined : Object.keys(val as any).length === 0 ? undefined : val, createParameterInputSchema.optional()),
-    times: z.number().optional(),
+    // times: z.number().optional(),
     weight: z.preprocess((val) => ['undefined', 'null'].includes(typeof (val)) ? undefined : Object.keys(val as any).length === 0 ? undefined : val, createParameterInputSchema.optional()),
 })
     .refine(data => {
