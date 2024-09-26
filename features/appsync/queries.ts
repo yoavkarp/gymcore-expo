@@ -76,6 +76,11 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
         notes
         machine_number
         seat_height
+        sets {
+          reps { ...ParameterFragment }
+          weight { ...ParameterFragment }
+          rest { ...ParameterFragment }
+        }
       }
       ... on CardioExercise {
         id
@@ -84,6 +89,15 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
         notes
         machine_number
         seat_height
+        intervals {
+          duration { ...ParameterFragment }
+          distance { ...ParameterFragment }
+          tempo { ...ParameterFragment }
+          intensity { ...ParameterFragment }
+          angle { ...ParameterFragment }
+          resistance { ...ParameterFragment }
+          rest { ...ParameterFragment }
+        }
       }
     }
     trainerId
