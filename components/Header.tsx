@@ -1,11 +1,9 @@
-import { useSession } from "@/auth";
-import { useApolloClient } from "@apollo/client";
-import { Href, useNavigation, useRootNavigationState, useRouter, usePathname } from "expo-router";
+import { useSession } from "@/features/auth";
+import { useRouter } from "expo-router";
 import { FunctionComponent } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Text from "./ui/Text";
-import { Breadcrumbs } from "./Breadcrumbs";
-import { useClub } from "@/contexts/ClubContext";
+import { useClub } from "@/features/club";
 import Label from "./ui/Label";
 import { useTheme } from "@/contexts/ThemeContext";
 import Button from "./ui/Button";

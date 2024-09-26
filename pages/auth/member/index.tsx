@@ -2,10 +2,10 @@ import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
 import { useGetMemberByIdQuery } from "@/graphql";
-import MemberDetailsCard from "./member-details";
-import MemberMeasurementsCard from "./member-measurements";
-import MemberPlanSection from "./member-plan-section";
-import MemberProfileWorkoutsSection from "./member-profile-workouts-section";
+import MemberDetailsCard from "./components/MemberDetailsCard";
+import MemberMeasurementsCard from "./components/MemberMeasurementsCard";
+import MemberPlanSection from "./components/MemberPlanSection";
+import MemberProfileWorkoutsSection from "./components/MemberProfileWorkoutsSection";
 
 interface MemberPageProps {
     memberId: string

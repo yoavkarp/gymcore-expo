@@ -1,5 +1,5 @@
-import CreateMemberSection from "@/pages/auth/home/create-member-section";
-import LastMembers from "@/pages/auth/home/last-members-section";
+import MembersSection from "./components/MembersSection";
+import MembersHistorySection from "./components/MembersHistorySection";
 import { View } from "@/components/ui/View";
 
 interface HomePageProps {
@@ -9,8 +9,8 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = () => {
     return (
         <View style={{ flex: 1, gap: 50, flexDirection: 'row' }}>
-            <CreateMemberSection />
-            <LastMembers />
+            <MembersSection />
+            <MembersHistorySection />
         </View>
     );
 }

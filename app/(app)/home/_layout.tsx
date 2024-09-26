@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import Text from "@/components/ui/Text";
 import HomePage from ".";
-import MembersHistoryProvider from "@/contexts/MembersHistoryContext";
+import { MembersHistoryProvider } from "@/features/members";
 import { Slot } from "expo-router";
 interface HomePageProps {
 

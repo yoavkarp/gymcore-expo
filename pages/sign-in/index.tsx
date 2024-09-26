@@ -1,8 +1,8 @@
-import { SignInFormValues, useSignInForm } from "@/hooks/forms/useSignInForm";
+import { SignInFormValues, useSignInForm } from "./hooks/useSignInForm";
 import { Controller } from 'react-hook-form'
-import React, { createRef, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { router } from "expo-router";
-import { useSession } from "@/auth";
+import { useSession } from "@/features/auth";
 import TextInput, { TextInputRef } from "@/components/ui/TextInput";
 import Text from "@/components/ui/Text";
 import Label from "@/components/ui/Label";

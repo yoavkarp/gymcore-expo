@@ -15,12 +15,12 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  AWSDate: { input: any; output: any; }
-  AWSDateTime: { input: any; output: any; }
-  AWSEmail: { input: any; output: any; }
-  AWSJSON: { input: any; output: any; }
+  AWSDate: { input: string; output: string; }
+  AWSDateTime: { input: string; output: string; }
+  AWSEmail: { input: string; output: string; }
+  AWSJSON: { input: { [x: string]: any }; output: { [x: string]: any }; }
   AWSPhone: { input: string; output: string; }
-  AWSURL: { input: any; output: any; }
+  AWSURL: { input: string; output: string; }
 };
 
 export type CardioExercise = {
@@ -417,24 +417,45 @@ export type CreateMeasurementForMemberMutationVariables = Exact<{
 
 export type CreateMeasurementForMemberMutation = { __typename?: 'Mutation', createMeasurementForMember?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null };
 
-export type CreateTrainerMutationVariables = Exact<{
-  input: CreateTrainerInput;
+export type CreateMemberMutationVariables = Exact<{
+  input: CreateMemberInput;
 }>;
 
 
-export type CreateTrainerMutation = { __typename?: 'Mutation', createTrainer?: { __typename?: 'Trainer', id: string, name: string, email?: any | null, phone_number: string } | null };
-
-export type GetClubTrainersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetClubTrainersQuery = { __typename?: 'Query', getClubTrainers?: Array<{ __typename?: 'Trainer', id: string, name: string, email?: any | null, phone_number: string }> | null };
+export type CreateMemberMutation = { __typename?: 'Mutation', createMember?: { __typename?: 'Member', id: string, name?: string | null, phone_number?: string | null } | null };
 
 export type GetMemberByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GetMemberByIdQuery = { __typename?: 'Query', getMemberById?: { __typename?: 'Member', id: string, name?: string | null, phone_number?: string | null, email?: any | null, created_at: any, gender?: string | null, birthdate?: any | null, address?: string | null, measurement?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null } | null };
+export type GetMemberByIdQuery = { __typename?: 'Query', getMemberById?: { __typename?: 'Member', id: string, name?: string | null, phone_number?: string | null, email?: string | null, created_at: string, gender?: string | null, birthdate?: string | null, address?: string | null, measurement?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null } | null };
+
+export type SearchMembersQueryVariables = Exact<{
+  text: Scalars['String']['input'];
+}>;
+
+
+export type SearchMembersQuery = { __typename?: 'Query', searchMembers?: Array<{ __typename?: 'Member', id: string, name?: string | null, phone_number?: string | null, email?: string | null } | null> | null };
+
+export type CreateTrainerMutationVariables = Exact<{
+  input: CreateTrainerInput;
+}>;
+
+
+export type CreateTrainerMutation = { __typename?: 'Mutation', createTrainer?: { __typename?: 'Trainer', id: string, name: string, email?: string | null, phone_number: string } | null };
+
+export type GetClubTrainersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetClubTrainersQuery = { __typename?: 'Query', getClubTrainers?: Array<{ __typename?: 'Trainer', id: string, name: string, email?: string | null, phone_number: string }> | null };
+
+export type CreateWorkoutMutationVariables = Exact<{
+  input: CreateWorkoutInput;
+}>;
+
+
+export type CreateWorkoutMutation = { __typename?: 'Mutation', createWorkout?: { __typename?: 'Workout', id: string } | null };
 
 
 export const CreateMeasurementForMemberDocument = gql`
@@ -474,6 +495,137 @@ export function useCreateMeasurementForMemberMutation(baseOptions?: Apollo.Mutat
 export type CreateMeasurementForMemberMutationHookResult = ReturnType<typeof useCreateMeasurementForMemberMutation>;
 export type CreateMeasurementForMemberMutationResult = Apollo.MutationResult<CreateMeasurementForMemberMutation>;
 export type CreateMeasurementForMemberMutationOptions = Apollo.BaseMutationOptions<CreateMeasurementForMemberMutation, CreateMeasurementForMemberMutationVariables>;
+export const CreateMemberDocument = gql`
+    mutation CreateMember($input: CreateMemberInput!) {
+  createMember(input: $input) {
+    id
+    name
+    phone_number
+  }
+}
+    `;
+export type CreateMemberMutationFn = Apollo.MutationFunction<CreateMemberMutation, CreateMemberMutationVariables>;
+
+/**
+ * __useCreateMemberMutation__
+ *
+ * To run a mutation, you first call `useCreateMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMemberMutation, { data, loading, error }] = useCreateMemberMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateMemberMutation(baseOptions?: Apollo.MutationHookOptions<CreateMemberMutation, CreateMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMemberMutation, CreateMemberMutationVariables>(CreateMemberDocument, options);
+      }
+export type CreateMemberMutationHookResult = ReturnType<typeof useCreateMemberMutation>;
+export type CreateMemberMutationResult = Apollo.MutationResult<CreateMemberMutation>;
+export type CreateMemberMutationOptions = Apollo.BaseMutationOptions<CreateMemberMutation, CreateMemberMutationVariables>;
+export const GetMemberByIdDocument = gql`
+    query GetMemberById($id: ID!) {
+  getMemberById(memberId: $id) {
+    id
+    name
+    phone_number
+    email
+    created_at
+    gender
+    birthdate
+    address
+    measurement {
+      height
+      weight
+      fat
+      heart_rate
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMemberByIdQuery__
+ *
+ * To run a query within a React component, call `useGetMemberByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMemberByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMemberByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetMemberByIdQuery(baseOptions: Apollo.QueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables> & ({ variables: GetMemberByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
+      }
+export function useGetMemberByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
+        }
+export function useGetMemberByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
+        }
+export type GetMemberByIdQueryHookResult = ReturnType<typeof useGetMemberByIdQuery>;
+export type GetMemberByIdLazyQueryHookResult = ReturnType<typeof useGetMemberByIdLazyQuery>;
+export type GetMemberByIdSuspenseQueryHookResult = ReturnType<typeof useGetMemberByIdSuspenseQuery>;
+export type GetMemberByIdQueryResult = Apollo.QueryResult<GetMemberByIdQuery, GetMemberByIdQueryVariables>;
+export const SearchMembersDocument = gql`
+    query SearchMembers($text: String!) {
+  searchMembers(text: $text) {
+    id
+    name
+    phone_number
+    email
+  }
+}
+    `;
+
+/**
+ * __useSearchMembersQuery__
+ *
+ * To run a query within a React component, call `useSearchMembersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchMembersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchMembersQuery({
+ *   variables: {
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useSearchMembersQuery(baseOptions: Apollo.QueryHookOptions<SearchMembersQuery, SearchMembersQueryVariables> & ({ variables: SearchMembersQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchMembersQuery, SearchMembersQueryVariables>(SearchMembersDocument, options);
+      }
+export function useSearchMembersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchMembersQuery, SearchMembersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchMembersQuery, SearchMembersQueryVariables>(SearchMembersDocument, options);
+        }
+export function useSearchMembersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchMembersQuery, SearchMembersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchMembersQuery, SearchMembersQueryVariables>(SearchMembersDocument, options);
+        }
+export type SearchMembersQueryHookResult = ReturnType<typeof useSearchMembersQuery>;
+export type SearchMembersLazyQueryHookResult = ReturnType<typeof useSearchMembersLazyQuery>;
+export type SearchMembersSuspenseQueryHookResult = ReturnType<typeof useSearchMembersSuspenseQuery>;
+export type SearchMembersQueryResult = Apollo.QueryResult<SearchMembersQuery, SearchMembersQueryVariables>;
 export const CreateTrainerDocument = gql`
     mutation CreateTrainer($input: CreateTrainerInput!) {
   createTrainer(input: $input) {
@@ -552,56 +704,36 @@ export type GetClubTrainersQueryHookResult = ReturnType<typeof useGetClubTrainer
 export type GetClubTrainersLazyQueryHookResult = ReturnType<typeof useGetClubTrainersLazyQuery>;
 export type GetClubTrainersSuspenseQueryHookResult = ReturnType<typeof useGetClubTrainersSuspenseQuery>;
 export type GetClubTrainersQueryResult = Apollo.QueryResult<GetClubTrainersQuery, GetClubTrainersQueryVariables>;
-export const GetMemberByIdDocument = gql`
-    query GetMemberById($id: ID!) {
-  getMemberById(memberId: $id) {
+export const CreateWorkoutDocument = gql`
+    mutation CreateWorkout($input: CreateWorkoutInput!) {
+  createWorkout(input: $input) {
     id
-    name
-    phone_number
-    email
-    created_at
-    gender
-    birthdate
-    address
-    measurement {
-      height
-      weight
-      fat
-      heart_rate
-    }
   }
 }
     `;
+export type CreateWorkoutMutationFn = Apollo.MutationFunction<CreateWorkoutMutation, CreateWorkoutMutationVariables>;
 
 /**
- * __useGetMemberByIdQuery__
+ * __useCreateWorkoutMutation__
  *
- * To run a query within a React component, call `useGetMemberByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMemberByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useCreateWorkoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorkoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useGetMemberByIdQuery({
+ * const [createWorkoutMutation, { data, loading, error }] = useCreateWorkoutMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGetMemberByIdQuery(baseOptions: Apollo.QueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables> & ({ variables: GetMemberByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useCreateWorkoutMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkoutMutation, CreateWorkoutMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
+        return Apollo.useMutation<CreateWorkoutMutation, CreateWorkoutMutationVariables>(CreateWorkoutDocument, options);
       }
-export function useGetMemberByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
-        }
-export function useGetMemberByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberByIdQuery, GetMemberByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>(GetMemberByIdDocument, options);
-        }
-export type GetMemberByIdQueryHookResult = ReturnType<typeof useGetMemberByIdQuery>;
-export type GetMemberByIdLazyQueryHookResult = ReturnType<typeof useGetMemberByIdLazyQuery>;
-export type GetMemberByIdSuspenseQueryHookResult = ReturnType<typeof useGetMemberByIdSuspenseQuery>;
-export type GetMemberByIdQueryResult = Apollo.QueryResult<GetMemberByIdQuery, GetMemberByIdQueryVariables>;
+export type CreateWorkoutMutationHookResult = ReturnType<typeof useCreateWorkoutMutation>;
+export type CreateWorkoutMutationResult = Apollo.MutationResult<CreateWorkoutMutation>;
+export type CreateWorkoutMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutMutation, CreateWorkoutMutationVariables>;

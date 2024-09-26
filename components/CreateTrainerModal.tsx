@@ -7,7 +7,7 @@ import Select, { SelectRef } from "@/components/ui/Select";
 import Text from "@/components/ui/Text";
 import TextInput, { TextInputRef } from "@/components/ui/TextInput";
 import { View } from "@/components/ui/View";
-import { CreateTrainerFormValues, useCreateTrainerForm } from "@/hooks/forms/useCreateTrainerForm";
+import { CreateTrainerFormValues, useCreateTrainerForm } from "@/features/trainers/hooks/useCreateTrainerForm";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { StyleSheet } from "react-native";

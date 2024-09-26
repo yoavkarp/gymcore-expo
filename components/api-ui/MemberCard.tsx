@@ -1,11 +1,11 @@
-import { Member } from "@/appsync/API";
+import { Member } from "@/graphql";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import Text from "../ui/Text";
 import { useTheme } from "@/contexts/ThemeContext";
 import { View } from "../ui/View";
 
 interface MemberCardProps {
-    member: Member;
+    member: Partial<Member>;
 }
 
 const MemberCard: React.FC<MemberCardProps> = ({ member }) => {

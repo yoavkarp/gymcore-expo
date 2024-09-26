@@ -1,4 +1,4 @@
-import { useSession } from "@/auth";
+import { useSession } from "@/features/auth";
 import { FunctionComponent, useMemo } from "react";
 import { StyleSheet, Touchable, View } from "react-native";
 import Text from "./ui/Text";
@@ -62,7 +62,7 @@ const Sidebar: FunctionComponent<SidebarProps> = () => {
             <SidebarMenuItem
                 icon={({ style }) => <Icon style={style} name="train" size={24} />}
                 text="יצירת אימון"
-                href="/workout-form"
+                href={"/create-workout" as Href}
             />
 
         </View>

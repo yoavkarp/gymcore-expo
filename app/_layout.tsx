@@ -1,9 +1,9 @@
-import { ApolloWrapper } from "@/components/ApolloWrapper";
+import { AppSyncProvider } from "@/features/appsync";
 import { Slot, SplashScreen } from "expo-router";
 import { useEffect, useMemo } from "react";
 import { I18nManager, SafeAreaView, Text, Platform } from "react-native";
 import * as Updates from 'expo-updates';
-import { AuthProvider } from "@/auth";
+import { AuthProvider } from "@/features/auth";
 import { useFonts } from 'expo-font';
 import ThemeProvider from "@/contexts/ThemeContext";
 import SnackBarProvider from "@/contexts/SnackbarContext";
@@ -47,7 +47,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <ApolloWrapper>
+      <AppSyncProvider>
         <ThemeProvider>
           <SafeAreaView style={{ flex: 1 }}>
             <SnackBarProvider>
@@ -55,7 +55,7 @@ export default function RootLayout() {
             </SnackBarProvider>
           </SafeAreaView>
         </ThemeProvider>
-      </ApolloWrapper >
+      </AppSyncProvider >
     </AuthProvider>
   );
 }

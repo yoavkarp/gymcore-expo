@@ -1,16 +1,16 @@
 projects:
   Codegen Project:
-    schemaPath: schema.json
+    schemaPath: features/appsync/schema.json
     includes:
-      - appsync/**/*.ts
+      - features/appsync/**/*.ts
     excludes:
       - ./amplify/**
-      - appsync/API.ts
+      - features/appsync/API.ts
     extensions:
       amplify:
         codeGenTarget: typescript
-        generatedFileName: appsync/API.ts
-        docsFilePath: appsync
+        generatedFileName: features/appsync/API.ts
+        docsFilePath: features/appsync
         region: eu-central-1
         apiId: j6c6oyngdvbivcc6z7vla5hicq
         frontend: javascript

@@ -1,9 +1,9 @@
 import { Stack, Href, Redirect } from "expo-router";
 import { SafeAreaView } from "react-native";
-import { useSession } from "@/auth";
+import { useSession } from "@/features/auth";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
-import { CognitoSessionDecodedPayload } from "@/auth/decoded-payload";
+import { CognitoSessionDecodedPayload } from "@/features/auth/types";
 import React, { useMemo } from "react";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import Text from "@/components/ui/Text";
@@ -11,7 +11,7 @@ import Button from "@/components/ui/Button";
 import { View } from "@/components/ui/View";
 import { theme } from "@/theme";
 import '@/initialize';
-import ClubProvider from "@/contexts/ClubContext";
+import { ClubProvider } from "@/features/club";
 
 export default function Layout() {
 
