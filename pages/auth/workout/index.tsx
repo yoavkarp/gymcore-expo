@@ -1,22 +1,24 @@
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import Text from "@/components/ui/Text";
-import { View } from "@/components/ui/View";
-import { useWorkout } from "@/features/workout/components/WorkoutProvider";
+import { useWorkout } from "@/features/workout/components/WorkoutProvider"
+import WorkoutPage from "./page";
 
-interface WorkoutPageProps {
+const Index = () => {
+    const { query } = useWorkout();
 
+    if (query.loading) {
+        return <LoadingIndicator />
+    }
+
+    if (query.error) {
+        return <Text error>{query.error.message}</Text>
+    }
+
+    if (!query.data?.getWorkoutById) {
+        return <Text error>Data not found</Text>
+    }
+
+    return <WorkoutPage />
 }
 
-const WorkoutPage: React.FC<WorkoutPageProps> = () => {
-
-    const { loading, data } = useWorkout();
-
-    return (
-        <View>
-            <Text>
-                {JSON.stringify(data, null, 2)}
-            </Text>
-        </View>
-    );
-}
-
-export default WorkoutPage;
+export default Index;

@@ -66,6 +66,8 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
     clubId
     created_at
     updated_at
+    trainerId
+    memberId
     name
     notes
     exercises {
@@ -76,11 +78,6 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
         notes
         machine_number
         seat_height
-        sets {
-          reps { ...ParameterFragment }
-          weight { ...ParameterFragment }
-          rest { ...ParameterFragment }
-        }
       }
       ... on CardioExercise {
         id
@@ -89,19 +86,8 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
         notes
         machine_number
         seat_height
-        intervals {
-          duration { ...ParameterFragment }
-          distance { ...ParameterFragment }
-          tempo { ...ParameterFragment }
-          intensity { ...ParameterFragment }
-          angle { ...ParameterFragment }
-          resistance { ...ParameterFragment }
-          rest { ...ParameterFragment }
-        }
       }
     }
-    trainerId
-    memberId
     __typename
   }
 }
@@ -172,6 +158,10 @@ export const getMemberById = /* GraphQL */ `query GetMemberById($memberId: ID!) 
       completed_at
       __typename
     }
+    profile_workouts {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -221,6 +211,10 @@ export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) 
       heart_rate
       completed
       completed_at
+      __typename
+    }
+    profile_workouts {
+      nextToken
       __typename
     }
     __typename

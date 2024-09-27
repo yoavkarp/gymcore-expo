@@ -1,39 +1,46 @@
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
-import { useCreateWorkout } from "@/features/workout";
-import { useMemo, useState } from "react";
 import TextInput from "@/components/ui/TextInput";
 import Label from "@/components/ui/Label";
 import { Controller } from "react-hook-form";
-import Select from "@/components/ui/Select";
 import React from "react";
-import ExerciseList from "./components/ExerciseList";
-import { CreateExerciseInput, ExerciseType } from "@/graphql";
-import StrengthExerciseForm from "./components/StrengthExerciseForm";
 import Button from "@/components/ui/Button";
-import { useClub } from "@/features/club";
+import { UpdateWorkoutFormInput, useUpdateWorkoutForm } from "./hooks/useUpdateWorkoutForm";
+import ExerciseList from "./components/ExerciseList";
+import { useWorkout } from "@/features/workout/components/WorkoutProvider";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 
-const exerciseTypes = [{
-    title: "קרדיו",
-    value: "CARDIO"
-}, {
-    title: "כוח",
-    value: "STRENGTH"
-}];
+const WorkoutPage: React.FC = () => {
 
-interface MainWorkoutScreenProps {
 
-}
+    const { updateWorkout, workout } = useWorkout();
+    const [show] = useSnackbar()
 
-const MainWorkoutScreen: React.FC<MainWorkoutScreenProps> = () => {
-    const { control, watch, setValue, submitForm, formState: { errors, isSubmitSuccessful } } = useCreateWorkout();
-    const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
+    const { control, formState: { isDirty, dirtyFields }, handleSubmit, reset } = useUpdateWorkoutForm({
+        defaultValues: {
+            name: workout?.name,
+            notes: workout?.notes,
+        }
+    });
 
-    const exercises = watch("exercises");
-    const selectedExercise = exercises?.find((exercise) => exercise.id === selectedExerciseId)
-
-    const { currentTrainer } = useClub();
-
+    const onSubmitUpdateWorkout = async (data: UpdateWorkoutFormInput) => {
+        try {
+            const res = await updateWorkout(
+                Object.keys(dirtyFields).reduce<any>((acc, key) => {
+                    acc[key] = data[key as keyof UpdateWorkoutFormInput];
+                    return acc;
+                }, {})
+            )
+            show("האימון עודכן בהצלחה")
+            reset({
+                name: res.data?.updateWorkout?.name,
+                notes: res.data?.updateWorkout?.notes
+            })
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
 
     return (
         <View style={{ padding: 8 }}>
@@ -44,22 +51,20 @@ const MainWorkoutScreen: React.FC<MainWorkoutScreenProps> = () => {
             <View style={{ flexDirection: 'row', gap: 20 }}>
                 <View style={{ flexBasis: "50%", gap: 20 }}>
                     <Controller control={control} name="name"
-                        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                        render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
                             <View style={{ alignSelf: 'flex-start' }}>
                                 <Label>שם האימון</Label>
                                 <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value} />
+                                {isDirty && <Button onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
                                 {error && <Text error>{error.message}</Text>}
                             </View>
                         )}
                     />
                     <View>
                         <Label>רשימת תרגילים</Label>
-                        <ExerciseList onChangeSelect={setSelectedExerciseId} />
-                        <Button onPress={submitForm(currentTrainer?.id!)}>סיום</Button>
-                        <Text>
-                            {JSON.stringify(errors, null, 2)}
-                        </Text>
+                        <ExerciseList exercises={workout?.exercises || []} onChangeSelect={(e) => console.log(e)} />
                     </View>
+                    {/* 
                 </View>
                 {selectedExercise && <View style={{ flexBasis: "48%", paddingTop: 10 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -71,11 +76,12 @@ const MainWorkoutScreen: React.FC<MainWorkoutScreenProps> = () => {
                         />
                     </View>
                     {selectedExercise.type === ExerciseType.Strength && <StrengthExerciseForm selectedExerciseId={selectedExerciseId} />}
-                </View>}
+                </View>} */}
+                </View>
             </View>
 
         </View>
     );
 }
 
-export default MainWorkoutScreen;
+export default WorkoutPage;

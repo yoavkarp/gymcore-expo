@@ -1,7 +1,6 @@
 import Button from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
-import { useCreateWorkout } from "@/features/workout";
 import { Exercise } from "@/graphql";
 import { FlatList, Touchable } from "react-native";
 import ExerciseNameModal from "./ExerciseNameModal";
@@ -39,11 +38,11 @@ export const ExerciseListItem: React.FC<ExerciseListItemProps> = ({ item, select
 
 type ExerciseListProps = {
     onChangeSelect: (exerciseId: string | null) => any;
+    exercises: Exercise[]
 }
 
-const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect }) => {
+const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }) => {
 
-    const { watch, getValues, setValue } = useCreateWorkout();
     const newExerciseModalRef = useRef<ExerciseNameModal>(null);
     const yesNoDialogRef = useRef<YesNoDialog>(null);
     const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
@@ -51,7 +50,7 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect }) => {
     return (
         <>
             <FlatList
-                data={watch("exercises")}
+                data={exercises}
                 renderItem={({ item }) => {
                     return (
 
@@ -63,7 +62,6 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect }) => {
                                 onChangeSelect(exerciseId)
                             }}
                             onPressDelete={() => yesNoDialogRef.current?.open(() => {
-                                setValue(`exercises`, getValues('exercises').filter((exercise) => exercise.id !== item?.id));
                                 setSelectedExerciseId(null)
                                 onChangeSelect(null);
                             })}

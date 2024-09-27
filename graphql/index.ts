@@ -23,6 +23,17 @@ export type Scalars = {
   AWSURL: { input: string; output: string; }
 };
 
+export type AddExerciseToWorkoutInput = {
+  angle?: InputMaybe<ParameterInput>;
+  machine_number?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  resistance?: InputMaybe<ParameterInput>;
+  seat_height?: InputMaybe<Scalars['String']['input']>;
+  type: ExerciseType;
+  xid: Scalars['ID']['input'];
+};
+
 export type CardioExercise = {
   __typename?: 'CardioExercise';
   angle?: Maybe<Parameter>;
@@ -41,21 +52,11 @@ export type CardioExerciseInterval = {
   angle?: Maybe<Parameter>;
   distance?: Maybe<Parameter>;
   duration?: Maybe<Parameter>;
+  id: Scalars['ID']['output'];
   intensity?: Maybe<Parameter>;
   resistance?: Maybe<Parameter>;
   rest?: Maybe<Parameter>;
   tempo?: Maybe<Parameter>;
-};
-
-export type CardioExerciseIntervalInput = {
-  angle?: InputMaybe<ParameterInput>;
-  distance?: InputMaybe<ParameterInput>;
-  duration?: InputMaybe<ParameterInput>;
-  id: Scalars['ID']['input'];
-  intensity?: InputMaybe<ParameterInput>;
-  resistance?: InputMaybe<ParameterInput>;
-  rest?: InputMaybe<ParameterInput>;
-  tempo?: InputMaybe<ParameterInput>;
 };
 
 export type Club = Document & {
@@ -75,20 +76,6 @@ export type ClubConnection = {
   __typename?: 'ClubConnection';
   items?: Maybe<Array<Club>>;
   nextToken?: Maybe<Scalars['String']['output']>;
-};
-
-export type CreateExerciseInput = {
-  angle?: InputMaybe<ParameterInput>;
-  id: Scalars['ID']['input'];
-  intervals?: InputMaybe<Array<InputMaybe<CardioExerciseIntervalInput>>>;
-  machine_number?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  notes?: InputMaybe<Scalars['String']['input']>;
-  resistance?: InputMaybe<ParameterInput>;
-  seat_height?: InputMaybe<Scalars['String']['input']>;
-  sets?: InputMaybe<Array<InputMaybe<StrengthExerciseSetInput>>>;
-  type: ExerciseType;
-  xid: Scalars['ID']['input'];
 };
 
 export type CreateMeasurementInput = {
@@ -126,10 +113,9 @@ export type CreateTrainerInput = {
 };
 
 export type CreateWorkoutInput = {
-  exercises: Array<CreateExerciseInput>;
   memberId?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
-  notes?: InputMaybe<Scalars['String']['input']>;
+  planId?: InputMaybe<Scalars['ID']['input']>;
   trainerId: Scalars['ID']['input'];
 };
 
@@ -176,6 +162,16 @@ export type GoalConnection = {
   nextToken?: Maybe<Scalars['String']['output']>;
 };
 
+export type IntervalInput = {
+  angle?: InputMaybe<ParameterInput>;
+  distance?: InputMaybe<ParameterInput>;
+  duration?: InputMaybe<ParameterInput>;
+  intensity?: InputMaybe<ParameterInput>;
+  resistance?: InputMaybe<ParameterInput>;
+  rest?: InputMaybe<ParameterInput>;
+  tempo?: InputMaybe<ParameterInput>;
+};
+
 export type Measurement = Document & {
   __typename?: 'Measurement';
   clubId?: Maybe<Scalars['ID']['output']>;
@@ -209,6 +205,7 @@ export type Member = Document & {
   name?: Maybe<Scalars['String']['output']>;
   phone_number?: Maybe<Scalars['AWSPhone']['output']>;
   profile_picture?: Maybe<Scalars['AWSURL']['output']>;
+  profile_workouts?: Maybe<WorkoutConnection>;
   registered?: Maybe<Scalars['Boolean']['output']>;
   status?: Maybe<Scalars['AWSJSON']['output']>;
   tenantId: Scalars['ID']['output'];
@@ -223,13 +220,40 @@ export type MemberConnection = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addExerciseToWorkout?: Maybe<Workout>;
+  addIntervalToExercise?: Maybe<Workout>;
+  addSetToExercise?: Maybe<Workout>;
   createMeasurement?: Maybe<Measurement>;
   createMeasurementForMember?: Maybe<Measurement>;
   createMember?: Maybe<Member>;
   createTrainer?: Maybe<Trainer>;
   createWorkout?: Maybe<Workout>;
   register?: Maybe<Member>;
+  updateExerciseInWorkout?: Maybe<Workout>;
+  updateIntervalInExercise?: Maybe<Workout>;
   updateMemberProfile?: Maybe<Member>;
+  updateSetInExercise?: Maybe<Workout>;
+  updateWorkout?: Maybe<Workout>;
+};
+
+
+export type MutationAddExerciseToWorkoutArgs = {
+  input: AddExerciseToWorkoutInput;
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationAddIntervalToExerciseArgs = {
+  exerciseId: Scalars['ID']['input'];
+  input: IntervalInput;
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationAddSetToExerciseArgs = {
+  exerciseId: Scalars['ID']['input'];
+  input: SetInput;
+  workoutId: Scalars['ID']['input'];
 };
 
 
@@ -264,8 +288,37 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationUpdateExerciseInWorkoutArgs = {
+  exerciseId: Scalars['ID']['input'];
+  input: UpdateExerciseInWorkoutInput;
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateIntervalInExerciseArgs = {
+  exerciseId: Scalars['ID']['input'];
+  input: IntervalInput;
+  intervalId: Scalars['ID']['input'];
+  workoutId: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateMemberProfileArgs = {
   input: UpdateMemberProfileInput;
+};
+
+
+export type MutationUpdateSetInExerciseArgs = {
+  exerciseId: Scalars['ID']['input'];
+  input: SetInput;
+  setId: Scalars['ID']['input'];
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateWorkoutArgs = {
+  input: UpdateWorkoutInput;
+  workoutId: Scalars['ID']['input'];
 };
 
 export type Parameter = {
@@ -326,6 +379,13 @@ export type RegisterInput = {
   profile_picture?: InputMaybe<Scalars['AWSURL']['input']>;
 };
 
+export type SetInput = {
+  reps?: InputMaybe<ParameterInput>;
+  rest?: InputMaybe<ParameterInput>;
+  times?: InputMaybe<ParameterInput>;
+  weight?: InputMaybe<ParameterInput>;
+};
+
 export type StrengthExercise = {
   __typename?: 'StrengthExercise';
   angle?: Maybe<Parameter>;
@@ -341,18 +401,11 @@ export type StrengthExercise = {
 
 export type StrengthExerciseSet = {
   __typename?: 'StrengthExerciseSet';
+  id: Scalars['ID']['output'];
   reps?: Maybe<Parameter>;
   rest?: Maybe<Parameter>;
   times?: Maybe<Parameter>;
   weight?: Maybe<Parameter>;
-};
-
-export type StrengthExerciseSetInput = {
-  id: Scalars['ID']['input'];
-  reps?: InputMaybe<ParameterInput>;
-  rest?: InputMaybe<ParameterInput>;
-  times?: InputMaybe<ParameterInput>;
-  weight?: InputMaybe<ParameterInput>;
 };
 
 export type Tenant = {
@@ -387,6 +440,17 @@ export type TrainerConnection = {
   nextToken?: Maybe<Scalars['String']['output']>;
 };
 
+export type UpdateExerciseInWorkoutInput = {
+  angle?: InputMaybe<ParameterInput>;
+  machine_number?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  resistance?: InputMaybe<ParameterInput>;
+  seat_height?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<ExerciseType>;
+  xid?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type UpdateMemberProfileInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   birthdate?: InputMaybe<Scalars['AWSDate']['input']>;
@@ -396,11 +460,16 @@ export type UpdateMemberProfileInput = {
   profile_picture?: InputMaybe<Scalars['AWSURL']['input']>;
 };
 
+export type UpdateWorkoutInput = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Workout = Document & {
   __typename?: 'Workout';
   clubId: Scalars['ID']['output'];
   created_at: Scalars['AWSDateTime']['output'];
-  exercises: Array<Exercise>;
+  exercises?: Maybe<Array<Exercise>>;
   id: Scalars['ID']['output'];
   memberId?: Maybe<Scalars['ID']['output']>;
   name: Scalars['String']['output'];
@@ -408,6 +477,12 @@ export type Workout = Document & {
   tenantId: Scalars['ID']['output'];
   trainerId: Scalars['ID']['output'];
   updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type WorkoutConnection = {
+  __typename?: 'WorkoutConnection';
+  items?: Maybe<Array<Workout>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type CreateMeasurementForMemberMutationVariables = Exact<{
@@ -451,6 +526,14 @@ export type GetClubTrainersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetClubTrainersQuery = { __typename?: 'Query', getClubTrainers?: Array<{ __typename?: 'Trainer', id: string, name: string, email?: string | null, phone_number: string }> | null };
 
+export type AddExerciseToWorkoutMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: AddExerciseToWorkoutInput;
+}>;
+
+
+export type AddExerciseToWorkoutMutation = { __typename?: 'Mutation', addExerciseToWorkout?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename?: 'CardioExercise', id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> } | { __typename?: 'StrengthExercise', id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> }> | null } | null };
+
 export type CreateWorkoutMutationVariables = Exact<{
   input: CreateWorkoutInput;
 }>;
@@ -463,9 +546,25 @@ export type GetWorkoutByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', name: string } | null };
+export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, exercises?: Array<{ __typename?: 'CardioExercise', id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> } | { __typename?: 'StrengthExercise', id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> }> | null } | null };
+
+export type ParameterFragmentFragment = { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null };
+
+export type UpdateWorkoutMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: UpdateWorkoutInput;
+}>;
 
 
+export type UpdateWorkoutMutation = { __typename?: 'Mutation', updateWorkout?: { __typename?: 'Workout', updated_at: string, name: string, notes?: string | null } | null };
+
+export const ParameterFragmentFragmentDoc = gql`
+    fragment ParameterFragment on Parameter {
+  max
+  val
+  unit
+}
+    `;
 export const CreateMeasurementForMemberDocument = gql`
     mutation CreateMeasurementForMember($memberId: ID!, $input: CreateMeasurementInput!) {
   createMeasurementForMember(memberId: $memberId, input: $input) {
@@ -712,6 +811,94 @@ export type GetClubTrainersQueryHookResult = ReturnType<typeof useGetClubTrainer
 export type GetClubTrainersLazyQueryHookResult = ReturnType<typeof useGetClubTrainersLazyQuery>;
 export type GetClubTrainersSuspenseQueryHookResult = ReturnType<typeof useGetClubTrainersSuspenseQuery>;
 export type GetClubTrainersQueryResult = Apollo.QueryResult<GetClubTrainersQuery, GetClubTrainersQueryVariables>;
+export const AddExerciseToWorkoutDocument = gql`
+    mutation AddExerciseToWorkout($id: ID!, $input: AddExerciseToWorkoutInput!) {
+  addExerciseToWorkout(workoutId: $id, input: $input) {
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        notes
+        machine_number
+        seat_height
+        sets {
+          id
+          reps {
+            ...ParameterFragment
+          }
+          weight {
+            ...ParameterFragment
+          }
+          rest {
+            ...ParameterFragment
+          }
+        }
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        notes
+        machine_number
+        seat_height
+        intervals {
+          id
+          duration {
+            ...ParameterFragment
+          }
+          distance {
+            ...ParameterFragment
+          }
+          tempo {
+            ...ParameterFragment
+          }
+          intensity {
+            ...ParameterFragment
+          }
+          angle {
+            ...ParameterFragment
+          }
+          resistance {
+            ...ParameterFragment
+          }
+          rest {
+            ...ParameterFragment
+          }
+        }
+      }
+    }
+    updated_at
+  }
+}
+    ${ParameterFragmentFragmentDoc}`;
+export type AddExerciseToWorkoutMutationFn = Apollo.MutationFunction<AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables>;
+
+/**
+ * __useAddExerciseToWorkoutMutation__
+ *
+ * To run a mutation, you first call `useAddExerciseToWorkoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddExerciseToWorkoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addExerciseToWorkoutMutation, { data, loading, error }] = useAddExerciseToWorkoutMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddExerciseToWorkoutMutation(baseOptions?: Apollo.MutationHookOptions<AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables>(AddExerciseToWorkoutDocument, options);
+      }
+export type AddExerciseToWorkoutMutationHookResult = ReturnType<typeof useAddExerciseToWorkoutMutation>;
+export type AddExerciseToWorkoutMutationResult = Apollo.MutationResult<AddExerciseToWorkoutMutation>;
+export type AddExerciseToWorkoutMutationOptions = Apollo.BaseMutationOptions<AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables>;
 export const CreateWorkoutDocument = gql`
     mutation CreateWorkout($input: CreateWorkoutInput!) {
   createWorkout(input: $input) {
@@ -748,10 +935,72 @@ export type CreateWorkoutMutationOptions = Apollo.BaseMutationOptions<CreateWork
 export const GetWorkoutByIdDocument = gql`
     query GetWorkoutById($workoutId: ID!) {
   getWorkoutById(workoutId: $workoutId) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
     name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        notes
+        machine_number
+        seat_height
+        sets {
+          id
+          reps {
+            ...ParameterFragment
+          }
+          weight {
+            ...ParameterFragment
+          }
+          rest {
+            ...ParameterFragment
+          }
+        }
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        notes
+        machine_number
+        seat_height
+        intervals {
+          id
+          duration {
+            ...ParameterFragment
+          }
+          distance {
+            ...ParameterFragment
+          }
+          tempo {
+            ...ParameterFragment
+          }
+          intensity {
+            ...ParameterFragment
+          }
+          angle {
+            ...ParameterFragment
+          }
+          resistance {
+            ...ParameterFragment
+          }
+          rest {
+            ...ParameterFragment
+          }
+        }
+      }
+    }
   }
 }
-    `;
+    ${ParameterFragmentFragmentDoc}`;
 
 /**
  * __useGetWorkoutByIdQuery__
@@ -785,3 +1034,39 @@ export type GetWorkoutByIdQueryHookResult = ReturnType<typeof useGetWorkoutByIdQ
 export type GetWorkoutByIdLazyQueryHookResult = ReturnType<typeof useGetWorkoutByIdLazyQuery>;
 export type GetWorkoutByIdSuspenseQueryHookResult = ReturnType<typeof useGetWorkoutByIdSuspenseQuery>;
 export type GetWorkoutByIdQueryResult = Apollo.QueryResult<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>;
+export const UpdateWorkoutDocument = gql`
+    mutation UpdateWorkout($id: ID!, $input: UpdateWorkoutInput!) {
+  updateWorkout(workoutId: $id, input: $input) {
+    updated_at
+    name
+    notes
+  }
+}
+    `;
+export type UpdateWorkoutMutationFn = Apollo.MutationFunction<UpdateWorkoutMutation, UpdateWorkoutMutationVariables>;
+
+/**
+ * __useUpdateWorkoutMutation__
+ *
+ * To run a mutation, you first call `useUpdateWorkoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWorkoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWorkoutMutation, { data, loading, error }] = useUpdateWorkoutMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateWorkoutMutation(baseOptions?: Apollo.MutationHookOptions<UpdateWorkoutMutation, UpdateWorkoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateWorkoutMutation, UpdateWorkoutMutationVariables>(UpdateWorkoutDocument, options);
+      }
+export type UpdateWorkoutMutationHookResult = ReturnType<typeof useUpdateWorkoutMutation>;
+export type UpdateWorkoutMutationResult = Apollo.MutationResult<UpdateWorkoutMutation>;
+export type UpdateWorkoutMutationOptions = Apollo.BaseMutationOptions<UpdateWorkoutMutation, UpdateWorkoutMutationVariables>;

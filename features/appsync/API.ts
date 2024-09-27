@@ -73,11 +73,11 @@ export type Workout = {
   clubId: string,
   created_at: string,
   updated_at: string,
-  name: string,
-  notes?: string | null,
-  exercises:  Array<Exercise >,
   trainerId: string,
   memberId?: string | null,
+  name: string,
+  notes?: string | null,
+  exercises?:  Array<Exercise > | null,
 };
 
 export type Exercise = StrengthExercise | CardioExercise
@@ -105,6 +105,7 @@ export type Parameter = {
 
 export type StrengthExerciseSet = {
   __typename: "StrengthExerciseSet",
+  id: string,
   reps?: Parameter | null,
   rest?: Parameter | null,
   weight?: Parameter | null,
@@ -126,6 +127,7 @@ export type CardioExercise = {
 
 export type CardioExerciseInterval = {
   __typename: "CardioExerciseInterval",
+  id: string,
   duration?: Parameter | null,
   distance?: Parameter | null,
   tempo?: Parameter | null,
@@ -152,6 +154,7 @@ export type Member = {
   status?: string | null,
   measurement?: Measurement | null,
   goal?: Goal | null,
+  profile_workouts?: WorkoutConnection | null,
 };
 
 export type Goal = {
@@ -169,6 +172,12 @@ export type Goal = {
   heart_rate?: number | null,
   completed?: boolean | null,
   completed_at?: string | null,
+};
+
+export type WorkoutConnection = {
+  __typename: "WorkoutConnection",
+  items?:  Array<Workout > | null,
+  nextToken?: string | null,
 };
 
 export type CreateMemberInput = {
@@ -199,14 +208,17 @@ export type CreateTrainerInput = {
 
 export type CreateWorkoutInput = {
   name: string,
-  notes?: string | null,
-  exercises: Array< CreateExerciseInput >,
   trainerId: string,
   memberId?: string | null,
+  planId?: string | null,
 };
 
-export type CreateExerciseInput = {
-  id: string,
+export type UpdateWorkoutInput = {
+  name?: string | null,
+  notes?: string | null,
+};
+
+export type AddExerciseToWorkoutInput = {
   xid: string,
   name: string,
   type: ExerciseType,
@@ -215,8 +227,6 @@ export type CreateExerciseInput = {
   seat_height?: string | null,
   angle?: ParameterInput | null,
   resistance?: ParameterInput | null,
-  sets?: Array< StrengthExerciseSetInput | null > | null,
-  intervals?: Array< CardioExerciseIntervalInput | null > | null,
 };
 
 export enum ExerciseType {
@@ -231,16 +241,25 @@ export type ParameterInput = {
   unit?: string | null,
 };
 
-export type StrengthExerciseSetInput = {
-  id: string,
+export type UpdateExerciseInWorkoutInput = {
+  xid?: string | null,
+  name?: string | null,
+  type?: ExerciseType | null,
+  notes?: string | null,
+  machine_number?: string | null,
+  seat_height?: string | null,
+  angle?: ParameterInput | null,
+  resistance?: ParameterInput | null,
+};
+
+export type SetInput = {
   reps?: ParameterInput | null,
   rest?: ParameterInput | null,
   weight?: ParameterInput | null,
   times?: ParameterInput | null,
 };
 
-export type CardioExerciseIntervalInput = {
-  id: string,
+export type IntervalInput = {
   duration?: ParameterInput | null,
   distance?: ParameterInput | null,
   tempo?: ParameterInput | null,
@@ -370,6 +389,10 @@ export type CreateMemberMutation = {
       completed?: boolean | null,
       completed_at?: string | null,
     } | null,
+    profile_workouts?:  {
+      __typename: "WorkoutConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -405,6 +428,8 @@ export type CreateWorkoutMutation = {
     clubId: string,
     created_at: string,
     updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
     name: string,
     notes?: string | null,
     exercises:  Array<( {
@@ -424,9 +449,280 @@ export type CreateWorkoutMutation = {
         machine_number?: string | null,
         seat_height?: string | null,
       }
-    ) >,
+    ) > | null,
+  } | null,
+};
+
+export type UpdateWorkoutMutationVariables = {
+  workoutId: string,
+  input: UpdateWorkoutInput,
+};
+
+export type UpdateWorkoutMutation = {
+  updateWorkout?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
     trainerId: string,
     memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type AddExerciseToWorkoutMutationVariables = {
+  workoutId: string,
+  input: AddExerciseToWorkoutInput,
+};
+
+export type AddExerciseToWorkoutMutation = {
+  addExerciseToWorkout?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type UpdateExerciseInWorkoutMutationVariables = {
+  workoutId: string,
+  exerciseId: string,
+  input: UpdateExerciseInWorkoutInput,
+};
+
+export type UpdateExerciseInWorkoutMutation = {
+  updateExerciseInWorkout?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type AddSetToExerciseMutationVariables = {
+  workoutId: string,
+  exerciseId: string,
+  input: SetInput,
+};
+
+export type AddSetToExerciseMutation = {
+  addSetToExercise?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type AddIntervalToExerciseMutationVariables = {
+  workoutId: string,
+  exerciseId: string,
+  input: IntervalInput,
+};
+
+export type AddIntervalToExerciseMutation = {
+  addIntervalToExercise?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type UpdateSetInExerciseMutationVariables = {
+  workoutId: string,
+  exerciseId: string,
+  setId: string,
+  input: SetInput,
+};
+
+export type UpdateSetInExerciseMutation = {
+  updateSetInExercise?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type UpdateIntervalInExerciseMutationVariables = {
+  workoutId: string,
+  exerciseId: string,
+  intervalId: string,
+  input: IntervalInput,
+};
+
+export type UpdateIntervalInExerciseMutation = {
+  updateIntervalInExercise?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
   } | null,
 };
 
@@ -479,6 +775,10 @@ export type RegisterMutation = {
       completed?: boolean | null,
       completed_at?: string | null,
     } | null,
+    profile_workouts?:  {
+      __typename: "WorkoutConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -530,6 +830,10 @@ export type UpdateMemberProfileMutation = {
       heart_rate?: number | null,
       completed?: boolean | null,
       completed_at?: string | null,
+    } | null,
+    profile_workouts?:  {
+      __typename: "WorkoutConnection",
+      nextToken?: string | null,
     } | null,
   } | null,
 };
@@ -602,6 +906,8 @@ export type GetWorkoutByIdQuery = {
     clubId: string,
     created_at: string,
     updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
     name: string,
     notes?: string | null,
     exercises:  Array<( {
@@ -621,9 +927,7 @@ export type GetWorkoutByIdQuery = {
         machine_number?: string | null,
         seat_height?: string | null,
       }
-    ) >,
-    trainerId: string,
-    memberId?: string | null,
+    ) > | null,
   } | null,
 };
 
@@ -695,6 +999,10 @@ export type GetMemberByIdQuery = {
       completed?: boolean | null,
       completed_at?: string | null,
     } | null,
+    profile_workouts?:  {
+      __typename: "WorkoutConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -746,6 +1054,10 @@ export type SearchMembersQuery = {
       heart_rate?: number | null,
       completed?: boolean | null,
       completed_at?: string | null,
+    } | null,
+    profile_workouts?:  {
+      __typename: "WorkoutConnection",
+      nextToken?: string | null,
     } | null,
   } | null > | null,
 };

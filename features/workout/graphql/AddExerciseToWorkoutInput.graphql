@@ -1,0 +1,41 @@
+mutation AddExerciseToWorkout($id: ID!, $input: AddExerciseToWorkoutInput!) {
+    addExerciseToWorkout(workoutId: $id, input: $input) {
+        exercises {
+            ... on StrengthExercise {
+                __typename
+                id
+                xid
+                name
+                notes
+                machine_number
+                seat_height
+                sets {
+                    id
+                    reps { ...ParameterFragment }
+                    weight { ...ParameterFragment }
+                    rest { ...ParameterFragment }
+                }
+            }
+            ... on CardioExercise {
+                __typename
+                id
+                xid
+                name
+                notes
+                machine_number
+                seat_height
+                intervals {
+                    id
+                    duration { ...ParameterFragment }
+                    distance { ...ParameterFragment }
+                    tempo { ...ParameterFragment }
+                    intensity { ...ParameterFragment }
+                    angle { ...ParameterFragment }
+                    resistance { ...ParameterFragment }
+                    rest { ...ParameterFragment }
+                }
+            }
+        }
+        updated_at
+    }
+}

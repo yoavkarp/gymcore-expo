@@ -66,7 +66,6 @@ const SearchModal: React.FC<SearchModalProps> = (props) => {
             <TouchableOpacity style={_styles.comboBox} onPress={() => setIsVisible(true)}>
                 <Text>{selectedOption?.title || props.placeholder || "בחר"}</Text>
             </TouchableOpacity>
-
             <Modal visible={isVisible} onShow={() => {
                 setTimeout(() => {
                     searchInputRef.current?.focus();
@@ -96,7 +95,7 @@ const SearchModal: React.FC<SearchModalProps> = (props) => {
 
 const styles = (theme: Theme) => StyleSheet.create({
     container: {
-        padding: 20,
+
     },
     comboBox: {
         borderWidth: 1,

@@ -31,7 +31,7 @@ const MemberPage: React.FC<MemberPageProps> = ({ memberId }) => {
             <MemberDetailsCard member={query.data!.getMemberById} />
             <MemberMeasurementsCard memberId={memberId} measurement={query.data.getMemberById.measurement} />
             <View style={{ flexDirection: 'row', flex: 1, gap: 10 }}>
-                <MemberProfileWorkoutsSection />
+                <MemberProfileWorkoutsSection memberId={memberId} />
                 <MemberPlanSection />
             </View>
         </View>

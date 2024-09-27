@@ -1,0 +1,7 @@
+mutation UpdateWorkout($id: ID!, $input: UpdateWorkoutInput!) {
+    updateWorkout(workoutId: $id, input: $input) {
+        updated_at
+        name
+        notes
+    }
+}
