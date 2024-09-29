@@ -171,6 +171,28 @@ export const getMemberById = /* GraphQL */ `query GetMemberById($memberId: ID!) 
   APITypes.GetMemberByIdQueryVariables,
   APITypes.GetMemberByIdQuery
 >;
+export const listLibraryWorkouts = /* GraphQL */ `query ListLibraryWorkouts($limit: Int, $nextToken: String) {
+  listLibraryWorkouts(limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      tenantId
+      clubId
+      created_at
+      updated_at
+      trainerId
+      memberId
+      name
+      notes
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListLibraryWorkoutsQueryVariables,
+  APITypes.ListLibraryWorkoutsQuery
+>;
 export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) {
   searchMembers(text: $text) {
     id

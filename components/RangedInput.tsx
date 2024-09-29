@@ -22,6 +22,10 @@ const RangedInput: React.FC<RangedInputProps> = (props) => {
     }, [props.value])
 
     const handleValueChange = (val?: string) => {
+        if (!val) {
+            setValue(prev => ({ ...prev, val: undefined }));
+            return;
+        }
         const newValue = (isNaN(Number(val)) || !val) ? {} : { ...value, val: Number(val) };
         setValue(newValue);
         props.onChangeValue?.(newValue);
@@ -30,7 +34,7 @@ const RangedInput: React.FC<RangedInputProps> = (props) => {
     const handleMaxChange = (max?: string) => {
 
         if (!value.val) {
-            return;
+            return
         }
 
         const newValue = (!max || isNaN(Number(max))) ? { val: value.val } : { ...value, max: Number(max) };

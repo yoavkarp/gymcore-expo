@@ -3,7 +3,6 @@ import { z } from "zod";
 import { parameterInputSchema } from "./useParameterForm";
 
 export const createIntervalSchema = z.object({
-    id: z.string().trim().uuid(),
     angle: parameterInputSchema.optional(),
     distance: parameterInputSchema.optional(),
     duration: parameterInputSchema.optional(),

@@ -10,6 +10,7 @@ import YesNoDialog from "@/components/YesNoDialog";
 import { Ionicons } from "@expo/vector-icons";
 import { useDeleteExerciseFromWorkout } from "@/features/workout/hooks/api/useDeleteExerciseFromWorkout";
 import { useWorkout } from "@/features/workout";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface ExerciseListItemProps {
     item: Exercise;
@@ -20,8 +21,10 @@ interface ExerciseListItemProps {
 }
 
 export const ExerciseListItem: React.FC<ExerciseListItemProps> = ({ item, selected, onPress, onPressDelete, onPressEdit }) => {
+
+    const { theme } = useTheme()
     return (
-        <TouchableOpacity style={[{ padding: 5 }, selected && { backgroundColor: "red" }]} onPress={() => onPress(item.id)}>
+        <TouchableOpacity style={[{ padding: 5 }, selected && { backgroundColor: `${theme.colors.primary.toString()}55`, borderRadius: 8 }]} onPress={() => onPress(item.id)}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Text>{item.name}</Text>
                 <View style={{ flexDirection: 'row', gap: 10 }}>
@@ -33,6 +36,10 @@ export const ExerciseListItem: React.FC<ExerciseListItemProps> = ({ item, select
                         <Ionicons name="pencil-sharp" size={20} />
                     </Button>
                 </View>
+            </View>
+            <View style={{ flexDirection: "row", justifyContent: 'space-evenly' }}>
+                {item.machine_number && <Text>מספר מכונה: {item.machine_number}</Text>}
+                {item.seat_height && <Text>גובה מושב: {item.seat_height}</Text>}
             </View>
         </TouchableOpacity>
     );
@@ -50,6 +57,7 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }
     const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
 
     const { workoutId, workout } = useWorkout();
+    const { theme } = useTheme();
 
     const { deleteExerciseFromWorkout, result: deleteExerciseFromWorkoutResult } = useDeleteExerciseFromWorkout(workoutId);
 
@@ -57,7 +65,9 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }
     return (
         <>
             <FlatList
+                persistentScrollbar
                 data={workout?.exercises}
+                ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: theme.colors.primary, marginBottom: 10 }} />}
                 renderItem={({ item }) => {
                     return (
 
@@ -80,8 +90,8 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }
                 }}
                 keyExtractor={(item) => (item as unknown as Exercise).id}
                 ListEmptyComponent={() => <Text subtitle>לא נוספו תרגילים לאימון זה</Text>}
-                ListFooterComponent={() => <Button style={{ marginTop: 10 }} onPress={() => newExerciseModalRef.current?.open()}>תרגיל חדש</Button>}
             />
+            <Button style={{ marginTop: 10 }} onPress={() => newExerciseModalRef.current?.open()}>תרגיל חדש</Button>
             <ExerciseNameModal ref={newExerciseModalRef} />
             <YesNoDialog ref={yesNoDialogRef} title="מחיקת תרגיל" />
         </>

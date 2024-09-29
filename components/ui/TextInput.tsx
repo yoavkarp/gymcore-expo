@@ -12,7 +12,7 @@ export type TextInputProps = TIP & TextInputStyles;
 
 export type TextInputRef = T;
 
-const TextInput = forwardRef<TextInputRef, TextInputProps>(({ ...rootProps }, ref) => {
+const TextInput = forwardRef<TextInputRef, TextInputProps>(({ style, ...rootProps }, ref) => {
 
     const [focusStyle, setFocusStyle] = useState<TextStyle>()
     const { theme } = useTheme();
@@ -21,7 +21,7 @@ const TextInput = forwardRef<TextInputRef, TextInputProps>(({ ...rootProps }, re
     return <T {...rootProps} ref={ref}
         style={textLayout([
             _style.default,
-            rootProps.style,
+            style,
             focusStyle,
             ...Object.keys(rootProps).filter((key) => key in _style && rootProps[key as keyof typeof rootProps] === true).map((key) => _style[key as keyof typeof _style])
         ])}

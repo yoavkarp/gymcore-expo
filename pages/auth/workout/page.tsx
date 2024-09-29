@@ -12,6 +12,7 @@ import { useSnackbar } from "@/contexts/SnackbarContext";
 import { useUpdateWorkout } from "@/features/workout/hooks/api/useUpdateWorkout";
 import Select from "@/components/ui/Select";
 import StrengthExerciseForm from "./components/StrengthExerciseForm";
+import CardioExerciseForm from "./components/CardioExerciseForm";
 
 const WorkoutPage: React.FC = () => {
 
@@ -23,7 +24,7 @@ const WorkoutPage: React.FC = () => {
 
     const selectedExercise = workout?.exercises?.find((exercise) => exercise.id === selectedExerciseId);
 
-    const { control, formState: { isDirty, dirtyFields }, handleSubmit, reset } = useWorkoutForm({
+    const { control, formState: { isDirty, dirtyFields, isSubmitting }, handleSubmit, reset } = useWorkoutForm({
         defaultValues: {
             name: workout?.name,
             notes: workout?.notes,
@@ -52,7 +53,7 @@ const WorkoutPage: React.FC = () => {
     return (
         <View style={{ padding: 8 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text h1>מסך יצירת אימון</Text>
+                <Text h1>אימון</Text>
             </View>
 
             <View style={{ flexDirection: 'row', gap: 20 }}>
@@ -61,13 +62,24 @@ const WorkoutPage: React.FC = () => {
                         render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
                             <View style={{ alignSelf: 'flex-start' }}>
                                 <Label>שם האימון</Label>
-                                <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value} />
-                                {isDirty && <Button onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
+                                <TextInput readOnly={isSubmitting} style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value} />
+                                {isDirty && <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
                                 {error && <Text error>{error.message}</Text>}
                             </View>
                         )}
                     />
-                    <View>
+
+                    <Controller control={control} name="notes"
+                        render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
+                            <View style={{ alignSelf: 'flex-start' }}>
+                                <Label>הערות</Label>
+                                <TextInput readOnly={isSubmitting} multiline numberOfLines={3} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value || ""} />
+                                {isDirty && <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
+                                {error && <Text error>{error.message}</Text>}
+                            </View>
+                        )}
+                    />
+                    <View style={{ maxHeight: 350 }}>
                         <Label>רשימת תרגילים</Label>
                         <ExerciseList exercises={workout?.exercises || []} onChangeSelect={setSelectedExerciseId} />
                     </View>
@@ -77,7 +89,8 @@ const WorkoutPage: React.FC = () => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text h1>{selectedExercise?.name}</Text>
                     </View>
-                    {selectedExercise.__typename === "StrengthExercise" && <StrengthExerciseForm selectedExerciseId={selectedExerciseId} />}
+                    {selectedExercise.__typename === "StrengthExercise" ? <StrengthExerciseForm selectedExerciseId={selectedExerciseId} />
+                        : selectedExercise.__typename === "CardioExercise" && <CardioExerciseForm selectedExerciseId={selectedExerciseId} />}
                 </View>}
             </View>
         </View>

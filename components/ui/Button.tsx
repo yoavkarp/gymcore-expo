@@ -44,7 +44,8 @@ const styles = (theme: Theme) => StyleSheet.create<Record<(keyof ButtonStyles) |
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
-        gap: 10
+        gap: 10,
+        flexDirection: 'row'
     },
     disabled: {
         backgroundColor: theme.colors.muted

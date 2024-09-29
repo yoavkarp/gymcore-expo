@@ -8,6 +8,7 @@ export const setSchema = z.object({
     rest: z.preprocess((val) => ['undefined', 'null'].includes(typeof (val)) ? undefined : Object.keys(val as any).length === 0 ? undefined : val, parameterInputSchema.optional()),
     // times: z.number().optional(),
     weight: z.preprocess((val) => ['undefined', 'null'].includes(typeof (val)) ? undefined : Object.keys(val as any).length === 0 ? undefined : val, parameterInputSchema.optional()),
+    times: z.number().min(1).int().optional(),
 })
     .refine(data => {
         if (Object.keys(data).filter(d => data[d as keyof typeof data] && d !== 'times').length === 0) {

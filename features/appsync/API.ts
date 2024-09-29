@@ -116,7 +116,16 @@ export type StrengthExerciseSet = {
   reps?: Parameter | null,
   rest?: Parameter | null,
   weight?: Parameter | null,
-  times?: Parameter | null,
+  times?: number | null,
+  dropsets?:  Array<StrengthExerciseDropSet > | null,
+};
+
+export type StrengthExerciseDropSet = {
+  __typename: "StrengthExerciseDropSet",
+  id: string,
+  reps?: Parameter | null,
+  weight?: Parameter | null,
+  times?: number | null,
 };
 
 export type CardioExercise = {
@@ -230,6 +239,9 @@ export type AddExerciseToWorkoutInput = {
   xid: string,
   name: string,
   type: ExerciseType,
+  machine_number?: string | null,
+  seat_height?: string | null,
+  notes?: string | null,
 };
 
 export type UpdateExerciseInWorkoutInput = {
@@ -239,8 +251,14 @@ export type UpdateExerciseInWorkoutInput = {
   notes?: string | null,
   machine_number?: string | null,
   seat_height?: string | null,
-  angle?: ParameterInput | null,
-  resistance?: ParameterInput | null,
+};
+
+export type SetInput = {
+  reps?: ParameterInput | null,
+  rest?: ParameterInput | null,
+  weight?: ParameterInput | null,
+  times?: number | null,
+  dropsets?: Array< StrengthExerciseDropSetInput > | null,
 };
 
 export type ParameterInput = {
@@ -249,11 +267,10 @@ export type ParameterInput = {
   unit?: string | null,
 };
 
-export type SetInput = {
+export type StrengthExerciseDropSetInput = {
   reps?: ParameterInput | null,
-  rest?: ParameterInput | null,
   weight?: ParameterInput | null,
-  times?: ParameterInput | null,
+  times?: number | null,
 };
 
 export type IntervalInput = {
@@ -1218,6 +1235,30 @@ export type GetMemberByIdQuery = {
       __typename: "WorkoutConnection",
       nextToken?: string | null,
     } | null,
+  } | null,
+};
+
+export type ListLibraryWorkoutsQueryVariables = {
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListLibraryWorkoutsQuery = {
+  listLibraryWorkouts?:  {
+    __typename: "WorkoutConnection",
+    items?:  Array< {
+      __typename: "Workout",
+      id: string,
+      tenantId: string,
+      clubId: string,
+      created_at: string,
+      updated_at: string,
+      trainerId: string,
+      memberId?: string | null,
+      name: string,
+      notes?: string | null,
+    } > | null,
+    nextToken?: string | null,
   } | null,
 };
 

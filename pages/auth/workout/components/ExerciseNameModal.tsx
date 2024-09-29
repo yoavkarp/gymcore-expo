@@ -13,6 +13,10 @@ import { useSnackbar } from "@/contexts/SnackbarContext";
 import Select from "@/components/ui/Select";
 import { useAddExerciseToWorkout } from "@/features/workout/hooks/api/useAddExerciseToWorkout";
 import { useUpdateExerciseInWorkout } from "@/features/workout/hooks/api/useUpdateExerciseInWorkout";
+import { Controller } from "react-hook-form";
+import { View } from "react-native";
+import Label from "@/components/ui/Label";
+import TextInput from "@/components/ui/TextInput";
 
 interface ExerciseNameModalProps {
     onDismiss?: () => void;
@@ -28,7 +32,7 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
     const [selectedExercise, setSelectedExercise] = useState<SearchResultItem | null>(null);
     const [openProps, setOpenProps] = useState<{ exerciseId?: string } | null>(null);
     const [visible, setVisible] = useState(false);
-    const { handleSubmit, setValue, getValues, reset, formState: { errors } } = useExerciseForm();
+    const { handleSubmit, setValue, getValues, reset, formState: { errors }, control } = useExerciseForm();
     const { workout, workoutId } = useWorkout();
 
     const { addExerciseToWorkout, result: addExerciseToWorkoutResult } = useAddExerciseToWorkout(workoutId);
@@ -99,22 +103,52 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
     }
 
     return (
-        <Modal visible={visible} dismissable onDismiss={() => { dismiss() }} style={{ gap: 8 }}>
+        <Modal visible={visible} dismissable onDismiss={() => { dismiss() }} style={{ gap: 8, width: 700 }}>
             <Text h1>{openProps?.exerciseId ? 'עריכת תרגיל קיים' : 'הוספת תרגיל'}</Text>
             <SearchExerciseModal defaultValue={selectedExercise || undefined} onChangeValue={(val) => {
                 setValue("xid", val.value)
                 setValue("name", val.title)
             }} />
             {errors.xid && <Text error>{errors.xid.message}</Text>}
-            <Select items={[{
+            {!openProps?.exerciseId && <Select items={[{
                 value: "CARDIO",
                 title: "קרדיו"
             },
             {
                 value: "STRENGTH",
                 title: "כוח"
-            }]} defaultValue={getValues("type")} onChangeValue={(val) => setValue("type", val.value as ExerciseType)} placeholder="בחר סוג" />
+            }]} defaultValue={getValues("type")} onChangeValue={(val) => setValue("type", val.value as ExerciseType)} placeholder="בחר סוג" />}
             {errors.type && <Text error>{errors.type.message}</Text>}
+
+            <Controller control={control} name="notes"
+                render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                    <View style={{ alignSelf: 'flex-start' }}>
+                        <Label>הערות</Label>
+                        <TextInput multiline numberOfLines={3} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value || ""} />
+                        {error && <Text error>{error.message}</Text>}
+                    </View>
+                )}
+            />
+
+            <Controller control={control} name="machine_number"
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <View>
+                        <Label>מספר מכונה</Label>
+                        <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} value={value || ""} />
+                        {error && <Text error>{error.message}</Text>}
+                    </View>
+                )}
+            />
+
+            <Controller control={control} name="seat_height"
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <View>
+                        <Label>גובה מושב</Label>
+                        <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} value={value || ""} />
+                        {error && <Text error>{error.message}</Text>}
+                    </View>
+                )}
+            />
             <Button onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
                 {openProps?.exerciseId ? 'עדכון' : 'הוספה'}
             </Button>

@@ -11,8 +11,10 @@ import { parameterToString } from "@/utils/parameter-to-string";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import YesNoDialog from "@/components/YesNoDialog";
-import { StrengthExercise } from "@/graphql";
+import { StrengthExercise, StrengthExerciseSet } from "@/graphql";
 import { useDeleteSetFromExercise } from "@/features/workout/hooks/api/useDeleteSetFromExercise";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface SetListItemProps {
     item: Exclude<StrengthExercise['sets'], null | undefined>[number];
@@ -21,16 +23,21 @@ interface SetListItemProps {
     onPressDelete?: () => any;
     onPressEdit?: () => any;
     index: number;
+    loading?: boolean;
 }
 
-export const SetListItem: React.FC<SetListItemProps> = ({ item, selected, onPress, onPressDelete, onPressEdit, index }) => {
+export const SetListItem: React.FC<SetListItemProps> = ({ loading = false, item, selected, onPress, onPressDelete, onPressEdit, index }) => {
 
     const { theme } = useTheme();
     return (
         <TouchableOpacity style={[{ padding: 5, gap: 10 }, selected && { backgroundColor: `${theme.colors.secondary.toString()}66` }]} onPress={() => onPress(item!.id)}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Label>סט {index + 1}</Label>
-                <View style={{ flexDirection: 'row', gap: 10 }}>
+                <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+                    <Label>סט {index + 1}</Label>
+                    <Text style={{ backgroundColor: theme.colors.success, paddingVertical: 5, paddingHorizontal: 20, borderRadius: 8 }}>x {item?.times || 1}</Text>
+
+                </View>
+                {loading ? <LoadingIndicator /> : <View style={{ flexDirection: 'row', gap: 10 }}>
                     <Button onPress={onPressDelete} style={{ paddingVertical: 5, paddingHorizontal: 10 }} error>
                         <Ionicons name="trash-sharp" size={20} />
                     </Button>
@@ -38,7 +45,7 @@ export const SetListItem: React.FC<SetListItemProps> = ({ item, selected, onPres
                     <Button onPress={onPressEdit} style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
                         <Ionicons name="pencil-sharp" size={20} />
                     </Button>
-                </View>
+                </View>}
             </View>
 
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
@@ -66,6 +73,8 @@ const SetList: React.FC<SetListProps> = ({ onChangeSelect, selectedExerciseId })
     const exerciseIndex = workout?.exercises?.findIndex((exercise) => exercise.id === selectedExerciseId)
 
     const { deleteSetFromExercise, result: deleteSetFromExerciseResult } = useDeleteSetFromExercise(workoutId)
+    const [deleting, setDeleting] = useState<string[]>([])
+    const [show] = useSnackbar();
 
     return (
         <>
@@ -82,7 +91,18 @@ const SetList: React.FC<SetListProps> = ({ onChangeSelect, selectedExerciseId })
                                 onChangeSelect(exerciseId)
                             }}
                             onPressDelete={() => yesNoDialog.current?.open(async () => {
-                                await deleteSetFromExercise(selectedExerciseId!, item!.id)
+                                setDeleting(prev => [...prev, item!.id])
+                                try {
+                                    await deleteSetFromExercise(selectedExerciseId!, item!.id)
+                                    show("הסט נמחק בהצלחה")
+                                }
+                                catch (e) {
+                                    show("אירעה שגיאה במחיקת הסט", "error")
+                                    console.log(e);
+                                }
+                                finally {
+                                    setDeleting(prev => prev.filter((id) => id !== item!.id))
+                                }
                             })}
                             onPressEdit={() => {
                                 if (selectedExerciseId && item?.id)

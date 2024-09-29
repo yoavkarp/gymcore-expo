@@ -11,6 +11,7 @@ fragment StrengthExerciseFragment on StrengthExercise {
         reps { ...ParameterFragment }
         weight { ...ParameterFragment }
         rest { ...ParameterFragment }
+        times
     }
 }
 

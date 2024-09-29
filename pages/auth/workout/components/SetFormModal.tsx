@@ -4,6 +4,7 @@ import Label from "@/components/ui/Label";
 import Modal from "@/components/ui/Modal";
 import Select, { SelectItem } from "@/components/ui/Select";
 import Text from "@/components/ui/Text";
+import TextInput from "@/components/ui/TextInput";
 import { View } from "@/components/ui/View";
 import { REPS_UNITS, REST_UNITS, WEIGHT_UNITS } from "@/constants/units";
 import { useCreateSetForm, useCreateWorkout, useWorkout } from "@/features/workout";
@@ -26,7 +27,7 @@ type SetFormModal = {
 
 const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDismiss }, ref) => {
 
-    const { control, reset, handleSubmit } = useCreateSetForm();
+    const { control, reset, handleSubmit, formState: { isSubmitting } } = useCreateSetForm();
 
     const [visible, setVisible] = useState(false);
     const [openProps, setOpenProps] = useState<{ exerciseId: string, setId?: string, exists?: boolean, exerciseIndex: number, setIndex?: number } | null>(null);
@@ -63,6 +64,7 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
                         reps: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.reps || undefined,
                         weight: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.weight || undefined,
                         rest: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.rest || undefined,
+                        times: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.times || undefined,
                     })
                 }
                 else {
@@ -151,8 +153,21 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
 
             />
 
-            <Button onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
-                {openProps?.exists ? 'עדכון' : 'הוספה'}
+            <Controller control={control} name="times"
+
+                render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
+                    return (
+                        <View>
+                            <Label>מספר סטים</Label>
+                            <TextInput keyboardType="decimal-pad" maxLength={2} onBlur={onBlur} placeholder="1" style={{ width: 100, textAlign: 'center' }} value={value ? value.toString() : ""} onChangeText={(text) => onChange(parseInt(text))} />
+                            {error && <Text error>{error.message}</Text>}
+                        </View>
+                    )
+                }
+                } />
+
+            <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
+                {openProps?.setId ? 'עדכון' : 'הוספה'}
             </Button>
         </Modal>
     );

@@ -59,4 +59,34 @@ export const REST_UNITS = [
     }
 ]
 
-export const ALL_UNITS = REPS_UNITS.concat(WEIGHT_UNITS).concat(REST_UNITS);
+export const DISTANCE_UNITS = [
+    {
+        value: "meter",
+        title: "מטר"
+    },
+    {
+        value: "km",
+        title: "קילומטר"
+    }
+]
+
+export const TEMPO_UNITS = [
+    {
+        value: "meter/minute",
+        title: "מטר לדקה"
+    },
+    {
+        value: "km/h",
+        title: "קמ״ש"
+    },
+    {
+        value: "machine",
+        title: "קצב מכונה"
+    },
+    {
+        value: "mph",
+        title: "מייל לשעה"
+    }
+]
+
+export const ALL_UNITS = REPS_UNITS.concat(WEIGHT_UNITS).concat(REST_UNITS).concat(DISTANCE_UNITS).concat(TEMPO_UNITS);
