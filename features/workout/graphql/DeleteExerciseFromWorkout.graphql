@@ -1,0 +1,15 @@
+mutation DeleteExerciseFromWorkout($workoutId: ID!, $exerciseId: ID!) {
+    deleteExerciseFromWorkout(workoutId: $workoutId, exerciseId: $exerciseId) {
+        id
+        updated_at
+        exercises {
+            __typename
+            ... on StrengthExercise {
+                ...StrengthExerciseFragment
+            }
+            ... on CardioExercise {
+                ...CardioExerciseFragment
+            }
+        }
+    }
+}

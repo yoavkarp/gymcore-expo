@@ -1,0 +1,14 @@
+mutation UpdateSetInExercise($workoutId: ID!, $exerciseId: ID!, $setId: ID!, $input: SetInput!) {
+    updateSetInExercise(workoutId: $workoutId, exerciseId: $exerciseId, setId: $setId, input: $input) {
+        exercises {
+            __typename
+            ... on StrengthExercise {
+                ...StrengthExerciseFragment
+            }
+            ... on CardioExercise {
+                ...CardioExerciseFragment
+            }
+        }
+        updated_at
+    }
+}

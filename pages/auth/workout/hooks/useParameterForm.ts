@@ -1,9 +1,9 @@
 import { UseFormProps, useForm } from "react-hook-form";
 import { z } from "zod";
 
-export const createParameterInputSchema = z.object({
+export const parameterInputSchema = z.object({
     max: z.number().or(z.null()).optional(),
-    unit: z.string().trim().max(255).optional(),
+    unit: z.string().trim().max(255).or(z.null()).optional(),
     val: z.number().or(z.null()).optional(),
 })
     .refine(data => {
@@ -19,9 +19,9 @@ export const createParameterInputSchema = z.object({
         return true;
     }, { message: "ערך מינימלי חייב להיות מוגדר כאשר ערך מקסימלי מוגדר" })
 
-export type CreateParameterInput = z.infer<typeof createParameterInputSchema>;
+export type ParameterInput = z.infer<typeof parameterInputSchema>;
 
-export const useCreateParameterForm = (options?: UseFormProps<CreateParameterInput>) => {
-    const form = useForm<CreateParameterInput>(options);
+export const useParameterForm = (options?: UseFormProps<ParameterInput>) => {
+    const form = useForm<ParameterInput>(options);
     return form;
 }

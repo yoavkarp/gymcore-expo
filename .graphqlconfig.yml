@@ -6,6 +6,7 @@ projects:
     excludes:
       - ./amplify/**
       - features/appsync/API.ts
+      - features/appsync/index.ts
     extensions:
       amplify:
         codeGenTarget: typescript

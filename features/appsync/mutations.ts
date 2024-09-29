@@ -139,6 +139,7 @@ export const createWorkout = /* GraphQL */ `mutation CreateWorkout($input: Creat
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -147,6 +148,7 @@ export const createWorkout = /* GraphQL */ `mutation CreateWorkout($input: Creat
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -175,6 +177,7 @@ export const updateWorkout = /* GraphQL */ `mutation UpdateWorkout($workoutId: I
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -183,6 +186,7 @@ export const updateWorkout = /* GraphQL */ `mutation UpdateWorkout($workoutId: I
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -194,6 +198,44 @@ export const updateWorkout = /* GraphQL */ `mutation UpdateWorkout($workoutId: I
 ` as GeneratedMutation<
   APITypes.UpdateWorkoutMutationVariables,
   APITypes.UpdateWorkoutMutation
+>;
+export const deleteWorkout = /* GraphQL */ `mutation DeleteWorkout($workoutId: ID!) {
+  deleteWorkout(workoutId: $workoutId) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteWorkoutMutationVariables,
+  APITypes.DeleteWorkoutMutation
 >;
 export const addExerciseToWorkout = /* GraphQL */ `mutation AddExerciseToWorkout(
   $workoutId: ID!
@@ -214,6 +256,7 @@ export const addExerciseToWorkout = /* GraphQL */ `mutation AddExerciseToWorkout
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -222,6 +265,7 @@ export const addExerciseToWorkout = /* GraphQL */ `mutation AddExerciseToWorkout
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -258,6 +302,7 @@ export const updateExerciseInWorkout = /* GraphQL */ `mutation UpdateExerciseInW
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -266,6 +311,7 @@ export const updateExerciseInWorkout = /* GraphQL */ `mutation UpdateExerciseInW
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -277,6 +323,44 @@ export const updateExerciseInWorkout = /* GraphQL */ `mutation UpdateExerciseInW
 ` as GeneratedMutation<
   APITypes.UpdateExerciseInWorkoutMutationVariables,
   APITypes.UpdateExerciseInWorkoutMutation
+>;
+export const deleteExerciseFromWorkout = /* GraphQL */ `mutation DeleteExerciseFromWorkout($workoutId: ID!, $exerciseId: ID!) {
+  deleteExerciseFromWorkout(workoutId: $workoutId, exerciseId: $exerciseId) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteExerciseFromWorkoutMutationVariables,
+  APITypes.DeleteExerciseFromWorkoutMutation
 >;
 export const addSetToExercise = /* GraphQL */ `mutation AddSetToExercise(
   $workoutId: ID!
@@ -302,6 +386,7 @@ export const addSetToExercise = /* GraphQL */ `mutation AddSetToExercise(
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -310,6 +395,7 @@ export const addSetToExercise = /* GraphQL */ `mutation AddSetToExercise(
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -321,50 +407,6 @@ export const addSetToExercise = /* GraphQL */ `mutation AddSetToExercise(
 ` as GeneratedMutation<
   APITypes.AddSetToExerciseMutationVariables,
   APITypes.AddSetToExerciseMutation
->;
-export const addIntervalToExercise = /* GraphQL */ `mutation AddIntervalToExercise(
-  $workoutId: ID!
-  $exerciseId: ID!
-  $input: IntervalInput!
-) {
-  addIntervalToExercise(
-    workoutId: $workoutId
-    exerciseId: $exerciseId
-    input: $input
-  ) {
-    id
-    tenantId
-    clubId
-    created_at
-    updated_at
-    trainerId
-    memberId
-    name
-    notes
-    exercises {
-      ... on StrengthExercise {
-        id
-        xid
-        name
-        notes
-        machine_number
-        seat_height
-      }
-      ... on CardioExercise {
-        id
-        xid
-        name
-        notes
-        machine_number
-        seat_height
-      }
-    }
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.AddIntervalToExerciseMutationVariables,
-  APITypes.AddIntervalToExerciseMutation
 >;
 export const updateSetInExercise = /* GraphQL */ `mutation UpdateSetInExercise(
   $workoutId: ID!
@@ -392,6 +434,7 @@ export const updateSetInExercise = /* GraphQL */ `mutation UpdateSetInExercise(
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -400,6 +443,7 @@ export const updateSetInExercise = /* GraphQL */ `mutation UpdateSetInExercise(
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -411,6 +455,94 @@ export const updateSetInExercise = /* GraphQL */ `mutation UpdateSetInExercise(
 ` as GeneratedMutation<
   APITypes.UpdateSetInExerciseMutationVariables,
   APITypes.UpdateSetInExerciseMutation
+>;
+export const deleteSetFromExercise = /* GraphQL */ `mutation DeleteSetFromExercise($workoutId: ID!, $exerciseId: ID!, $setId: ID!) {
+  deleteSetFromExercise(
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    setId: $setId
+  ) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteSetFromExerciseMutationVariables,
+  APITypes.DeleteSetFromExerciseMutation
+>;
+export const addIntervalToExercise = /* GraphQL */ `mutation AddIntervalToExercise(
+  $workoutId: ID!
+  $exerciseId: ID!
+  $input: IntervalInput!
+) {
+  addIntervalToExercise(
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    input: $input
+  ) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.AddIntervalToExerciseMutationVariables,
+  APITypes.AddIntervalToExerciseMutation
 >;
 export const updateIntervalInExercise = /* GraphQL */ `mutation UpdateIntervalInExercise(
   $workoutId: ID!
@@ -438,6 +570,7 @@ export const updateIntervalInExercise = /* GraphQL */ `mutation UpdateIntervalIn
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -446,6 +579,7 @@ export const updateIntervalInExercise = /* GraphQL */ `mutation UpdateIntervalIn
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -457,6 +591,90 @@ export const updateIntervalInExercise = /* GraphQL */ `mutation UpdateIntervalIn
 ` as GeneratedMutation<
   APITypes.UpdateIntervalInExerciseMutationVariables,
   APITypes.UpdateIntervalInExerciseMutation
+>;
+export const deleteIntervalFromExercise = /* GraphQL */ `mutation DeleteIntervalFromExercise(
+  $workoutId: ID!
+  $exerciseId: ID!
+  $intervalId: ID!
+) {
+  deleteIntervalFromExercise(
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    intervalId: $intervalId
+  ) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteIntervalFromExerciseMutationVariables,
+  APITypes.DeleteIntervalFromExerciseMutation
+>;
+export const addWorkoutToLibrary = /* GraphQL */ `mutation AddWorkoutToLibrary($workoutId: ID!) {
+  addWorkoutToLibrary(workoutId: $workoutId) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.AddWorkoutToLibraryMutationVariables,
+  APITypes.AddWorkoutToLibraryMutation
 >;
 export const register = /* GraphQL */ `mutation Register($input: RegisterInput!) {
   register(input: $input) {

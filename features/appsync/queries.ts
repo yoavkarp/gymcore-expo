@@ -75,6 +75,7 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height
@@ -83,6 +84,7 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
         id
         xid
         name
+        type
         notes
         machine_number
         seat_height

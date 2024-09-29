@@ -1,5 +1,6 @@
 query GetMemberById($id: ID!) {
     getMemberById(memberId: $id) {
+        tenantId
         id
         name
         phone_number
@@ -8,6 +9,15 @@ query GetMemberById($id: ID!) {
         gender
         birthdate
         address
+        profile_workouts {
+            items {
+                id
+                name
+                created_at
+                updated_at
+            }
+            nextToken
+        }
         measurement {
             height
             weight

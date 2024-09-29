@@ -6,10 +6,11 @@ import Select, { SelectItem } from "@/components/ui/Select";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
 import { REPS_UNITS, REST_UNITS, WEIGHT_UNITS } from "@/constants/units";
-import { useCreateSetForm, useCreateWorkout } from "@/features/workout";
-import { CreateSetFormInput, createSetSchema } from "@/features/workout";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { randomUUID } from "expo-crypto";
+import { useCreateSetForm, useCreateWorkout, useWorkout } from "@/features/workout";
+import { SetFormInput } from "@/features/workout";
+import { useAddSetToExercise } from "@/features/workout/hooks/api/useAddSetToExercise";
+import { useUpdateSetInExercise } from "@/features/workout/hooks/api/useUpdateSetInExercise";
+import { StrengthExercise } from "@/graphql";
 import React, { useImperativeHandle, useMemo } from "react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -28,17 +29,20 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     const { control, reset, handleSubmit } = useCreateSetForm();
 
     const [visible, setVisible] = useState(false);
-    const [openProps, setOpenProps] = useState<{ exerciseId: string, setId: string, exists?: boolean, exerciseIndex: number, setIndex?: number } | null>(null);
+    const [openProps, setOpenProps] = useState<{ exerciseId: string, setId?: string, exists?: boolean, exerciseIndex: number, setIndex?: number } | null>(null);
 
-    const workoutForm = useCreateWorkout();
+    const { workout, workoutId } = useWorkout();
+    const { addSetToExercise, result: addSetToExerciseResult } = useAddSetToExercise(workoutId);
+    const { updateSetInExercise, result: updateSetInExerciseResult } = useUpdateSetInExercise(workoutId);
 
-    const onSubmit = (data: CreateSetFormInput) => {
+    const onSubmit = async (data: SetFormInput) => {
+        console.log(data);
         if (!openProps) return;
 
         if (!openProps.setIndex)
-            workoutForm.setValue(`exercises.${openProps.exerciseIndex}.sets`, [...(workoutForm.getValues(`exercises.${openProps.exerciseIndex}.sets`) || []), data]);
-        else if (openProps.setIndex)
-            workoutForm.setValue(`exercises.${openProps.exerciseIndex}.sets.${openProps.setIndex}`, data);
+            await addSetToExercise(openProps.exerciseId, { ...data });
+        else if (openProps.setIndex && openProps.setId)
+            await updateSetInExercise(openProps.exerciseId, openProps.setId, data);
 
         setVisible(false);
 
@@ -47,31 +51,32 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     useImperativeHandle(ref, () => {
         return {
             open: (exerciseId, setId) => {
-                const newSetId = randomUUID();
-                const exerciseIndex = workoutForm.getValues("exercises").findIndex((exercise) => exercise.id === exerciseId);
-                const setIndex = setId ? workoutForm.getValues(`exercises.${exerciseIndex}.sets`)?.findIndex((set) => set?.id === setId) : undefined;
+                const exerciseIndex = workout?.exercises?.findIndex((exercise) => exercise.id === exerciseId);
 
-                if (exerciseIndex === -1) return;
+                if (typeof (exerciseIndex) === 'undefined' || exerciseIndex === -1) return;
 
-                if (setIndex) {
+                const setIndex = setId ? (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.findIndex((set) => set?.id === setId) : undefined;
+
+                if (typeof (setIndex) === 'number' && setIndex > -1) {
+                    setOpenProps({ exerciseId, setId, exists: Boolean(setIndex), exerciseIndex, setIndex });
                     reset({
-                        reps: workoutForm.getValues(`exercises.${exerciseIndex}.sets.${setIndex}.reps`),
-                        weight: workoutForm.getValues(`exercises.${exerciseIndex}.sets.${setIndex}.weight`),
-                        rest: workoutForm.getValues(`exercises.${exerciseIndex}.sets.${setIndex}.rest`),
-                        id: setId
+                        reps: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.reps || undefined,
+                        weight: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.weight || undefined,
+                        rest: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.rest || undefined,
                     })
                 }
                 else {
-                    reset({ id: newSetId })
+                    setOpenProps({ exerciseId, exists: Boolean(setIndex), exerciseIndex });
+                    reset()
                 }
-                setOpenProps({ exerciseId, setId: setId || newSetId, exists: Boolean(setIndex), exerciseIndex, setIndex });
+
                 setVisible(true);
             },
             close: () => {
                 onDismiss?.();
             }
         }
-    }, [])
+    }, [visible])
 
     return (
         <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>

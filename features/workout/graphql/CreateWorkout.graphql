@@ -1,5 +1,14 @@
 mutation CreateWorkout($input: CreateWorkoutInput!) {
     createWorkout(input: $input) {
         id
+        tenantId
+        clubId
+        memberId
+        created_at
+        updated_at
+        trainerId
+        memberId
+        name
+        notes
     }
 }

@@ -5,29 +5,36 @@ import Label from "@/components/ui/Label";
 import { Controller } from "react-hook-form";
 import React from "react";
 import Button from "@/components/ui/Button";
-import { UpdateWorkoutFormInput, useUpdateWorkoutForm } from "./hooks/useUpdateWorkoutForm";
+import { WorkoutFormInput, useWorkoutForm } from "./hooks/useWorkoutForm";
 import ExerciseList from "./components/ExerciseList";
 import { useWorkout } from "@/features/workout/components/WorkoutProvider";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import { useUpdateWorkout } from "@/features/workout/hooks/api/useUpdateWorkout";
+import Select from "@/components/ui/Select";
+import StrengthExerciseForm from "./components/StrengthExerciseForm";
 
 const WorkoutPage: React.FC = () => {
 
 
-    const { updateWorkout, workout } = useWorkout();
+    const { workout } = useWorkout();
+    const { updateWorkout, result } = useUpdateWorkout(workout!.id);
     const [show] = useSnackbar()
+    const [selectedExerciseId, setSelectedExerciseId] = React.useState<string | null>(null);
 
-    const { control, formState: { isDirty, dirtyFields }, handleSubmit, reset } = useUpdateWorkoutForm({
+    const selectedExercise = workout?.exercises?.find((exercise) => exercise.id === selectedExerciseId);
+
+    const { control, formState: { isDirty, dirtyFields }, handleSubmit, reset } = useWorkoutForm({
         defaultValues: {
             name: workout?.name,
             notes: workout?.notes,
         }
     });
 
-    const onSubmitUpdateWorkout = async (data: UpdateWorkoutFormInput) => {
+    const onSubmitUpdateWorkout = async (data: WorkoutFormInput) => {
         try {
             const res = await updateWorkout(
                 Object.keys(dirtyFields).reduce<any>((acc, key) => {
-                    acc[key] = data[key as keyof UpdateWorkoutFormInput];
+                    acc[key] = data[key as keyof WorkoutFormInput];
                     return acc;
                 }, {})
             )
@@ -62,24 +69,17 @@ const WorkoutPage: React.FC = () => {
                     />
                     <View>
                         <Label>רשימת תרגילים</Label>
-                        <ExerciseList exercises={workout?.exercises || []} onChangeSelect={(e) => console.log(e)} />
+                        <ExerciseList exercises={workout?.exercises || []} onChangeSelect={setSelectedExerciseId} />
                     </View>
-                    {/* 
+
                 </View>
                 {selectedExercise && <View style={{ flexBasis: "48%", paddingTop: 10 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text h1>{selectedExercise?.name}</Text>
-                        <Select
-                            items={exerciseTypes}
-                            defaultValue="strength"
-                            onChangeValue={({ value }) => setValue(`exercises.${exercises.indexOf(selectedExercise)}.type`, value as ExerciseType)}
-                        />
                     </View>
-                    {selectedExercise.type === ExerciseType.Strength && <StrengthExerciseForm selectedExerciseId={selectedExerciseId} />}
-                </View>} */}
-                </View>
+                    {selectedExercise.__typename === "StrengthExercise" && <StrengthExerciseForm selectedExerciseId={selectedExerciseId} />}
+                </View>}
             </View>
-
         </View>
     );
 }

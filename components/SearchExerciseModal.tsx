@@ -34,7 +34,6 @@ const SearchExerciseModal: React.FC<SearchExerciseModalProps> = ({ onChangeValue
             onChangeText={searchExercise}
             items={items}
             onChangeValue={onChangeValue}
-            defaultValue={defaultValue?.value}
         />
     );
 }

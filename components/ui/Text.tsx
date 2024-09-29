@@ -69,7 +69,7 @@ const Text = forwardRef<TextRef, TextProps>(({ bulletColor, style, ...rootProps 
 
     if (rootProps.h1) {
         return <View style={{ alignItems: 'center', gap: 10, flexDirection: 'row' }}>
-            <View style={viewLayout([_style.bullet, bulletColor ? { backgroundColor: theme.colors.primary } : {}])} />
+            <View style={viewLayout([_style.bullet, bulletColor ? { backgroundColor: bulletColor } : {}])} />
             {textComponent}
         </View>
     }

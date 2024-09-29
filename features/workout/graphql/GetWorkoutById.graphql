@@ -10,37 +10,12 @@ query GetWorkoutById($workoutId: ID!) {
         name
         notes
         exercises {
+            __typename
             ... on StrengthExercise {
-                id
-                xid
-                name
-                notes
-                machine_number
-                seat_height
-                sets {
-                    id
-                    reps { ...ParameterFragment }
-                    weight { ...ParameterFragment }
-                    rest { ...ParameterFragment }
-                }
+                ...StrengthExerciseFragment
             }
             ... on CardioExercise {
-                id
-                xid
-                name
-                notes
-                machine_number
-                seat_height
-                intervals {
-                    id
-                    duration { ...ParameterFragment }
-                    distance { ...ParameterFragment }
-                    tempo { ...ParameterFragment }
-                    intensity { ...ParameterFragment }
-                    angle { ...ParameterFragment }
-                    resistance { ...ParameterFragment }
-                    rest { ...ParameterFragment }
-                }
+                ...CardioExerciseFragment
             }
         }
     }

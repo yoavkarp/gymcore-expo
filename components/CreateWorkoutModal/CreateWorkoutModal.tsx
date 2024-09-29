@@ -6,9 +6,9 @@ import { CreateWorkoutFormInput, useCreateWorkoutForm } from "./hooks/useCreateW
 import { View } from "../ui/View";
 import Button from "../ui/Button";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { useCreateWorkoutMutation } from "@/graphql";
 import { router } from "expo-router";
 import { useClub } from "@/features/club";
+import { useCreateWorkout } from "@/features/workout";
 
 interface CreateWorkoutModalProps {
     memberId?: string;
@@ -27,7 +27,10 @@ const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProp
     const { control, handleSubmit } = useCreateWorkoutForm();
     const { currentTrainer } = useClub();
 
-    const [createWorkoutMutation, { loading, error: apiError }] = useCreateWorkoutMutation({
+    const {
+        createWorkout: createWorkoutMutation,
+        result: { loading, error: apiError }
+    } = useCreateWorkout({
         onCompleted(data) {
             if (data.createWorkout?.id)
                 router.push(`/workout/${data.createWorkout.id}`)

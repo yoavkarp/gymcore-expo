@@ -8,6 +8,8 @@ import { useMemo, useRef, useState } from "react";
 import TouchableOpacity from "@/components/ui/TouchableOpacity";
 import YesNoDialog from "@/components/YesNoDialog";
 import { Ionicons } from "@expo/vector-icons";
+import { useDeleteExerciseFromWorkout } from "@/features/workout/hooks/api/useDeleteExerciseFromWorkout";
+import { useWorkout } from "@/features/workout";
 
 interface ExerciseListItemProps {
     item: Exercise;
@@ -47,10 +49,15 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }
     const yesNoDialogRef = useRef<YesNoDialog>(null);
     const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
 
+    const { workoutId, workout } = useWorkout();
+
+    const { deleteExerciseFromWorkout, result: deleteExerciseFromWorkoutResult } = useDeleteExerciseFromWorkout(workoutId);
+
+
     return (
         <>
             <FlatList
-                data={exercises}
+                data={workout?.exercises}
                 renderItem={({ item }) => {
                     return (
 
@@ -61,7 +68,8 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }
                                 setSelectedExerciseId(exerciseId)
                                 onChangeSelect(exerciseId)
                             }}
-                            onPressDelete={() => yesNoDialogRef.current?.open(() => {
+                            onPressDelete={() => yesNoDialogRef.current?.open(async () => {
+                                await deleteExerciseFromWorkout(item?.id)
                                 setSelectedExerciseId(null)
                                 onChangeSelect(null);
                             })}

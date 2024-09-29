@@ -1,12 +1,7 @@
 import { createContext, PropsWithChildren, useEffect } from "react";
 import { useContext } from "react";
-import { AddExerciseToWorkoutInput, AddExerciseToWorkoutMutation, Exact, GetWorkoutByIdLazyQueryHookResult, GetWorkoutByIdQuery, Scalars, UpdateWorkoutMutation, useGetWorkoutByIdLazyQuery, Workout } from "@/graphql";
-import { FetchResult, QueryResult } from "@apollo/client";
-import { UseFormReturn } from "react-hook-form";
-import { CreateWorkoutFormInput } from "../../../components/CreateWorkoutModal/hooks/useCreateWorkoutForm";
-import LoadingIndicator from "@/components/ui/LoadingIndicator";
-import Text from "@/components/ui/Text";
-import { useWorkoutActions } from "../hooks/useWorkoutActions";
+import { Exact, GetWorkoutByIdQuery, Scalars, useGetWorkoutByIdLazyQuery, Workout } from "@/graphql";
+import { QueryResult } from "@apollo/client";
 
 
 type WorkoutContextValue = {
@@ -14,9 +9,7 @@ type WorkoutContextValue = {
         workoutId: Scalars["ID"]["input"];
     }>>;
     workout?: Workout | null;
-
-    updateWorkout: (input: CreateWorkoutFormInput) => Promise<FetchResult<UpdateWorkoutMutation>>;
-    addExerciseToWorkout: (input: AddExerciseToWorkoutInput) => Promise<FetchResult<AddExerciseToWorkoutMutation>>;
+    workoutId: string;
 };
 
 const WorkoutContext = createContext<WorkoutContextValue | null>(null);
@@ -29,22 +22,19 @@ type WorkoutProviderProps = {
 
 export function WorkoutProvider({ children, workoutId }: PropsWithChildren<WorkoutProviderProps>) {
 
-    const actions = useWorkoutActions(workoutId);
+    const [getWorkoutById, result] = useGetWorkoutByIdLazyQuery({
+        fetchPolicy: "network-only"
+    });
 
     useEffect(() => {
-        actions.getWorkout()
+        getWorkoutById({ variables: { workoutId } });
     }, [workoutId])
 
     return (
         <WorkoutContext.Provider value={{
-            query: actions.getWorkoutResult,
-            workout: actions.getWorkoutResult.data?.getWorkoutById,
-            updateWorkout: (input) => {
-                return actions.updateWorkout(input)
-            },
-            addExerciseToWorkout: (input) => {
-                return actions.addExerciseToWorkout(input)
-            },
+            query: result,
+            workout: result.data?.getWorkoutById,
+            workoutId
         }}>
             {children}
         </WorkoutContext.Provider>

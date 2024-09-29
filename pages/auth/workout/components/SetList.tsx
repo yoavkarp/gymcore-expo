@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
-import { useCreateWorkout, CreateSetFormInput } from "@/features/workout";
+import { useWorkout } from "@/features/workout";
 import { FlatList } from "react-native";
 import SetFormModal from "./SetFormModal";
 import { useRef, useState } from "react";
@@ -11,9 +11,11 @@ import { parameterToString } from "@/utils/parameter-to-string";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import YesNoDialog from "@/components/YesNoDialog";
+import { StrengthExercise } from "@/graphql";
+import { useDeleteSetFromExercise } from "@/features/workout/hooks/api/useDeleteSetFromExercise";
 
 interface SetListItemProps {
-    item: CreateSetFormInput;
+    item: Exclude<StrengthExercise['sets'], null | undefined>[number];
     selected: boolean;
     onPress: (exerciseId: string) => any;
     onPressDelete?: () => any;
@@ -25,7 +27,7 @@ export const SetListItem: React.FC<SetListItemProps> = ({ item, selected, onPres
 
     const { theme } = useTheme();
     return (
-        <TouchableOpacity style={[{ padding: 5, gap: 10 }, selected && { backgroundColor: `${theme.colors.secondary.toString()}66` }]} onPress={() => onPress(item.id)}>
+        <TouchableOpacity style={[{ padding: 5, gap: 10 }, selected && { backgroundColor: `${theme.colors.secondary.toString()}66` }]} onPress={() => onPress(item!.id)}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Label>סט {index + 1}</Label>
                 <View style={{ flexDirection: 'row', gap: 10 }}>
@@ -40,9 +42,9 @@ export const SetListItem: React.FC<SetListItemProps> = ({ item, selected, onPres
             </View>
 
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
-                {item.reps && <Text>{parameterToString(item.reps, "חזרות")}</Text>}
-                {item.weight && <Text>{parameterToString(item.weight, "משקל")}</Text>}
-                {item.rest && <Text>{parameterToString(item.rest, "מנוחה")}</Text>}
+                {item?.reps && <Text>{parameterToString(item.reps, "חזרות")}</Text>}
+                {item?.weight && <Text>{parameterToString(item.weight, "משקל")}</Text>}
+                {item?.rest && <Text>{parameterToString(item.rest, "מנוחה")}</Text>}
             </View>
 
         </TouchableOpacity>
@@ -56,18 +58,20 @@ type SetListProps = {
 
 const SetList: React.FC<SetListProps> = ({ onChangeSelect, selectedExerciseId }) => {
 
-    const { watch, getValues, setValue } = useCreateWorkout();
+    const { workout, workoutId } = useWorkout();
     const setFormModal = useRef<SetFormModal>(null);
     const yesNoDialog = useRef<YesNoDialog>(null);
 
     const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
-    const exerciseIndex = getValues("exercises").findIndex((exercise) => exercise.id === selectedExerciseId);
+    const exerciseIndex = workout?.exercises?.findIndex((exercise) => exercise.id === selectedExerciseId)
+
+    const { deleteSetFromExercise, result: deleteSetFromExerciseResult } = useDeleteSetFromExercise(workoutId)
 
     return (
         <>
             <FlatList
                 style={{ maxHeight: 400 }}
-                data={watch(`exercises.${exerciseIndex}.sets`) || []}
+                data={(workout?.exercises?.[exerciseIndex || 0] as StrengthExercise).sets || []}
                 renderItem={({ item, index }) => {
                     return (
                         <SetListItem
@@ -77,8 +81,8 @@ const SetList: React.FC<SetListProps> = ({ onChangeSelect, selectedExerciseId })
                                 setSelectedSetId(exerciseId)
                                 onChangeSelect(exerciseId)
                             }}
-                            onPressDelete={() => yesNoDialog.current?.open(() => {
-                                setValue(`exercises.${exerciseIndex}.sets`, [...(getValues(`exercises.${exerciseIndex}.sets`) || []).filter((set) => set.id !== item?.id)]);
+                            onPressDelete={() => yesNoDialog.current?.open(async () => {
+                                await deleteSetFromExercise(selectedExerciseId!, item!.id)
                             })}
                             onPressEdit={() => {
                                 if (selectedExerciseId && item?.id)

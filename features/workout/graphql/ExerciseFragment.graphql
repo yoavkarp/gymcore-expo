@@ -1,0 +1,35 @@
+fragment StrengthExerciseFragment on StrengthExercise {
+    type
+    id
+    xid
+    name
+    notes
+    machine_number
+    seat_height
+    sets {
+        id
+        reps { ...ParameterFragment }
+        weight { ...ParameterFragment }
+        rest { ...ParameterFragment }
+    }
+}
+
+fragment CardioExerciseFragment on CardioExercise {
+    type
+    id
+    xid
+    name
+    notes
+    machine_number
+    seat_height
+    intervals {
+        id
+        duration { ...ParameterFragment }
+        distance { ...ParameterFragment }
+        tempo { ...ParameterFragment }
+        intensity { ...ParameterFragment }
+        angle { ...ParameterFragment }
+        resistance { ...ParameterFragment }
+        rest { ...ParameterFragment }
+    }
+}

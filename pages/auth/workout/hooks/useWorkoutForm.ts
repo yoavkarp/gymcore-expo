@@ -13,9 +13,9 @@ export const updateWorkoutSchema = z.object({
     }, { message: "אתה חייב להגדיר לפחות פרמטר אחד" })
 
 
-export type UpdateWorkoutFormInput = z.infer<typeof updateWorkoutSchema>;
+export type WorkoutFormInput = z.infer<typeof updateWorkoutSchema>;
 
-export const useUpdateWorkoutForm = (options?: UseFormProps<UpdateWorkoutFormInput>) => {
-    const form = useForm<UpdateWorkoutFormInput>(options);
+export const useWorkoutForm = (options?: UseFormProps<WorkoutFormInput>) => {
+    const form = useForm<WorkoutFormInput>(options);
     return form;
 }
