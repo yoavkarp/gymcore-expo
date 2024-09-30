@@ -232,6 +232,9 @@ export type Mutation = {
   deleteIntervalFromExercise?: Maybe<Workout>;
   deleteSetFromExercise?: Maybe<Workout>;
   deleteWorkout?: Maybe<Workout>;
+  moveExerciseInWorkout?: Maybe<Workout>;
+  moveIntervalInExercise?: Maybe<Workout>;
+  moveSetInExercise?: Maybe<Workout>;
   register?: Maybe<Member>;
   updateExerciseInWorkout?: Maybe<Workout>;
   updateIntervalInExercise?: Maybe<Workout>;
@@ -313,6 +316,29 @@ export type MutationDeleteSetFromExerciseArgs = {
 
 
 export type MutationDeleteWorkoutArgs = {
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationMoveExerciseInWorkoutArgs = {
+  from: Scalars['Int']['input'];
+  to: Scalars['Int']['input'];
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationMoveIntervalInExerciseArgs = {
+  exerciseId: Scalars['ID']['input'];
+  from: Scalars['Int']['input'];
+  to: Scalars['Int']['input'];
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationMoveSetInExerciseArgs = {
+  exerciseId: Scalars['ID']['input'];
+  from: Scalars['Int']['input'];
+  to: Scalars['Int']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -667,6 +693,35 @@ export type GetWorkoutByIdQueryVariables = Exact<{
 export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, times?: number | null, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
 
 export type ParameterFragmentFragment = { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null };
+
+export type MoveExerciseInWorkoutMutationVariables = Exact<{
+  workoutId: Scalars['ID']['input'];
+  from: Scalars['Int']['input'];
+  to: Scalars['Int']['input'];
+}>;
+
+
+export type MoveExerciseInWorkoutMutation = { __typename?: 'Mutation', moveExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, times?: number | null, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+
+export type MoveIntervalInExerciseMutationVariables = Exact<{
+  workoutId: Scalars['ID']['input'];
+  exerciseId: Scalars['ID']['input'];
+  from: Scalars['Int']['input'];
+  to: Scalars['Int']['input'];
+}>;
+
+
+export type MoveIntervalInExerciseMutation = { __typename?: 'Mutation', moveIntervalInExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, times?: number | null, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+
+export type MoveSetInExerciseMutationVariables = Exact<{
+  workoutId: Scalars['ID']['input'];
+  exerciseId: Scalars['ID']['input'];
+  from: Scalars['Int']['input'];
+  to: Scalars['Int']['input'];
+}>;
+
+
+export type MoveSetInExerciseMutation = { __typename?: 'Mutation', moveSetInExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, times?: number | null, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
 
 export type UpdateExerciseInWorkoutMutationVariables = Exact<{
   workoutId: Scalars['ID']['input'];
@@ -1476,6 +1531,153 @@ export type GetWorkoutByIdQueryHookResult = ReturnType<typeof useGetWorkoutByIdQ
 export type GetWorkoutByIdLazyQueryHookResult = ReturnType<typeof useGetWorkoutByIdLazyQuery>;
 export type GetWorkoutByIdSuspenseQueryHookResult = ReturnType<typeof useGetWorkoutByIdSuspenseQuery>;
 export type GetWorkoutByIdQueryResult = Apollo.QueryResult<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>;
+export const MoveExerciseInWorkoutDocument = gql`
+    mutation MoveExerciseInWorkout($workoutId: ID!, $from: Int!, $to: Int!) {
+  moveExerciseInWorkout(workoutId: $workoutId, from: $from, to: $to) {
+    exercises {
+      __typename
+      ... on StrengthExercise {
+        ...StrengthExerciseFragment
+      }
+      ... on CardioExercise {
+        ...CardioExerciseFragment
+      }
+    }
+    updated_at
+  }
+}
+    ${StrengthExerciseFragmentFragmentDoc}
+${CardioExerciseFragmentFragmentDoc}`;
+export type MoveExerciseInWorkoutMutationFn = Apollo.MutationFunction<MoveExerciseInWorkoutMutation, MoveExerciseInWorkoutMutationVariables>;
+
+/**
+ * __useMoveExerciseInWorkoutMutation__
+ *
+ * To run a mutation, you first call `useMoveExerciseInWorkoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMoveExerciseInWorkoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [moveExerciseInWorkoutMutation, { data, loading, error }] = useMoveExerciseInWorkoutMutation({
+ *   variables: {
+ *      workoutId: // value for 'workoutId'
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function useMoveExerciseInWorkoutMutation(baseOptions?: Apollo.MutationHookOptions<MoveExerciseInWorkoutMutation, MoveExerciseInWorkoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MoveExerciseInWorkoutMutation, MoveExerciseInWorkoutMutationVariables>(MoveExerciseInWorkoutDocument, options);
+      }
+export type MoveExerciseInWorkoutMutationHookResult = ReturnType<typeof useMoveExerciseInWorkoutMutation>;
+export type MoveExerciseInWorkoutMutationResult = Apollo.MutationResult<MoveExerciseInWorkoutMutation>;
+export type MoveExerciseInWorkoutMutationOptions = Apollo.BaseMutationOptions<MoveExerciseInWorkoutMutation, MoveExerciseInWorkoutMutationVariables>;
+export const MoveIntervalInExerciseDocument = gql`
+    mutation MoveIntervalInExercise($workoutId: ID!, $exerciseId: ID!, $from: Int!, $to: Int!) {
+  moveIntervalInExercise(
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    from: $from
+    to: $to
+  ) {
+    exercises {
+      __typename
+      ... on StrengthExercise {
+        ...StrengthExerciseFragment
+      }
+      ... on CardioExercise {
+        ...CardioExerciseFragment
+      }
+    }
+    updated_at
+  }
+}
+    ${StrengthExerciseFragmentFragmentDoc}
+${CardioExerciseFragmentFragmentDoc}`;
+export type MoveIntervalInExerciseMutationFn = Apollo.MutationFunction<MoveIntervalInExerciseMutation, MoveIntervalInExerciseMutationVariables>;
+
+/**
+ * __useMoveIntervalInExerciseMutation__
+ *
+ * To run a mutation, you first call `useMoveIntervalInExerciseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMoveIntervalInExerciseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [moveIntervalInExerciseMutation, { data, loading, error }] = useMoveIntervalInExerciseMutation({
+ *   variables: {
+ *      workoutId: // value for 'workoutId'
+ *      exerciseId: // value for 'exerciseId'
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function useMoveIntervalInExerciseMutation(baseOptions?: Apollo.MutationHookOptions<MoveIntervalInExerciseMutation, MoveIntervalInExerciseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MoveIntervalInExerciseMutation, MoveIntervalInExerciseMutationVariables>(MoveIntervalInExerciseDocument, options);
+      }
+export type MoveIntervalInExerciseMutationHookResult = ReturnType<typeof useMoveIntervalInExerciseMutation>;
+export type MoveIntervalInExerciseMutationResult = Apollo.MutationResult<MoveIntervalInExerciseMutation>;
+export type MoveIntervalInExerciseMutationOptions = Apollo.BaseMutationOptions<MoveIntervalInExerciseMutation, MoveIntervalInExerciseMutationVariables>;
+export const MoveSetInExerciseDocument = gql`
+    mutation MoveSetInExercise($workoutId: ID!, $exerciseId: ID!, $from: Int!, $to: Int!) {
+  moveSetInExercise(
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    from: $from
+    to: $to
+  ) {
+    exercises {
+      __typename
+      ... on StrengthExercise {
+        ...StrengthExerciseFragment
+      }
+      ... on CardioExercise {
+        ...CardioExerciseFragment
+      }
+    }
+    updated_at
+  }
+}
+    ${StrengthExerciseFragmentFragmentDoc}
+${CardioExerciseFragmentFragmentDoc}`;
+export type MoveSetInExerciseMutationFn = Apollo.MutationFunction<MoveSetInExerciseMutation, MoveSetInExerciseMutationVariables>;
+
+/**
+ * __useMoveSetInExerciseMutation__
+ *
+ * To run a mutation, you first call `useMoveSetInExerciseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMoveSetInExerciseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [moveSetInExerciseMutation, { data, loading, error }] = useMoveSetInExerciseMutation({
+ *   variables: {
+ *      workoutId: // value for 'workoutId'
+ *      exerciseId: // value for 'exerciseId'
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function useMoveSetInExerciseMutation(baseOptions?: Apollo.MutationHookOptions<MoveSetInExerciseMutation, MoveSetInExerciseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MoveSetInExerciseMutation, MoveSetInExerciseMutationVariables>(MoveSetInExerciseDocument, options);
+      }
+export type MoveSetInExerciseMutationHookResult = ReturnType<typeof useMoveSetInExerciseMutation>;
+export type MoveSetInExerciseMutationResult = Apollo.MutationResult<MoveSetInExerciseMutation>;
+export type MoveSetInExerciseMutationOptions = Apollo.BaseMutationOptions<MoveSetInExerciseMutation, MoveSetInExerciseMutationVariables>;
 export const UpdateExerciseInWorkoutDocument = gql`
     mutation UpdateExerciseInWorkout($workoutId: ID!, $exerciseId: ID!, $input: UpdateExerciseInWorkoutInput!) {
   updateExerciseInWorkout(

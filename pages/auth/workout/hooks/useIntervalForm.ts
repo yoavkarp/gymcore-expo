@@ -1,5 +1,5 @@
 import { UseFormProps, useForm } from "react-hook-form";
-import { z } from "zod";
+import { preprocess, z } from "zod";
 import { parameterInputSchema } from "./useParameterForm";
 
 export const createIntervalSchema = z.object({

@@ -43,7 +43,7 @@ export default function Layout() {
             <Sidebar />
           </View>
           <View style={{ flex: 1 }}>
-            <Stack screenOptions={{ headerShown: false, animation: "fade_from_bottom", contentStyle: { backgroundColor: theme.colors.background }, statusBarHidden: true }} />
+            <Stack screenOptions={{ headerShown: false, navigationBarHidden: true, animation: "fade_from_bottom", contentStyle: { backgroundColor: theme.colors.background }, statusBarHidden: true }} />
           </View>
         </View>
       </SafeAreaView>

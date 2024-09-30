@@ -956,6 +956,131 @@ export type AddWorkoutToLibraryMutation = {
   } | null,
 };
 
+export type MoveSetInExerciseMutationVariables = {
+  workoutId: string,
+  exerciseId: string,
+  from: number,
+  to: number,
+};
+
+export type MoveSetInExerciseMutation = {
+  moveSetInExercise?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type MoveIntervalInExerciseMutationVariables = {
+  workoutId: string,
+  exerciseId: string,
+  from: number,
+  to: number,
+};
+
+export type MoveIntervalInExerciseMutation = {
+  moveIntervalInExercise?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
+export type MoveExerciseInWorkoutMutationVariables = {
+  workoutId: string,
+  from: number,
+  to: number,
+};
+
+export type MoveExerciseInWorkoutMutation = {
+  moveExerciseInWorkout?:  {
+    __typename: "Workout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    created_at: string,
+    updated_at: string,
+    trainerId: string,
+    memberId?: string | null,
+    name: string,
+    notes?: string | null,
+    exercises:  Array<( {
+        __typename: "StrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "CardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+  } | null,
+};
+
 export type RegisterMutationVariables = {
   input: RegisterInput,
 };

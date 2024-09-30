@@ -1,16 +1,18 @@
 import Button from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
-import { Exercise } from "@/graphql";
-import { FlatList, Touchable } from "react-native";
+import { Exercise, useMoveExerciseInWorkoutMutation } from "@/graphql";
+import FlatList, { ScaleDecorator, ShadowDecorator } from "react-native-draggable-flatlist";
 import ExerciseNameModal from "./ExerciseNameModal";
-import { useMemo, useRef, useState } from "react";
-import TouchableOpacity from "@/components/ui/TouchableOpacity";
+import { useRef, useState } from "react";
 import YesNoDialog from "@/components/YesNoDialog";
 import { Ionicons } from "@expo/vector-icons";
 import { useDeleteExerciseFromWorkout } from "@/features/workout/hooks/api/useDeleteExerciseFromWorkout";
 import { useWorkout } from "@/features/workout";
 import { useTheme } from "@/contexts/ThemeContext";
+import { Pressable } from "react-native";
+import TouchableOpacity from "@/components/ui/TouchableOpacity";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 
 interface ExerciseListItemProps {
     item: Exercise;
@@ -18,30 +20,33 @@ interface ExerciseListItemProps {
     onPress: (exerciseId: string) => any;
     onPressDelete?: () => any;
     onPressEdit?: () => any;
+    drag?: () => any;
 }
 
-export const ExerciseListItem: React.FC<ExerciseListItemProps> = ({ item, selected, onPress, onPressDelete, onPressEdit }) => {
+export const ExerciseListItem: React.FC<ExerciseListItemProps> = ({ drag, item, selected, onPress, onPressDelete, onPressEdit }) => {
 
     const { theme } = useTheme()
     return (
-        <TouchableOpacity style={[{ padding: 5 }, selected && { backgroundColor: `${theme.colors.primary.toString()}55`, borderRadius: 8 }]} onPress={() => onPress(item.id)}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text>{item.name}</Text>
-                <View style={{ flexDirection: 'row', gap: 10 }}>
-                    <Button onPress={onPressDelete} style={{ paddingVertical: 5, paddingHorizontal: 10 }} error>
-                        <Ionicons name="trash-sharp" size={20} />
-                    </Button>
+        <ScaleDecorator>
+            <TouchableOpacity onLongPress={drag} style={[{ padding: 5 }, selected && { backgroundColor: `${theme.colors.primary.toString()}55`, borderRadius: 8 }]} onPress={() => onPress(item.id)}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text>{item.name}</Text>
+                    <View style={{ flexDirection: 'row', gap: 10 }}>
+                        <Button onPress={onPressDelete} style={{ paddingVertical: 5, paddingHorizontal: 10 }} error>
+                            <Ionicons name="trash-sharp" size={20} />
+                        </Button>
 
-                    <Button onPress={onPressEdit} style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-                        <Ionicons name="pencil-sharp" size={20} />
-                    </Button>
+                        <Button onPress={onPressEdit} style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
+                            <Ionicons name="pencil-sharp" size={20} />
+                        </Button>
+                    </View>
                 </View>
-            </View>
-            <View style={{ flexDirection: "row", justifyContent: 'space-evenly' }}>
-                {item.machine_number && <Text>מספר מכונה: {item.machine_number}</Text>}
-                {item.seat_height && <Text>גובה מושב: {item.seat_height}</Text>}
-            </View>
-        </TouchableOpacity>
+                <View style={{ flexDirection: "row", justifyContent: 'space-evenly' }}>
+                    {item.machine_number && <Text>מספר מכונה: {item.machine_number}</Text>}
+                    {item.seat_height && <Text>גובה מושב: {item.seat_height}</Text>}
+                </View>
+            </TouchableOpacity>
+        </ScaleDecorator>
     );
 }
 
@@ -60,19 +65,56 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }
     const { theme } = useTheme();
 
     const { deleteExerciseFromWorkout, result: deleteExerciseFromWorkoutResult } = useDeleteExerciseFromWorkout(workoutId);
+    const [moveExerciseInWorkoutMutation, moveExerciseInWorkoutMutationResult] = useMoveExerciseInWorkoutMutation()
+
+    const [show] = useSnackbar();
 
 
     return (
         <>
             <FlatList
-                persistentScrollbar
-                data={workout?.exercises}
-                ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: theme.colors.primary, marginBottom: 10 }} />}
-                renderItem={({ item }) => {
-                    return (
+                onDragEnd={({ data, from, to }) => {
 
+                    let prev: any;
+                    if (from === to) return;
+
+                    deleteExerciseFromWorkoutResult.client.cache.modify({
+                        id: deleteExerciseFromWorkoutResult.client.cache.identify({ __typename: "Workout", id: workoutId }),
+                        fields: {
+                            exercises: (p) => {
+                                prev = p;
+                                return data;
+                            }
+                        },
+                    })
+
+                    moveExerciseInWorkoutMutation({ variables: { from, to, workoutId } })
+                        .catch((e) => {
+                            deleteExerciseFromWorkoutResult.client.cache.modify({
+                                id: deleteExerciseFromWorkoutResult.client.cache.identify({ __typename: "Workout", id: workoutId }),
+                                fields: {
+                                    exercises: (p) => {
+                                        if (prev)
+                                            return prev;
+
+                                        return p;
+                                    }
+                                },
+                            })
+
+                            show(e.message, "error")
+                        })
+
+
+                }}
+                persistentScrollbar
+                data={workout?.exercises || []}
+                ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: theme.colors.primary, marginBottom: 10 }} />}
+                renderItem={({ item, drag, isActive }) => {
+                    return (
                         <ExerciseListItem
-                            selected={selectedExerciseId === item?.id}
+                            drag={drag}
+                            selected={isActive || selectedExerciseId === item.id}
                             item={item as unknown as Exercise}
                             onPress={(exerciseId) => {
                                 setSelectedExerciseId(exerciseId)

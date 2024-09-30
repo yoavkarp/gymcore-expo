@@ -1,0 +1,14 @@
+mutation MoveExerciseInWorkout($workoutId: ID!, $from: Int!, $to: Int!) {
+    moveExerciseInWorkout(workoutId: $workoutId, from: $from, to: $to) {
+        exercises {
+            __typename
+            ... on StrengthExercise {
+                ...StrengthExerciseFragment
+            }
+            ... on CardioExercise {
+                ...CardioExerciseFragment
+            }
+        }
+        updated_at
+    }
+}

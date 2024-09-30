@@ -676,6 +676,140 @@ export const addWorkoutToLibrary = /* GraphQL */ `mutation AddWorkoutToLibrary($
   APITypes.AddWorkoutToLibraryMutationVariables,
   APITypes.AddWorkoutToLibraryMutation
 >;
+export const moveSetInExercise = /* GraphQL */ `mutation MoveSetInExercise(
+  $workoutId: ID!
+  $exerciseId: ID!
+  $from: Int!
+  $to: Int!
+) {
+  moveSetInExercise(
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    from: $from
+    to: $to
+  ) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.MoveSetInExerciseMutationVariables,
+  APITypes.MoveSetInExerciseMutation
+>;
+export const moveIntervalInExercise = /* GraphQL */ `mutation MoveIntervalInExercise(
+  $workoutId: ID!
+  $exerciseId: ID!
+  $from: Int!
+  $to: Int!
+) {
+  moveIntervalInExercise(
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    from: $from
+    to: $to
+  ) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.MoveIntervalInExerciseMutationVariables,
+  APITypes.MoveIntervalInExerciseMutation
+>;
+export const moveExerciseInWorkout = /* GraphQL */ `mutation MoveExerciseInWorkout($workoutId: ID!, $from: Int!, $to: Int!) {
+  moveExerciseInWorkout(workoutId: $workoutId, from: $from, to: $to) {
+    id
+    tenantId
+    clubId
+    created_at
+    updated_at
+    trainerId
+    memberId
+    name
+    notes
+    exercises {
+      ... on StrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on CardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.MoveExerciseInWorkoutMutationVariables,
+  APITypes.MoveExerciseInWorkoutMutation
+>;
 export const register = /* GraphQL */ `mutation Register($input: RegisterInput!) {
   register(input: $input) {
     id

@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
 import { useWorkout } from "@/features/workout";
-import { FlatList } from "react-native";
+import FlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
 import IntervalFormModal from "./IntervalFormModal";
 import { useRef, useState } from "react";
 import TouchableOpacity from "@/components/ui/TouchableOpacity";
@@ -11,45 +11,54 @@ import { parameterToString } from "@/utils/parameter-to-string";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import YesNoDialog from "@/components/YesNoDialog";
-import { CardioExercise, StrengthExercise } from "@/graphql";
+import { CardioExercise, useMoveIntervalInExerciseMutation } from "@/graphql";
 import { useDeleteIntervalFromExercise } from "@/features/workout/hooks/api/useDeleteIntervalFromExercise";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import { useApolloClient } from "@apollo/client";
 
 interface IntervalListItemProps {
     item: Exclude<CardioExercise['intervals'], null | undefined>[number];
     selected: boolean;
-    onPress: (exerciseId: string) => any;
     onPressDelete?: () => any;
     onPressEdit?: () => any;
     index: number;
     loading?: boolean;
+    drag?: () => any;
 }
 
-export const IntervalListItem: React.FC<IntervalListItemProps> = ({ loading, item, selected, onPress, onPressDelete, onPressEdit, index }) => {
+export const IntervalListItem: React.FC<IntervalListItemProps> = ({ loading, drag, item, selected, onPressDelete, onPressEdit, index }) => {
 
     const { theme } = useTheme();
 
     return (
-        <TouchableOpacity style={[{ padding: 5, gap: 10 }, selected && { backgroundColor: `${theme.colors.secondary.toString()}66` }]} onPress={() => onPress(item!.id)}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Label>אינטרוול {index + 1}</Label>
-                {loading ? <LoadingIndicator /> : <View style={{ flexDirection: 'row', gap: 10 }}>
-                    <Button onPress={onPressDelete} style={{ paddingVertical: 5, paddingHorizontal: 10 }} error>
-                        <Ionicons name="trash-sharp" size={20} />
-                    </Button>
+        <ScaleDecorator>
+            <TouchableOpacity onLongPress={drag} style={[{ padding: 5, gap: 10 }, selected && { backgroundColor: `${theme.colors.secondary.toString()}66` }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Label>אינטרוול {index + 1}</Label>
+                    {loading ? <LoadingIndicator /> : <View style={{ flexDirection: 'row', gap: 10 }}>
+                        <Button onPress={onPressDelete} style={{ paddingVertical: 5, paddingHorizontal: 10 }} error>
+                            <Ionicons name="trash-sharp" size={20} />
+                        </Button>
 
-                    <Button onPress={onPressEdit} style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-                        <Ionicons name="pencil-sharp" size={20} />
-                    </Button>
-                </View>}
-            </View>
+                        <Button onPress={onPressEdit} style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
+                            <Ionicons name="pencil-sharp" size={20} />
+                        </Button>
+                    </View>}
+                </View>
 
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
-                {item?.distance && <Text>{parameterToString(item.distance, "מרחק")}</Text>}
-            </View>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                    {item?.distance && <Text>{parameterToString(item.distance, "מרחק")}</Text>}
+                    {item?.duration && <Text>{parameterToString(item.duration, "משך")}</Text>}
+                    {item?.tempo && <Text>{parameterToString(item.tempo, "קצב")}</Text>}
+                    {item?.intensity && <Text>{parameterToString(item.intensity, "עצימות")}</Text>}
+                    {item?.rest && <Text>{parameterToString(item.rest, "מנוחה")}</Text>}
+                    {item?.angle && <Text>{parameterToString(item.angle, "שיפוע")}</Text>}
+                    {item?.resistance && <Text>{parameterToString(item.resistance, "התנגדות")}</Text>}
+                </View>
 
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </ScaleDecorator>
     );
 }
 
@@ -64,6 +73,8 @@ const IntervalList: React.FC<IntervalListProps> = ({ onChangeSelect, selectedExe
     const intervalFormModal = useRef<IntervalFormModal>(null);
     const yesNoDialog = useRef<YesNoDialog>(null);
 
+    const { cache } = useApolloClient();
+
     const [selectedIntervalId, setSelectedIntervalId] = useState<string | null>(null);
     const exerciseIndex = workout?.exercises?.findIndex((exercise) => exercise.id === selectedExerciseId)
 
@@ -71,21 +82,52 @@ const IntervalList: React.FC<IntervalListProps> = ({ onChangeSelect, selectedExe
 
     const [deleting, setDeleting] = useState<string[]>([])
     const [show] = useSnackbar();
+    const [moveIntervalInExerciseMutation, moveIntervalInExerciseMutationResult] = useMoveIntervalInExerciseMutation()
 
     return (
         <>
             <FlatList
+                onDragEnd={({ data, from, to }) => {
+                    if (from === to) return;
+                    let prev: any;
+
+
+                    cache.modify({
+                        id: cache.identify({ __typename: "CardioExercise", id: selectedExerciseId }),
+                        fields: {
+                            intervals: () => data
+                        }
+                    })
+
+                    moveIntervalInExerciseMutation({ variables: { from, to, workoutId, exerciseId: selectedExerciseId! } })
+                        .catch((e) => {
+                            console.log(e);
+                            show(e.message, "error")
+                            cache.modify({
+                                id: cache.identify({ __typename: "CardioExercise", id: selectedExerciseId }),
+                                fields: {
+                                    intervals: (p) => {
+                                        if (prev)
+                                            return prev;
+
+                                        return p;
+                                    }
+                                },
+                            })
+                        })
+
+
+                }}
                 style={{ maxHeight: 400 }}
                 data={(workout?.exercises?.[exerciseIndex || 0] as CardioExercise).intervals || []}
-                renderItem={({ item, index }) => {
+                renderItem={({ item, drag, isActive }) => {
+                    const index = (workout?.exercises?.[exerciseIndex || 0] as CardioExercise).intervals?.indexOf(item)
+                    if (typeof (index) !== "number" || index < 0) return null;
                     return (
                         <IntervalListItem
-                            selected={selectedIntervalId === item?.id}
+                            selected={isActive}
                             item={item!}
-                            onPress={(exerciseId) => {
-                                setSelectedIntervalId(exerciseId)
-                                onChangeSelect(exerciseId)
-                            }}
+                            drag={drag}
                             loading={deleting.includes(item!.id)}
                             onPressDelete={() => yesNoDialog.current?.open(async () => {
                                 setDeleting(prev => [...prev, item!.id])

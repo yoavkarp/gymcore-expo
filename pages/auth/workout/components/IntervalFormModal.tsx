@@ -11,6 +11,7 @@ import { IntervalFormInput } from "@/features/workout";
 import { useAddIntervalToExercise } from "@/features/workout/hooks/api/useAddIntervalToExercise";
 import { useUpdateIntervalInExercise } from "@/features/workout/hooks/api/useUpdateIntervalInExercise";
 import { CardioExercise } from "@/graphql";
+import { removeTypename, removeUndefined } from "@/utils/remove-typename";
 import React, { useImperativeHandle, useMemo } from "react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -29,20 +30,26 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
     const { control, reset, handleSubmit, formState: { isSubmitting } } = useIntervalForm();
 
     const [visible, setVisible] = useState(false);
-    const [openProps, setOpenProps] = useState<{ exerciseId: string, intervalId?: string, exists?: boolean, exerciseIndex: number, setIndex?: number } | null>(null);
+    const [openProps, setOpenProps] = useState<{ exerciseId: string, intervalId?: string, exerciseIndex: number, intervalIndex?: number } | null>(null);
 
     const { workout, workoutId } = useWorkout();
     const { addIntervalToExercise, result: addIntervalToExerciseResult } = useAddIntervalToExercise(workoutId);
-    const { updateIntervalInExercise, result: updateIntervalInExerciseResult } = useUpdateIntervalInExercise(workoutId);
+    const { updateIntervalInExercise, result: updateIntervalInExerciseResult } = useUpdateIntervalInExercise(workoutId, {
+        onError(err) {
+            console.log("ERRR", err)
+        }
+    });
 
     const onSubmit = async (data: IntervalFormInput) => {
-        console.log(data);
+
         if (!openProps) return;
 
-        if (!openProps.setIndex)
+        if (!openProps.intervalId) {
             await addIntervalToExercise(openProps.exerciseId, { ...data });
-        else if (openProps.setIndex && openProps.intervalId)
-            await updateIntervalInExercise(openProps.exerciseId, openProps.intervalId, data);
+        }
+        else {
+            await updateIntervalInExercise(openProps.exerciseId, openProps.intervalId, removeTypename(removeUndefined(data)));
+        }
 
         setVisible(false);
 
@@ -51,26 +58,27 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
     useImperativeHandle(ref, () => {
         return {
             open: (exerciseId, intervalId) => {
+                console.log(exerciseId, intervalId);
                 const exerciseIndex = workout?.exercises?.findIndex((exercise) => exercise.id === exerciseId);
 
                 if (typeof (exerciseIndex) === 'undefined' || exerciseIndex === -1) return;
 
-                const setIndex = intervalId ? (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.findIndex((set) => set?.id === intervalId) : undefined;
+                const intervalIndex = intervalId ? (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.findIndex((interval) => interval?.id === intervalId) : undefined;
 
-                if (typeof (setIndex) === 'number' && setIndex > -1) {
-                    setOpenProps({ exerciseId, intervalId, exists: Boolean(setIndex), exerciseIndex, setIndex });
+                if (typeof (intervalIndex) === 'number' && intervalIndex > -1) {
+                    setOpenProps({ exerciseId, intervalId, exerciseIndex, intervalIndex });
                     reset({
-                        resistance: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[setIndex]?.resistance || undefined,
-                        rest: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[setIndex]?.rest || undefined,
-                        angle: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[setIndex]?.angle || undefined,
-                        distance: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[setIndex]?.distance || undefined,
-                        duration: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[setIndex]?.duration || undefined,
-                        intensity: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[setIndex]?.intensity || undefined,
-                        tempo: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[setIndex]?.tempo || undefined,
+                        resistance: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[intervalIndex]?.resistance || undefined,
+                        rest: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[intervalIndex]?.rest || undefined,
+                        angle: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[intervalIndex]?.angle || undefined,
+                        distance: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[intervalIndex]?.distance || undefined,
+                        duration: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[intervalIndex]?.duration || undefined,
+                        intensity: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[intervalIndex]?.intensity || undefined,
+                        tempo: (workout?.exercises?.[exerciseIndex] as CardioExercise).intervals?.[intervalIndex]?.tempo || undefined,
                     })
                 }
                 else {
-                    setOpenProps({ exerciseId, exists: Boolean(setIndex), exerciseIndex });
+                    setOpenProps({ exerciseId, exerciseIndex });
                     reset()
                 }
 
@@ -84,7 +92,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
 
     return (
         <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
-            <Text h1>{openProps?.exists ? 'עריכת אינטרוול קיים' : 'הוספת אינטרוול'}</Text>
+            <Text h1>{openProps?.intervalId ? 'עריכת אינטרוול קיים' : 'הוספת אינטרוול'}</Text>
 
             <Controller control={control} name="distance"
                 render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -176,7 +184,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
             />
 
             <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
-                {openProps?.exists ? 'עדכון' : 'הוספה'}
+                {openProps?.intervalId ? 'עדכון' : 'הוספה'}
             </Button>
         </Modal>
     );

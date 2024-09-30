@@ -7,6 +7,7 @@ import { AuthProvider } from "@/features/auth";
 import { useFonts } from 'expo-font';
 import ThemeProvider from "@/contexts/ThemeContext";
 import SnackBarProvider from "@/contexts/SnackbarContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -49,11 +50,11 @@ export default function RootLayout() {
     <AuthProvider>
       <AppSyncProvider>
         <ThemeProvider>
-          <SafeAreaView style={{ flex: 1 }}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
             <SnackBarProvider>
               <Slot />
             </SnackBarProvider>
-          </SafeAreaView>
+          </GestureHandlerRootView>
         </ThemeProvider>
       </AppSyncProvider >
     </AuthProvider>

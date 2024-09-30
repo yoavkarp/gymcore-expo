@@ -13,7 +13,6 @@ import { useCreateWorkout } from "@/features/workout";
 interface CreateWorkoutModalProps {
     memberId?: string;
     planId?: string;
-    onSubmit?: (data: CreateWorkoutFormInput) => void;
 }
 
 type CreateWorkoutModal = {

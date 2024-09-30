@@ -1,4 +1,4 @@
-import { SetInput, UpdateIntervalInExerciseMutation, UpdateIntervalInExerciseMutationVariables, useUpdateIntervalInExerciseMutation } from "@/graphql";
+import { IntervalInput, SetInput, UpdateIntervalInExerciseMutation, UpdateIntervalInExerciseMutationVariables, useUpdateIntervalInExerciseMutation } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useUpdateIntervalInExercise(workoutId: string, options?: MutationHookOptions<UpdateIntervalInExerciseMutation, UpdateIntervalInExerciseMutationVariables>) {
@@ -21,7 +21,7 @@ export function useUpdateIntervalInExercise(workoutId: string, options?: Mutatio
     });
 
     return {
-        updateIntervalInExercise: (exerciseId: string, intervalId: string, args: SetInput) => {
+        updateIntervalInExercise: (exerciseId: string, intervalId: string, args: IntervalInput) => {
             return updateIntervalInExercise({ variables: { workoutId, exerciseId, intervalId, input: args } });
         },
         result
