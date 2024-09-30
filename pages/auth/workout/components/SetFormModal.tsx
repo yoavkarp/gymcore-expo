@@ -13,9 +13,11 @@ import { useAddSetToExercise } from "@/features/workout/hooks/api/useAddSetToExe
 import { useUpdateSetInExercise } from "@/features/workout/hooks/api/useUpdateSetInExercise";
 import { StrengthExercise } from "@/graphql";
 import { removeTypename, removeUndefined } from "@/utils/remove-typename";
-import React, { useImperativeHandle, useMemo } from "react";
+import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { FlatList } from "react-native";
+import DropSetFormModal from "./DropsetFormModal";
 
 interface SetFormModalProps {
     onDismiss?: () => void;
@@ -28,7 +30,7 @@ type SetFormModal = {
 
 const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDismiss }, ref) => {
 
-    const { control, reset, handleSubmit, formState: { isSubmitting } } = useCreateSetForm();
+    const { control, reset, handleSubmit, formState: { isSubmitting }, watch, setValue } = useCreateSetForm();
 
     const [visible, setVisible] = useState(false);
     const [openProps, setOpenProps] = useState<{ exerciseId: string, setId?: string, exerciseIndex: number, setIndex?: number } | null>(null);
@@ -36,6 +38,8 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     const { workout, workoutId } = useWorkout();
     const { addSetToExercise, result: addSetToExerciseResult } = useAddSetToExercise(workoutId);
     const { updateSetInExercise, result: updateSetInExerciseResult } = useUpdateSetInExercise(workoutId);
+
+    const dropSetModal = useRef<DropSetFormModal>(null);
 
     const onSubmit = async (data: SetFormInput) => {
         console.log(data);
@@ -65,7 +69,6 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
                         reps: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.reps || undefined,
                         weight: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.weight || undefined,
                         rest: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.rest || undefined,
-                        times: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.times || undefined,
                     })
                 }
                 else {
@@ -82,94 +85,122 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     }, [visible])
 
     return (
-        <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
+        <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8, width: 1000 }} visible={visible}>
             <Text h1>{openProps?.setId ? 'עריכת סט קיים' : 'הוספת סט'}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View>
+                    <Controller control={control} name="reps"
+                        render={({ field: { onChange, value }, fieldState: { error } }) => {
 
-            <Controller control={control} name="reps"
-                render={({ field: { onChange, value }, fieldState: { error } }) => {
+                            const handleChangeUnits: (item: SelectItem) => void = (item) => {
 
-                    const handleChangeUnits: (item: SelectItem) => void = (item) => {
+                                if (item.value === "max")
+                                    onChange({ unit: item.value });
+                                else
+                                    onChange({ ...value, unit: item.value });
+                            }
 
-                        if (item.value === "max")
-                            onChange({ unit: item.value });
-                        else
-                            onChange({ ...value, unit: item.value });
-                    }
+                            const showInput = value?.unit !== "max"
 
-                    const showInput = value?.unit !== "max"
+                            return (
+                                <View>
+                                    <Label>חזרות</Label>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                        {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || REPS_UNITS[0].value })} />}
+                                        <Select containerStyle={{ width: 200 }} items={REPS_UNITS} defaultValue={value?.unit || "reps"} onChangeValue={handleChangeUnits} />
+                                    </View>
+                                    {error && <Text error>{error.message}</Text>}
+                                </View>
+                            )
+                        }}
 
-                    return (
-                        <View>
-                            <Label>חזרות</Label>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || REPS_UNITS[0].value })} />}
-                                <Select containerStyle={{ width: 200 }} items={REPS_UNITS} defaultValue={value?.unit || "reps"} onChangeValue={handleChangeUnits} />
+                    />
+
+                    <Controller control={control} name="weight"
+                        render={({ field: { onChange, value }, fieldState: { error } }) => {
+
+                            const handleChangeUnits: (item: SelectItem) => void = (item) => {
+                                if (["max", "body"].includes(item.value))
+                                    onChange({ unit: item.value });
+                                else
+                                    onChange({ ...value, unit: item.value });
+                            }
+
+                            const showInput = !["max", "body"].includes(value?.unit || "");
+
+                            return (
+                                <View>
+                                    <Label>משקל</Label>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                        {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />}
+                                        <Select containerStyle={{ width: 200 }} items={WEIGHT_UNITS} defaultValue={value?.unit || "kg"} onChangeValue={handleChangeUnits} />
+                                    </View>
+
+                                    {error && <Text error>{error.message}</Text>}
+
+                                </View>
+                            )
+                        }}
+
+                    />
+
+                    <Controller control={control} name="rest"
+                        render={({ field: { onChange, value }, fieldState: { error }, }) => (
+                            <View>
+                                <Label>מנוחה</Label>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                    <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || REST_UNITS[0].value })} />
+                                    <Select containerStyle={{ width: 200 }} items={REST_UNITS} defaultValue={value?.unit || "seconds"} onChangeValue={(item) => onChange({ ...value, unit: item.value })} />
+                                </View>
+                                {error && <Text error>{error.message}</Text>}
                             </View>
-                            {error && <Text error>{error.message}</Text>}
-                        </View>
-                    )
-                }}
+                        )}
 
-            />
+                    />
 
-            <Controller control={control} name="weight"
-                render={({ field: { onChange, value }, fieldState: { error } }) => {
+                    {!openProps?.setId && <Controller control={control} name="times"
 
-                    const handleChangeUnits: (item: SelectItem) => void = (item) => {
-                        if (["max", "body"].includes(item.value))
-                            onChange({ unit: item.value });
-                        else
-                            onChange({ ...value, unit: item.value });
-                    }
+                        render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
+                            return (
+                                <View>
+                                    <Label>מספר סטים</Label>
+                                    <TextInput keyboardType="decimal-pad" maxLength={2} onBlur={onBlur} placeholder="1" style={{ width: 100, textAlign: 'center' }} value={value ? value.toString() : ""} onChangeText={(text) => onChange(parseInt(text))} />
+                                    {error && <Text error>{error.message}</Text>}
+                                </View>
+                            )
+                        }
+                        } />}
 
-                    const showInput = !["max", "body"].includes(value?.unit || "");
 
-                    return (
-                        <View>
-                            <Label>משקל</Label>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />}
-                                <Select containerStyle={{ width: 200 }} items={WEIGHT_UNITS} defaultValue={value?.unit || "kg"} onChangeValue={handleChangeUnits} />
-                            </View>
+                </View>
+                <View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text h2>דרופסטים</Text>
+                        <Button onPress={() => dropSetModal.current?.open((data) => setValue("dropsets", [...(watch("dropsets") || []), data]))}>הוסף דרופסט</Button>
 
-                            {error && <Text error>{error.message}</Text>}
-
-                        </View>
-                    )
-                }}
-
-            />
-
-            <Controller control={control} name="rest"
-                render={({ field: { onChange, value }, fieldState: { error }, }) => (
-                    <View>
-                        <Label>מנוחה</Label>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                            <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || REST_UNITS[0].value })} />
-                            <Select containerStyle={{ width: 200 }} items={REST_UNITS} defaultValue={value?.unit || "seconds"} onChangeValue={(item) => onChange({ ...value, unit: item.value })} />
-                        </View>
-                        {error && <Text error>{error.message}</Text>}
                     </View>
-                )}
 
-            />
+                    <FlatList
+                        data={watch("dropsets")}
+                        renderItem={({ item, index }) => (
+                            <View>
+                                <Text h2>דרופסט {index + 1}</Text>
+                                <Text>
+                                    {JSON.stringify(item)}
+                                </Text>
+                            </View>
+                        )}
+                    />
 
-            <Controller control={control} name="times"
 
-                render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-                    return (
-                        <View>
-                            <Label>מספר סטים</Label>
-                            <TextInput keyboardType="decimal-pad" maxLength={2} onBlur={onBlur} placeholder="1" style={{ width: 100, textAlign: 'center' }} value={value ? value.toString() : ""} onChangeText={(text) => onChange(parseInt(text))} />
-                            {error && <Text error>{error.message}</Text>}
-                        </View>
-                    )
-                }
-                } />
+                </View>
+            </View>
 
             <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
                 {openProps?.setId ? 'עדכון' : 'הוספה'}
             </Button>
+
+            <DropSetFormModal ref={dropSetModal} />
         </Modal>
     );
 })

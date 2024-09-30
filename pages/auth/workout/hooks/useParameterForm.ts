@@ -3,7 +3,7 @@ import { UseFormProps, useForm } from "react-hook-form";
 import { z } from "zod";
 
 export const parameterInputSchema = z.preprocess((val: any) => {
-    Object.keys(val).reduce<any>((acc, key) => {
+    return Object.keys(val).reduce<any>((acc, key) => {
         if (val[key]) {
             acc[key] = val[key];
         }
