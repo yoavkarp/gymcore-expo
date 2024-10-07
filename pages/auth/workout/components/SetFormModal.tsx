@@ -16,8 +16,9 @@ import { removeTypename, removeUndefined } from "@/utils/remove-typename";
 import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { FlatList } from "react-native";
+import FlatList from "react-native-draggable-flatlist";
 import DropSetFormModal from "./DropsetFormModal";
+import { SetListItem } from "./SetList";
 
 interface SetFormModalProps {
     onDismiss?: () => void;
@@ -179,19 +180,6 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
                         <Button onPress={() => dropSetModal.current?.open((data) => setValue("dropsets", [...(watch("dropsets") || []), data]))}>הוסף דרופסט</Button>
 
                     </View>
-
-                    <FlatList
-                        data={watch("dropsets")}
-                        renderItem={({ item, index }) => (
-                            <View>
-                                <Text h2>דרופסט {index + 1}</Text>
-                                <Text>
-                                    {JSON.stringify(item)}
-                                </Text>
-                            </View>
-                        )}
-                    />
-
 
                 </View>
             </View>
