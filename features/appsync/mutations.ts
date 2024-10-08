@@ -154,6 +154,7 @@ export const createWorkout = /* GraphQL */ `mutation CreateWorkout($input: Creat
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -192,6 +193,7 @@ export const updateWorkout = /* GraphQL */ `mutation UpdateWorkout($workoutId: I
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -230,6 +232,7 @@ export const deleteWorkout = /* GraphQL */ `mutation DeleteWorkout($workoutId: I
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -271,6 +274,7 @@ export const addExerciseToWorkout = /* GraphQL */ `mutation AddExerciseToWorkout
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -317,6 +321,7 @@ export const updateExerciseInWorkout = /* GraphQL */ `mutation UpdateExerciseInW
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -355,6 +360,7 @@ export const deleteExerciseFromWorkout = /* GraphQL */ `mutation DeleteExerciseF
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -401,6 +407,7 @@ export const addSetToExercise = /* GraphQL */ `mutation AddSetToExercise(
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -449,6 +456,7 @@ export const updateSetInExercise = /* GraphQL */ `mutation UpdateSetInExercise(
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -491,6 +499,7 @@ export const deleteSetFromExercise = /* GraphQL */ `mutation DeleteSetFromExerci
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -537,6 +546,7 @@ export const addIntervalToExercise = /* GraphQL */ `mutation AddIntervalToExerci
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -585,6 +595,7 @@ export const updateIntervalInExercise = /* GraphQL */ `mutation UpdateIntervalIn
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -631,6 +642,7 @@ export const deleteIntervalFromExercise = /* GraphQL */ `mutation DeleteInterval
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -669,6 +681,7 @@ export const addWorkoutToLibrary = /* GraphQL */ `mutation AddWorkoutToLibrary($
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -717,6 +730,7 @@ export const moveSetInExercise = /* GraphQL */ `mutation MoveSetInExercise(
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -765,6 +779,7 @@ export const moveIntervalInExercise = /* GraphQL */ `mutation MoveIntervalInExer
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -803,6 +818,7 @@ export const moveExerciseInWorkout = /* GraphQL */ `mutation MoveExerciseInWorko
         seat_height
       }
     }
+    library
     __typename
   }
 }

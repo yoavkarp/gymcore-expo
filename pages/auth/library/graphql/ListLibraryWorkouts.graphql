@@ -1,0 +1,9 @@
+query ListLibraryWorkouts($limit: Int, $nextToken: String) {
+  listLibraryWorkouts(limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+    }
+    nextToken
+  }
+}

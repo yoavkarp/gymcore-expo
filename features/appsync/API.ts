@@ -78,6 +78,7 @@ export type Workout = {
   name: string,
   notes?: string | null,
   exercises?:  Array<Exercise > | null,
+  library?: boolean | null,
 };
 
 export type Exercise = StrengthExercise | CardioExercise
@@ -116,7 +117,6 @@ export type StrengthExerciseSet = {
   reps?: Parameter | null,
   rest?: Parameter | null,
   weight?: Parameter | null,
-  times?: number | null,
   dropsets?:  Array<StrengthExerciseDropSet > | null,
 };
 
@@ -125,7 +125,6 @@ export type StrengthExerciseDropSet = {
   id: string,
   reps?: Parameter | null,
   weight?: Parameter | null,
-  times?: number | null,
 };
 
 export type CardioExercise = {
@@ -228,6 +227,7 @@ export type CreateWorkoutInput = {
   trainerId: string,
   memberId?: string | null,
   planId?: string | null,
+  library?: boolean | null,
 };
 
 export type UpdateWorkoutInput = {
@@ -466,6 +466,7 @@ export type CreateWorkoutMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -506,6 +507,7 @@ export type UpdateWorkoutMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -545,6 +547,7 @@ export type DeleteWorkoutMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -585,6 +588,7 @@ export type AddExerciseToWorkoutMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -626,6 +630,7 @@ export type UpdateExerciseInWorkoutMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -666,6 +671,7 @@ export type DeleteExerciseFromWorkoutMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -707,6 +713,7 @@ export type AddSetToExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -749,6 +756,7 @@ export type UpdateSetInExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -790,6 +798,7 @@ export type DeleteSetFromExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -831,6 +840,7 @@ export type AddIntervalToExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -873,6 +883,7 @@ export type UpdateIntervalInExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -914,6 +925,7 @@ export type DeleteIntervalFromExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -953,6 +965,7 @@ export type AddWorkoutToLibraryMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -995,6 +1008,7 @@ export type MoveSetInExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -1037,6 +1051,7 @@ export type MoveIntervalInExerciseMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -1078,6 +1093,7 @@ export type MoveExerciseInWorkoutMutation = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -1285,6 +1301,7 @@ export type GetWorkoutByIdQuery = {
         seat_height?: string | null,
       }
     ) > | null,
+    library?: boolean | null,
   } | null,
 };
 
@@ -1382,6 +1399,7 @@ export type ListLibraryWorkoutsQuery = {
       memberId?: string | null,
       name: string,
       notes?: string | null,
+      library?: boolean | null,
     } > | null,
     nextToken?: string | null,
   } | null,

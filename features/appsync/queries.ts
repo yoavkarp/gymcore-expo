@@ -90,6 +90,7 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
         seat_height
       }
     }
+    library
     __typename
   }
 }
@@ -183,6 +184,7 @@ export const listLibraryWorkouts = /* GraphQL */ `query ListLibraryWorkouts($lim
       memberId
       name
       notes
+      library
       __typename
     }
     nextToken

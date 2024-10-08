@@ -13,6 +13,8 @@ import { useUpdateWorkout } from "@/features/workout/hooks/api/useUpdateWorkout"
 import Select from "@/components/ui/Select";
 import StrengthExerciseForm from "./components/StrengthExerciseForm";
 import CardioExerciseForm from "./components/CardioExerciseForm";
+import { useAddWorkoutToLibraryMutation } from "@/graphql";
+import { router } from "expo-router";
 
 const WorkoutPage: React.FC = () => {
 
@@ -21,6 +23,17 @@ const WorkoutPage: React.FC = () => {
     const { updateWorkout, result } = useUpdateWorkout(workout!.id);
     const [show] = useSnackbar()
     const [selectedExerciseId, setSelectedExerciseId] = React.useState<string | null>(null);
+    const [addWorkoutToLibrary] = useAddWorkoutToLibraryMutation({
+        onCompleted(data) {
+            show("האימון נוסף לספרייה")
+        },
+        onError(e) {
+            show("שגיאה בהוספת האימון לספרייה", "error")
+        },
+        variables: {
+            workoutId: workout?.id!
+        }
+    });
 
     const selectedExercise = workout?.exercises?.find((exercise) => exercise.id === selectedExerciseId);
 
@@ -56,6 +69,8 @@ const WorkoutPage: React.FC = () => {
                 <Text h1>אימון</Text>
             </View>
 
+            {!workout?.library && <Button onPress={() => addWorkoutToLibrary()}>Add To Library</Button>}
+
             <View style={{ flexDirection: 'row', gap: 20 }}>
                 <View style={{ flexBasis: "50%", gap: 20 }}>
                     <Controller control={control} name="name"
@@ -81,7 +96,7 @@ const WorkoutPage: React.FC = () => {
                     />
                     <View style={{ maxHeight: 350 }}>
                         <Label>רשימת תרגילים</Label>
-                        <ExerciseList exercises={workout?.exercises || []} onChangeSelect={setSelectedExerciseId} />
+                        <ExerciseList exercises={workout?.exercises || []} onChangeSelect={(e) => router.push(`/workout/${workout?.id}/${e}`)} />
                     </View>
 
                 </View>

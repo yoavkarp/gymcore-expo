@@ -112,6 +112,7 @@ export type CreateTrainerInput = {
 };
 
 export type CreateWorkoutInput = {
+  library?: InputMaybe<Scalars['Boolean']['input']>;
   memberId?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
   planId?: InputMaybe<Scalars['ID']['input']>;
@@ -472,7 +473,6 @@ export type StrengthExerciseDropSet = {
   __typename?: 'StrengthExerciseDropSet';
   id: Scalars['ID']['output'];
   reps?: Maybe<Parameter>;
-  times?: Maybe<Scalars['Int']['output']>;
   weight?: Maybe<Parameter>;
 };
 
@@ -488,7 +488,6 @@ export type StrengthExerciseSet = {
   id: Scalars['ID']['output'];
   reps?: Maybe<Parameter>;
   rest?: Maybe<Parameter>;
-  times?: Maybe<Scalars['Int']['output']>;
   weight?: Maybe<Parameter>;
 };
 
@@ -553,6 +552,7 @@ export type Workout = Document & {
   created_at: Scalars['AWSDateTime']['output'];
   exercises?: Maybe<Array<Exercise>>;
   id: Scalars['ID']['output'];
+  library?: Maybe<Scalars['Boolean']['output']>;
   memberId?: Maybe<Scalars['ID']['output']>;
   name: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
@@ -639,7 +639,7 @@ export type AddWorkoutToLibraryMutationVariables = Exact<{
 }>;
 
 
-export type AddWorkoutToLibraryMutation = { __typename?: 'Mutation', addWorkoutToLibrary?: { __typename?: 'Workout', id: string } | null };
+export type AddWorkoutToLibraryMutation = { __typename?: 'Mutation', addWorkoutToLibrary?: { __typename?: 'Workout', id: string, library?: boolean | null } | null };
 
 export type CreateWorkoutMutationVariables = Exact<{
   input: CreateWorkoutInput;
@@ -690,7 +690,7 @@ export type GetWorkoutByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, library?: boolean | null, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
 
 export type ParameterFragmentFragment = { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null };
 
@@ -759,6 +759,14 @@ export type UpdateWorkoutMutationVariables = Exact<{
 
 
 export type UpdateWorkoutMutation = { __typename?: 'Mutation', updateWorkout?: { __typename?: 'Workout', updated_at: string, name: string, notes?: string | null } | null };
+
+export type ListLibraryWorkoutsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  nextToken?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ListLibraryWorkoutsQuery = { __typename?: 'Query', listLibraryWorkouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string }> | null } | null };
 
 export const ParameterFragmentFragmentDoc = gql`
     fragment ParameterFragment on Parameter {
@@ -1223,6 +1231,7 @@ export const AddWorkoutToLibraryDocument = gql`
     mutation AddWorkoutToLibrary($workoutId: ID!) {
   addWorkoutToLibrary(workoutId: $workoutId) {
     id
+    library
   }
 }
     `;
@@ -1484,6 +1493,7 @@ export const GetWorkoutByIdDocument = gql`
     memberId
     name
     notes
+    library
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1864,3 +1874,48 @@ export function useUpdateWorkoutMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateWorkoutMutationHookResult = ReturnType<typeof useUpdateWorkoutMutation>;
 export type UpdateWorkoutMutationResult = Apollo.MutationResult<UpdateWorkoutMutation>;
 export type UpdateWorkoutMutationOptions = Apollo.BaseMutationOptions<UpdateWorkoutMutation, UpdateWorkoutMutationVariables>;
+export const ListLibraryWorkoutsDocument = gql`
+    query ListLibraryWorkouts($limit: Int, $nextToken: String) {
+  listLibraryWorkouts(limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+    }
+    nextToken
+  }
+}
+    `;
+
+/**
+ * __useListLibraryWorkoutsQuery__
+ *
+ * To run a query within a React component, call `useListLibraryWorkoutsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListLibraryWorkoutsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListLibraryWorkoutsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      nextToken: // value for 'nextToken'
+ *   },
+ * });
+ */
+export function useListLibraryWorkoutsQuery(baseOptions?: Apollo.QueryHookOptions<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>(ListLibraryWorkoutsDocument, options);
+      }
+export function useListLibraryWorkoutsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>(ListLibraryWorkoutsDocument, options);
+        }
+export function useListLibraryWorkoutsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>(ListLibraryWorkoutsDocument, options);
+        }
+export type ListLibraryWorkoutsQueryHookResult = ReturnType<typeof useListLibraryWorkoutsQuery>;
+export type ListLibraryWorkoutsLazyQueryHookResult = ReturnType<typeof useListLibraryWorkoutsLazyQuery>;
+export type ListLibraryWorkoutsSuspenseQueryHookResult = ReturnType<typeof useListLibraryWorkoutsSuspenseQuery>;
+export type ListLibraryWorkoutsQueryResult = Apollo.QueryResult<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>;

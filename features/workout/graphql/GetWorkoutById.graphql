@@ -9,6 +9,7 @@ query GetWorkoutById($workoutId: ID!) {
         memberId
         name
         notes
+        library
         exercises {
             __typename
             ... on StrengthExercise {

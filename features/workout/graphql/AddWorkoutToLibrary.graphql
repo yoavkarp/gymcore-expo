@@ -1,5 +1,6 @@
 mutation AddWorkoutToLibrary($workoutId: ID!) {
     addWorkoutToLibrary(workoutId: $workoutId) {
         id
+        library
     }
 }

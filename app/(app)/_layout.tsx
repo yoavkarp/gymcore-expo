@@ -1,7 +1,7 @@
 import { Stack, Href, Redirect } from "expo-router";
 import { SafeAreaView } from "react-native";
 import { useSession } from "@/features/auth";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/ui/Sidebar";
 import Header from "@/components/Header";
 import { CognitoSessionDecodedPayload } from "@/features/auth/types";
 import React, { useMemo } from "react";
@@ -39,9 +39,7 @@ export default function Layout() {
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
         <Header />
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ flexBasis: 250 }}>
-            <Sidebar />
-          </View>
+          <Sidebar />
           <View style={{ flex: 1 }}>
             <Stack screenOptions={{ headerShown: false, navigationBarHidden: true, animation: "fade_from_bottom", contentStyle: { backgroundColor: theme.colors.background }, statusBarHidden: true }} />
           </View>
