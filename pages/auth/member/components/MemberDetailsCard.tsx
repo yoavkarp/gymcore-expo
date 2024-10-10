@@ -4,6 +4,8 @@ import Label from "@/components/ui/Label";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
 import { calculateAge } from "@/utils/calculate-age";
+import Section from "@/components/ui/Section";
+import { theme } from "@/theme";
 
 const ageToText: Record<Gender, string> = {
     'MALE': 'זכר',
@@ -18,7 +20,7 @@ interface MemberDetailsCardProps {
 const MemberDetailsCard: React.FC<MemberDetailsCardProps> = ({ member }) => {
 
     return (
-        <Card style={{ flexDirection: 'row', gap: 40, alignItems: 'center', shadowOpacity: 0, elevation: 2 }}>
+        <Section style={{ flexDirection: 'row', gap: theme.spacing.xl, alignItems: 'center' }}>
             <View>
                 <Label center>שם מלא</Label>
                 <Text center>{member?.name}</Text>
@@ -53,7 +55,7 @@ const MemberDetailsCard: React.FC<MemberDetailsCardProps> = ({ member }) => {
                 <Label center>ת. הצטרפות</Label>
                 <Text center>{new Date(member?.created_at!).toLocaleDateString()}</Text>
             </View>
-        </Card>
+        </Section>
 
     );
 }

@@ -1,7 +1,9 @@
+import { useClub } from "@/features/club";
 import { DeleteIntervalFromExerciseMutation, DeleteIntervalFromExerciseMutationVariables, useDeleteIntervalFromExerciseMutation } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useDeleteIntervalFromExercise(workoutId: string, options?: MutationHookOptions<DeleteIntervalFromExerciseMutation, DeleteIntervalFromExerciseMutationVariables>) {
+    const { currentTrainer } = useClub();
     const [deleteIntervalFromExercise, result] = useDeleteIntervalFromExerciseMutation({
         ...options,
         async update(cache, { data }, opts) {
@@ -22,7 +24,7 @@ export function useDeleteIntervalFromExercise(workoutId: string, options?: Mutat
 
     return {
         deleteIntervalFromExercise: (exerciseId: string, intervalId: string) => {
-            return deleteIntervalFromExercise({ variables: { workoutId, exerciseId, intervalId } });
+            return deleteIntervalFromExercise({ variables: { workoutId, exerciseId, intervalId, trainerId: currentTrainer?.id! } });
         },
         result
     }

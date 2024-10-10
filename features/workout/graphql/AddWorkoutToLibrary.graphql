@@ -1,6 +1,7 @@
-mutation AddWorkoutToLibrary($workoutId: ID!) {
-    addWorkoutToLibrary(workoutId: $workoutId) {
+mutation AddWorkoutToLibrary($trainerId: ID!, $workoutId: ID!) {
+    addWorkoutToLibrary(trainerId: $trainerId, workoutId: $workoutId) {
         id
+        trainerId
         library
     }
 }

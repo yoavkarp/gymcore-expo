@@ -6,7 +6,7 @@
                 "en": "Chest Press",
                 "he": "לחיצת חזה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "pectoralis major",
             "type": "compound",
             "weight": {
@@ -85,7 +85,7 @@
                 "en": "Upper Chest Press",
                 "he": "לחיצת חזה עליון"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "pectoralis major",
             "type": "compound",
             "weight": {
@@ -164,7 +164,7 @@
                 "en": "Lower Chest Press",
                 "he": "לחיצת חזה תחתון"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "pectoralis major",
             "type": "compound",
             "weight": {
@@ -268,7 +268,7 @@
                 "en": "Close Grip Chest Press",
                 "he": "לחיצת חזה אחיזה צרה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "triceps",
             "type": "isolation",
             "weight": {
@@ -1333,7 +1333,7 @@
                 "en": "Close Grip Row",
                 "he": "חתירה אחיזה צרה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "latissimus dorsi",
             "type": "compound",
             "weight": {
@@ -1358,7 +1358,7 @@
                 "en": "Standing Upper Row",
                 "he": "חתירה כלפי מעלה בעמידה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "middle deltoid",
             "type": "compound",
             "weight": {
@@ -1487,7 +1487,7 @@
                 "en": "Wide Grip Row",
                 "he": "חתירה אחיזה רחבה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "upper back",
             "type": "compound",
             "weight": {
@@ -1831,7 +1831,7 @@
                 "en": "Squat",
                 "he": "סקוואט"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "quadriceps",
             "type": "compound",
             "weight": {
@@ -1939,7 +1939,7 @@
                 "en": "Sumo Squat",
                 "he": "סקוואט מנח רחב"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "quadriceps",
             "type": "compound",
             "weight": {
@@ -2072,7 +2072,7 @@
                 "en": "Lunges",
                 "he": "לאנג'ים"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "quadriceps",
             "type": "compound",
             "weight": {
@@ -2147,7 +2147,7 @@
                 "en": "Bulgarian Split Squat",
                 "he": "בולגריין ספליט סקוואט"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "quadriceps",
             "type": "compound",
             "weight": {
@@ -2308,7 +2308,7 @@
                 "en": "Cossack Squat",
                 "he": "סקוואט צידי"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "quadriceps",
             "type": "compound",
             "weight": {
@@ -2385,7 +2385,7 @@
                 "en": "Step Up",
                 "he": "עליות מדרגה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "quadriceps",
             "type": "compound",
             "weight": {
@@ -2438,7 +2438,7 @@
                 "en": "Deadlift",
                 "he": "דדליפט"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "hamstrings,gluts",
             "type": "compound",
             "weight": {
@@ -2462,7 +2462,7 @@
                 "en": "Romanian Deadlift",
                 "he": "דדליפט רומני"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "hamstrings,gluts",
             "type": "isolation",
             "weight": {
@@ -2650,7 +2650,7 @@
                 "en": "Hip Trust",
                 "he": "היפ טראסט"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "hamstrings,gluts",
             "type": "isolation",
             "weight": {
@@ -2786,7 +2786,7 @@
                 "en": "Shoulders Press",
                 "he": "לחיצת כתפיים"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "anterior deltoid,middle deltoid",
             "type": "compound",
             "weight": {
@@ -3258,7 +3258,7 @@
                 "he": "כפיפת כתף בעמידה",
                 "en": "Standing Front Raise"
             },
-            "against": "wBarble",
+            "against": "wBarbell",
             "muscle": "anterior deltoid",
             "type": "isolation",
             "weight": {
@@ -3834,7 +3834,7 @@
                 "en": "Standing Cuban Press",
                 "he": "לחיצה קובנית בעמידה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "middle deltoid,rotator cuff",
             "type": "compound",
             "weight": {
@@ -3998,7 +3998,7 @@
                 "en": "Standing Shrug's",
                 "he": "שרגס בעמידה"
             },
-            "against": "barble",
+            "against": "barbell",
             "muscle": "trapezius,middle deltoid",
             "type": "isolation",
             "weight": {
@@ -4326,7 +4326,7 @@
                 "en": "Standing Biceps Curls",
                 "he": "כפיפת מרפקים בעמידה"
             },
-            "against": "wBarble",
+            "against": "wBarbell",
             "muscle": "biceps",
             "type": "isolation",
             "weight": {
@@ -4354,7 +4354,7 @@
                 "en": "Preature Curls",
                 "he": "כפיפת מרפקים על ספסל ייעודי"
             },
-            "against": "wBarble",
+            "against": "wBarbell",
             "muscle": "biceps",
             "type": "isolation",
             "weight": {
@@ -4774,7 +4774,7 @@
                 "en": "French Press",
                 "he": "לחיצה צרפתית"
             },
-            "against": "wBarble",
+            "against": "wBarbell",
             "muscle": "triceps",
             "type": "isolation",
             "weight": {
@@ -4802,7 +4802,7 @@
                 "en": "30 Degrees Bench French Press",
                 "he": "לחיצה צרפתית על ספסל שיפוע 30 מעלות"
             },
-            "against": "wBarble",
+            "against": "wBarbell",
             "muscle": "triceps",
             "type": "isolation",
             "weight": {

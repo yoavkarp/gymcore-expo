@@ -7,6 +7,9 @@ import { parameterToString } from '@/utils/parameter-to-string';
 import Button from '@/components/ui/Button';
 import TouchableOpacity from '@/components/ui/TouchableOpacity';
 import IntervalFormModal from './IntervalFormModal';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useWorkout } from '@/features/workout';
+import { useDeleteIntervalFromExercise } from '@/features/workout/hooks/api/useDeleteIntervalFromExercise';
 
 type IntervalsListProps = {
     onSelectInterval?: (setId: string) => void;
@@ -14,8 +17,11 @@ type IntervalsListProps = {
 
 const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval }) => {
 
+    const { workoutId } = useWorkout();
     const { exercise } = useExercise();
     const [selectedIntervalId, setSelectedIntervalId] = useState<string | null>(null);
+
+    const { deleteIntervalFromExercise } = useDeleteIntervalFromExercise(workoutId);
 
     const intervalFormModalRef = useRef<IntervalFormModal>(null);
 
@@ -35,18 +41,28 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval }) => {
                     <View style={[{ flex: 0.1 }]}>
                         <Text style={Styles.thText} center>#</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 4 }]}>
+                    <View style={[{ flex: 0.9 / 8 }]}>
                         <Text style={Styles.thText} center >מרחק</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 4 }]}>
+                    <View style={[{ flex: 0.9 / 8 }]}>
                         <Text style={Styles.thText} center>משך</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 4 }]}>
+                    <View style={[{ flex: 0.9 / 8 }]}>
                         <Text style={Styles.thText} center>קצב</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 4 }]}>
+                    <View style={[{ flex: 0.9 / 8 }]}>
                         <Text style={Styles.thText} center>עצימות</Text>
                     </View>
+                    <View style={[{ flex: 0.9 / 8 }]}>
+                        <Text style={Styles.thText} center>שיפוע</Text>
+                    </View>
+                    <View style={[{ flex: 0.9 / 8 }]}>
+                        <Text style={Styles.thText} center>התנגדות</Text>
+                    </View>
+                    <View style={[{ flex: 0.9 / 8 }]}>
+                        <Text style={Styles.thText} center>מנוחה</Text>
+                    </View>
+                    <View style={{ flex: 0.9 / 8 }} />
                 </View>
                 <FlatList
                     removeClippedSubviews
@@ -57,33 +73,56 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval }) => {
                             <View style={{ flex: 0.1 }}>
                                 <Text center>{index + 1}</Text>
                             </View>
-                            <View style={{ flex: 0.9 / 4 }}>
+                            <View style={{ flex: 0.9 / 8 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.distance)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 4 }}>
+                            <View style={{ flex: 0.9 / 8 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.duration)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 4 }}>
+                            <View style={{ flex: 0.9 / 8 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.tempo)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 4 }}>
+                            <View style={{ flex: 0.9 / 8 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.intensity)}
                                 </Text>
+                            </View>
+                            <View style={{ flex: 0.9 / 8 }}>
+                                <Text center style={Styles.tdText}>
+                                    {parameterToString(item?.resistance)}
+                                </Text>
+                            </View>
+                            <View style={{ flex: 0.9 / 8 }}>
+                                <Text center style={Styles.tdText}>
+                                    {parameterToString(item?.angle)}
+                                </Text>
+                            </View>
+                            <View style={{ flex: 0.9 / 8 }}>
+                                <Text center style={Styles.tdText}>
+                                    {parameterToString(item?.rest)}
+                                </Text>
+                            </View>
+                            <View style={{ flex: 0.9 / 8, flexDirection: 'row', gap: theme.spacing.sm }}>
+                                <Button onPress={() => intervalFormModalRef.current?.open(item?.id)}>
+                                    <Ionicons name="pencil-sharp" size={20} />
+                                </Button>
+                                <Button error onPress={() => deleteIntervalFromExercise(exercise.id, item?.id!)}>
+                                    <Ionicons name="trash" size={20} />
+                                </Button>
                             </View>
                         </TouchableOpacity>
                     )}
 
                     ListEmptyComponent={
                         <View style={{ justifyContent: 'center', alignItems: 'center', padding: theme.spacing.lg, gap: theme.spacing.sm }}>
-                            <Text>אין סטים להצגה</Text>
-                            <Button onPress={() => intervalFormModalRef.current?.open()}>צור סט חדש</Button>
+                            <Text>אין אינטרוולים להצגה</Text>
+                            <Button onPress={() => intervalFormModalRef.current?.open()}>צור אינטרוול חדש</Button>
                         </View>
                     }
                 />

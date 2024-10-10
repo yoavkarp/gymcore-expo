@@ -1,7 +1,8 @@
-mutation UpdateWorkout($id: ID!, $input: UpdateWorkoutInput!) {
-    updateWorkout(workoutId: $id, input: $input) {
+mutation UpdateWorkout($trainerId: ID!, $id: ID!, $input: UpdateWorkoutInput!) {
+    updateWorkout(trainerId: $trainerId, workoutId: $id, input: $input) {
         updated_at
         name
         notes
+        trainerId
     }
 }

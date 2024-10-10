@@ -1,7 +1,8 @@
-mutation DeleteIntervalFromExercise($workoutId: ID!, $exerciseId: ID!, $intervalId: ID!) {
-    deleteIntervalFromExercise(workoutId: $workoutId, exerciseId: $exerciseId, intervalId: $intervalId) {
+mutation DeleteIntervalFromExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $intervalId: ID!) {
+    deleteIntervalFromExercise(trainerId: $trainerId,workoutId: $workoutId, exerciseId: $exerciseId, intervalId: $intervalId) {
         id
         updated_at
+        trainerId
         exercises {
             __typename
             ... on StrengthExercise {

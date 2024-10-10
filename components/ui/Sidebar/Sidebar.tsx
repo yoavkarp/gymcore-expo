@@ -16,7 +16,7 @@ interface SidebarProps { }
 
 const Sidebar: React.FC<SidebarProps> = () => {
 
-    const navigate = router.push;
+    const navigate = router.navigate;
     const path = usePathname();
 
     return (
@@ -30,14 +30,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </View>
             <View style={Styles.divider} />
             <View />
-            {/* <View style={Styles.optionsContainer} id='options'>
-                <TouchableOpacity style={Styles.avatarContainer} id='avatar' onPress={() => navigate("My Profile")}>
-                    <Image style={[Styles.avatar, state.routeNames[state.index] === 'My Profile' && { borderWidth: 4, borderColor: theme.colors.primary }]} source={{ uri: currentClub?.picture }} width={60} height={60} />
-                    <Text style={{ color: state.routeNames[state.index] === 'My Profile' ? theme.colors.primary : theme.colors.secondary, fontSize: theme.fontSize.md }}>{currentClub?.name.split(" ")[0]}</Text>
-                    <Text style={{ color: state.routeNames[state.index] === 'My Profile' ? theme.colors.primary : theme.colors.secondary, fontSize: theme.fontSize.base, marginTop: -10 }}>{t("Profile")}</Text>
-                </TouchableOpacity>
-                <SidebarButton onPress={logout} icon={LogoutSolidIcon} screen={{ name: "Logout", component: () => <View />, showInNav: false }} />
-            </View> */}
         </View>
     )
 
@@ -45,12 +37,13 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
 const Styles = StyleSheet.create({
     container: {
-        backgroundColor: theme.colors.background,
+        backgroundColor: theme.colors.white,
         width: 120,
         gap: theme.spacing.md,
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: '100%'
+        height: '100%',
+        padding: theme.spacing.md
     },
     buttonsContainer: {
         gap: theme.spacing.md

@@ -11,6 +11,11 @@ fragment StrengthExerciseFragment on StrengthExercise {
         reps { ...ParameterFragment }
         weight { ...ParameterFragment }
         rest { ...ParameterFragment }
+        dropsets {
+            id
+            reps { ...ParameterFragment }
+            weight { ...ParameterFragment }
+        }
     }
 }
 

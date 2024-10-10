@@ -9,6 +9,8 @@ import { useSnackbar } from "@/contexts/SnackbarContext";
 import { useCreateMeasurementForMemberMutation } from "@/graphql";
 import { CreateMeasurementFormValues, useCreateMeasurementForm } from "@/features/measurements/hooks/useCreateMeasurementForm";
 import { Controller } from "react-hook-form";
+import Section from "@/components/ui/Section";
+import { theme } from "@/theme";
 
 interface MemberMeasurementsCardProps {
     measurement?: DeepPartial<Measurement> | null;
@@ -69,7 +71,7 @@ const MemberMeasurementsCard: React.FC<MemberMeasurementsCardProps> = ({ measure
     }
 
     return (
-        <Card style={{ flexDirection: 'row', shadowOpacity: 0, elevation: 2, gap: 40, alignItems: 'center' }}>
+        <Section style={{ flexDirection: 'row', gap: theme.spacing.md, alignItems: 'center' }}>
             <View>
                 <Text h1>מדדים</Text>
                 {!measurement && <Text>
@@ -122,9 +124,9 @@ const MemberMeasurementsCard: React.FC<MemberMeasurementsCardProps> = ({ measure
             </View>
 
             <Button disabled={isSubmitting || !isDirty} isLoading={isSubmitting} onPress={handleSubmit(onSubmit, (err) => showToast(err[Object.keys(err)[0] as keyof typeof err]?.message!, "error"))}>
-                צור
+                עדכון מדדים
             </Button>
-        </Card>
+        </Section>
     );
 }
 

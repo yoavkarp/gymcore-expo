@@ -37,21 +37,15 @@ interface CreateTrainerModalProps {
 
 const CreateTrainerModal: React.FC<CreateTrainerModalProps> = ({ error, visible = false, onDismiss, onSubmit }) => {
     const { control, formState: { isSubmitting }, handleSubmit, reset } = useCreateTrainerForm({
-        defaultValues: {
-            phone_number: "050571674",
-            birthdate: new Date().toISOString().slice(0, 10),
-            email: "treeofj2@gmail.com",
-            name: "אבי כהן",
-            gender: "MALE"
-        },
         mode: "onChange"
     });
     const [nameInputRef, phoneNumberInputRef, emailInputRef] = [React.useRef<TextInputRef>(null), React.useRef<TextInputRef>(null), React.useRef<TextInputRef>(null)];
-    const [genderSelectRef, birthdateSelectRef] = [React.useRef<SelectRef>(null), React.useRef<SelectRef>(null)];
+    const [genderSelectRef] = [React.useRef<SelectRef>(null)];
 
     return (
         <Modal visible={visible} onDismiss={onDismiss} onShow={() => {
-            reset({})
+            console.log("SHow")
+            reset()
             setTimeout(() => {
                 nameInputRef.current?.focus();
             }, 100);
@@ -68,7 +62,7 @@ const CreateTrainerModal: React.FC<CreateTrainerModalProps> = ({ error, visible 
                         return (
                             <View style={styles.formField}>
                                 <Label>שם מלא *</Label>
-                                <TextInput readOnly={isSubmitting} style={styles.formInput} onChange={onChange} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={nameInputRef} onSubmitEditing={() => phoneNumberInputRef.current?.focus()} {...field} />
+                                <TextInput readOnly={isSubmitting} style={styles.formInput} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={nameInputRef} onSubmitEditing={() => phoneNumberInputRef.current?.focus()} {...field} />
                                 {error && <Text error>{error.message}</Text>}
                             </View>
                         )
@@ -78,7 +72,7 @@ const CreateTrainerModal: React.FC<CreateTrainerModalProps> = ({ error, visible 
                         return (
                             <View style={styles.formField}>
                                 <Label>טלפון *</Label>
-                                <TextInput readOnly={isSubmitting} keyboardType="phone-pad" style={styles.formInput} onChange={onChange} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={phoneNumberInputRef} onSubmitEditing={() => emailInputRef.current?.focus()} {...field} />
+                                <TextInput readOnly={isSubmitting} keyboardType="phone-pad" style={styles.formInput} onChangeText={onChange} blurOnSubmit={false} returnKeyType="next" error={Boolean(error)} ref={phoneNumberInputRef} onSubmitEditing={() => emailInputRef.current?.focus()} {...field} />
                                 {error && <Text error>{error.message}</Text>}
                             </View>
                         )

@@ -1,7 +1,8 @@
-mutation DeleteSetFromExercise($workoutId: ID!, $exerciseId: ID!, $setId: ID!) {
-    deleteSetFromExercise(workoutId: $workoutId, exerciseId: $exerciseId, setId: $setId) {
+mutation DeleteSetFromExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $setId: ID!) {
+    deleteSetFromExercise(trainerId: $trainerId, workoutId: $workoutId, exerciseId: $exerciseId, setId: $setId) {
         id
         updated_at
+        trainerId
         exercises {
             __typename
             ... on StrengthExercise {

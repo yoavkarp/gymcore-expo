@@ -1,0 +1,24 @@
+query GetPlanById($id: ID!) {
+    getPlanById(planId: $id) {
+        id
+        tenantId
+        weeks
+        meetings
+        created_at
+        updated_at
+        trainerId
+        memberId
+        workouts {
+            items {
+                id
+                name
+                created_at
+                updated_at
+            }
+            nextToken
+        }
+        member {
+            name
+        }
+    }
+}

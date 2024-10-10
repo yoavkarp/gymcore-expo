@@ -3,6 +3,8 @@ query ListLibraryWorkouts($limit: Int, $nextToken: String) {
     items {
       id
       name
+      trainerId
+      updated_at
     }
     nextToken
   }

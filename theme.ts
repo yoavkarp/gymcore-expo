@@ -13,6 +13,9 @@ export type Theme = {
         error: ColorValue;
         success: ColorValue;
         warning: ColorValue;
+        card: ColorValue;
+        white: ColorValue;
+        black: ColorValue;
     },
     spacing: {
         xs: number;
@@ -34,7 +37,7 @@ export const defaultTheme: Theme = {
     colors: {
         primary: "#0ea5e9",
         secondary: "#3b82f6",
-        background: "#fafafa",
+        background: "#e7e5e4",
         text: "#1f2937",
         border: "#9ca3af",
         buttonText: "#ffffff",
@@ -42,7 +45,10 @@ export const defaultTheme: Theme = {
         muted: "#6b7280",
         error: "#dc2626",
         success: "#4ade80",
-        warning: "#fcd34d"
+        warning: "#fcd34d",
+        card: "#FCFCFC",
+        white: "#FDFDFD",
+        black: "#000000",
     },
     spacing: {
         xs: 4,

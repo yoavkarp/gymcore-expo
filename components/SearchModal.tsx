@@ -7,6 +7,7 @@ import TextInput, { TextInputRef } from './ui/TextInput';
 import { MaterialIcons } from '@expo/vector-icons';
 import Modal from './ui/Modal';
 import { View } from './ui/View';
+import LoadingIndicator from './ui/LoadingIndicator';
 
 export type SearchResultItem = { title: string, value: string }
 export type SearchModalProps = {
@@ -49,17 +50,23 @@ const SearchModal: React.FC<SearchModalProps> = (props) => {
     const _styles = styles(theme);
     const searchInputRef = React.createRef<TextInputRef>();
 
-    const handleSelect = (item: SearchResultItem) => {
+    const [isPending, setIsPending] = useState(false);
+
+    const handleSelect = async (item: SearchResultItem) => {
+        setIsPending(true)
+        await props.onChangeValue?.(item);
         setSelectedOption(item);
-        props.onChangeValue?.(item);
+        setIsPending(false);
         setIsVisible(false);
     };
 
     useEffect(() => {
-        console.log(props.defaultValue)
-        console.log(props.items.find((item) => props.defaultValue === item.value))
         setSelectedOption(props.items.find((item) => props.defaultValue === item.value));
     }, [props.defaultValue, props.items])
+
+    if (isPending) {
+        return <LoadingIndicator />
+    }
 
     return (
         <View style={_styles.container}>
@@ -78,7 +85,7 @@ const SearchModal: React.FC<SearchModalProps> = (props) => {
                     </TouchableOpacity>
                 </View>
                 <Text subtitle style={{ marginBottom: 5 }}>{props.subtitle || "תיבת חיפוש:"}</Text>
-                <TextInput defaultValue={selectedOption?.title} ref={searchInputRef} onChangeText={props.onChangeText} />
+                <TextInput ref={searchInputRef} onChangeText={props.onChangeText} />
 
                 <FlatList
                     keyboardShouldPersistTaps="always"

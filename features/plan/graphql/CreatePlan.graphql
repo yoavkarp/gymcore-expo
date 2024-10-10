@@ -1,0 +1,14 @@
+mutation CreatePlan($trainerId: ID!, $input: CreatePlanInput!) {
+    createPlan(trainerId: $trainerId, input: $input) {
+        id
+        trainerId
+        updated_at
+        memberId
+        tenantId
+        weeks
+        meetings
+        member {
+            name
+        }
+    }
+}

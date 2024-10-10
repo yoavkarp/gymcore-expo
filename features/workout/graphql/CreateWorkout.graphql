@@ -1,5 +1,5 @@
-mutation CreateWorkout($input: CreateWorkoutInput!) {
-    createWorkout(input: $input) {
+mutation CreateWorkout($trainerId: ID!, $input: CreateWorkoutInput!) {
+    createWorkout(trainerId: $trainerId, input: $input) {
         id
         tenantId
         clubId

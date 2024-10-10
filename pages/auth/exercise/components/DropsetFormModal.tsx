@@ -10,6 +10,11 @@ import React, { useImperativeHandle, useMemo } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { DropSetFormInput, useDropSetForm } from "../hooks/useDropsetForm";
+import { StrengthExercise, useUpdateSetInExerciseMutation } from "@/graphql";
+import { useExercise } from "./ExerciseProvider";
+import { useWorkout } from "@/features/workout";
+import { useUpdateSetInExercise } from "@/features/workout/hooks/api/useUpdateSetInExercise";
+import { removeTypename } from "@/utils/remove-typename";
 
 interface DropSetFormModalProps {
     onDismiss?: () => void;
@@ -17,23 +22,55 @@ interface DropSetFormModalProps {
 }
 
 type DropSetFormModal = {
-    open: (defaultValues?: Partial<DropSetFormInput>) => void;
+    open: (setId: string, dropsetId?: string) => void;
 }
 
 const DropSetFormModal = React.forwardRef<DropSetFormModal, DropSetFormModalProps>(({ onDismiss }, ref) => {
 
-    const { control, reset, handleSubmit, formState: { isSubmitting }, watch, setValue } = useDropSetForm();
+    const { control, reset, handleSubmit, formState: { isSubmitting } } = useDropSetForm();
+    const { exercise: _exercise } = useExercise();
+    const { workoutId } = useWorkout();
+    const exercise = _exercise as StrengthExercise;
 
     const [visible, setVisible] = useState(false);
-    const [openProps, setOpenProps] = useState<{ defaultValues?: Partial<DropSetFormInput> } | null>(null);
+    const [openProps, setOpenProps] = useState<{ setId: string, dropsetId?: string } | null>(null);
+
+    const set = useMemo(() => exercise.sets?.find((set) => set?.id === openProps?.setId), [openProps?.setId, exercise]);
+    const { updateSetInExercise } = useUpdateSetInExercise(workoutId);
+
+    const onSubmit = async (e: DropSetFormInput) => {
+        if (!openProps) return;
+
+        const payload = removeTypename({
+            reps: set?.reps,
+            weight: set?.weight,
+            rest: set?.rest,
+            dropsets: openProps.dropsetId ? set?.dropsets?.map((ds) => {
+                if (ds.id === openProps.dropsetId) {
+                    return e;
+                }
+                return ds;
+            }) : [...(set?.dropsets || []), e]
+        })
+
+        await updateSetInExercise(exercise.id, openProps.setId, payload)
+        setOpenProps(null);
+        setVisible(false);
+    }
 
     useImperativeHandle(ref, () => {
         return {
-            open: (defaultValues) => {
-                if (defaultValues) {
-                    reset(defaultValues);
+            open: (setId, dropsetId) => {
+                setOpenProps({ setId, dropsetId });
+
+                const exists = openProps?.dropsetId ? exercise.sets?.find((set) => set?.id === openProps?.setId)?.dropsets?.find((dropset) => dropset.id === openProps.dropsetId) : undefined;
+                if (exists) {
+                    reset({ reps: exists.reps, weight: exists.weight, id: exists.id });
                 }
-                setOpenProps({ defaultValues });
+                else {
+                    reset({});
+                }
+
                 setVisible(true);
             },
             close: () => {
@@ -106,10 +143,8 @@ const DropSetFormModal = React.forwardRef<DropSetFormModal, DropSetFormModalProp
 
             </View>
 
-            <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(async (data) => {
-                setVisible(false);
-            }, (err) => console.log(err))}>
-                {openProps?.defaultValues ? 'עדכון' : 'הוספה'}
+            <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
+                {openProps?.dropsetId ? 'עדכון' : 'הוספה'}
             </Button>
         </Modal>
     );

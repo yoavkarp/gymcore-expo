@@ -1,5 +1,6 @@
-mutation AddSetToExercise($workoutId: ID!, $exerciseId: ID!, $input: SetInput!) {
-    addSetToExercise(workoutId: $workoutId, exerciseId: $exerciseId, input: $input) {
+mutation AddSetToExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $input: SetInput!) {
+    addSetToExercise(trainerId: $trainerId, workoutId: $workoutId, exerciseId: $exerciseId, input: $input) {
+        trainerId
         exercises {
             __typename
             ... on StrengthExercise {

@@ -13,6 +13,7 @@ import { useCreateWorkout } from "@/features/workout";
 interface CreateWorkoutModalProps {
     memberId?: string;
     planId?: string;
+    library?: boolean;
 }
 
 type CreateWorkoutModal = {
@@ -20,7 +21,7 @@ type CreateWorkoutModal = {
     close: () => void;
 }
 
-const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProps>(({ memberId, planId }, ref) => {
+const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProps>(({ memberId, planId, library = false }, ref) => {
 
     const [visible, setIsVisible] = useState(false);
     const { control, handleSubmit } = useCreateWorkoutForm();
@@ -33,7 +34,6 @@ const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProp
         onCompleted(data) {
             if (data.createWorkout?.id)
                 router.push(`/workout/${data.createWorkout.id}`)
-
             setIsVisible(false);
         }
     });
@@ -52,8 +52,8 @@ const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProp
                 input: {
                     name: data.name,
                     memberId,
-                    trainerId: currentTrainer?.id!,
-                    planId
+                    planId,
+                    library
                 }
             }
         })

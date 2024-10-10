@@ -1,5 +1,5 @@
-mutation UpdateExerciseInWorkout($workoutId: ID!, $exerciseId: ID!, $input: UpdateExerciseInWorkoutInput!) {
-    updateExerciseInWorkout(workoutId: $workoutId, exerciseId: $exerciseId, input: $input) {
+mutation UpdateExerciseInWorkout($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $input: UpdateExerciseInWorkoutInput!) {
+    updateExerciseInWorkout(trainerId: $trainerId, workoutId: $workoutId, exerciseId: $exerciseId, input: $input) {
         exercises {
             __typename
             ... on StrengthExercise {
@@ -10,5 +10,6 @@ mutation UpdateExerciseInWorkout($workoutId: ID!, $exerciseId: ID!, $input: Upda
             }
         }
         updated_at
+        trainerId
     }
 }

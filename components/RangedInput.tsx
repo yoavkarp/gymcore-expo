@@ -6,7 +6,7 @@ import { ParameterInput } from "@/graphql";
 
 
 export type RangedInputProps = {
-    value?: ParameterInput;
+    value?: ParameterInput | null;
     onChangeValue?: (value: ParameterInput) => void;
     onSubmitEditing?: TextInputRef['props']['onSubmitEditing']
     returnKeyType?: TextInputRef['props']['returnKeyType']

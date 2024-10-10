@@ -165,12 +165,59 @@ export const getMemberById = /* GraphQL */ `query GetMemberById($memberId: ID!) 
       nextToken
       __typename
     }
+    plans {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
 ` as GeneratedQuery<
   APITypes.GetMemberByIdQueryVariables,
   APITypes.GetMemberByIdQuery
+>;
+export const getPlanById = /* GraphQL */ `query GetPlanById($planId: ID!) {
+  getPlanById(planId: $planId) {
+    id
+    tenantId
+    memberId
+    trainerId
+    notes
+    workouts {
+      nextToken
+      __typename
+    }
+    clubId
+    weeks
+    meetings
+    created_at
+    updated_at
+    member {
+      id
+      tenantId
+      created_at
+      updated_at
+      name
+      email
+      phone_number
+      profile_picture
+      address
+      birthdate
+      gender
+      registered
+      status
+      __typename
+    }
+    events {
+      nextToken
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetPlanByIdQueryVariables,
+  APITypes.GetPlanByIdQuery
 >;
 export const listLibraryWorkouts = /* GraphQL */ `query ListLibraryWorkouts($limit: Int, $nextToken: String) {
   listLibraryWorkouts(limit: $limit, nextToken: $nextToken) {
@@ -194,6 +241,83 @@ export const listLibraryWorkouts = /* GraphQL */ `query ListLibraryWorkouts($lim
 ` as GeneratedQuery<
   APITypes.ListLibraryWorkoutsQueryVariables,
   APITypes.ListLibraryWorkoutsQuery
+>;
+export const listPlansByMemberId = /* GraphQL */ `query ListPlansByMemberId($memberId: ID!, $limit: Int, $nextToken: String) {
+  listPlansByMemberId(
+    memberId: $memberId
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      tenantId
+      memberId
+      trainerId
+      notes
+      clubId
+      weeks
+      meetings
+      created_at
+      updated_at
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListPlansByMemberIdQueryVariables,
+  APITypes.ListPlansByMemberIdQuery
+>;
+export const listPlansByTrainerId = /* GraphQL */ `query ListPlansByTrainerId($trainerId: ID!, $limit: Int, $nextToken: String) {
+  listPlansByTrainerId(
+    trainerId: $trainerId
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      tenantId
+      memberId
+      trainerId
+      notes
+      clubId
+      weeks
+      meetings
+      created_at
+      updated_at
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListPlansByTrainerIdQueryVariables,
+  APITypes.ListPlansByTrainerIdQuery
+>;
+export const listPlansByClub = /* GraphQL */ `query ListPlansByClub($limit: Int, $nextToken: String) {
+  listPlansByClub(limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      tenantId
+      memberId
+      trainerId
+      notes
+      clubId
+      weeks
+      meetings
+      created_at
+      updated_at
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListPlansByClubQueryVariables,
+  APITypes.ListPlansByClubQuery
 >;
 export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) {
   searchMembers(text: $text) {
@@ -240,6 +364,10 @@ export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) 
       __typename
     }
     profile_workouts {
+      nextToken
+      __typename
+    }
+    plans {
       nextToken
       __typename
     }

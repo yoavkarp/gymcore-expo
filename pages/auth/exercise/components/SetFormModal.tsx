@@ -16,7 +16,7 @@ import { removeTypename, removeUndefined } from "@/utils/remove-typename";
 import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
-import DropSetFormModal from "./DropsetFormModal";
+import { useExercise } from "./ExerciseProvider";
 
 interface SetFormModalProps {
     onDismiss?: () => void;
@@ -24,7 +24,7 @@ interface SetFormModalProps {
 }
 
 type SetFormModal = {
-    open: (exerciseId: string, setId?: string) => void;
+    open: (setId?: string) => void;
 }
 
 const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDismiss }, ref) => {
@@ -32,45 +32,41 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     const { control, reset, handleSubmit, formState: { isSubmitting }, watch, setValue } = useCreateSetForm();
 
     const [visible, setVisible] = useState(false);
-    const [openProps, setOpenProps] = useState<{ exerciseId: string, setId?: string, exerciseIndex: number, setIndex?: number } | null>(null);
+    const [openProps, setOpenProps] = useState<{ setId: string } | null>(null);
 
-    const { workout, workoutId } = useWorkout();
-    const { addSetToExercise, result: addSetToExerciseResult } = useAddSetToExercise(workoutId);
-    const { updateSetInExercise, result: updateSetInExerciseResult } = useUpdateSetInExercise(workoutId);
+    const { exercise: _exercise } = useExercise();
+    const exercise = _exercise as StrengthExercise;
+
+    const { workoutId } = useWorkout();
+    const { addSetToExercise } = useAddSetToExercise(workoutId);
+    const { updateSetInExercise } = useUpdateSetInExercise(workoutId);
 
     const onSubmit = async (data: SetFormInput) => {
-        console.log(data);
-        if (!openProps) return;
 
-        if (!openProps.setId)
-            await addSetToExercise(openProps.exerciseId, { ...data });
+        if (!openProps?.setId)
+            await addSetToExercise(exercise.id, { ...data });
         else
-            await updateSetInExercise(openProps.exerciseId, openProps.setId, removeTypename(removeUndefined(data)));
+            await updateSetInExercise(exercise.id, openProps.setId, removeTypename(removeUndefined(data)));
 
         setVisible(false);
-
     }
 
     useImperativeHandle(ref, () => {
         return {
-            open: (exerciseId, setId) => {
-                const exerciseIndex = workout?.exercises?.findIndex((exercise) => exercise.id === exerciseId);
+            open: (setId) => {
 
-                if (typeof (exerciseIndex) === 'undefined' || exerciseIndex === -1) return;
-
-                const setIndex = setId ? (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.findIndex((set) => set?.id === setId) : undefined;
-
-                if (typeof (setIndex) === 'number' && setIndex > -1) {
-                    setOpenProps({ exerciseId, setId, exerciseIndex, setIndex });
+                if (setId) {
+                    const set = exercise.sets?.find((set) => set?.id === setId);
+                    setOpenProps({ setId });
                     reset({
-                        reps: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.reps || undefined,
-                        weight: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.weight || undefined,
-                        rest: (workout?.exercises?.[exerciseIndex] as StrengthExercise).sets?.[setIndex]?.rest || undefined,
+                        reps: set?.reps || undefined,
+                        weight: set?.weight || undefined,
+                        rest: set?.rest || undefined,
                     })
                 }
                 else {
-                    setOpenProps({ exerciseId, exerciseIndex });
-                    reset()
+                    setOpenProps(null);
+                    reset({})
                 }
 
                 setVisible(true);
@@ -82,7 +78,7 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     }, [visible])
 
     return (
-        <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8, width: 1000 }} visible={visible}>
+        <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
             <Text h1>{openProps?.setId ? 'עריכת סט קיים' : 'הוספת סט'}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View>
@@ -170,20 +166,10 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
 
 
                 </View>
-                <View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text h2>דרופסטים</Text>
-                        <Button onPress={() => dropSetModal.current?.open((data) => setValue("dropsets", [...(watch("dropsets") || []), data]))}>הוסף דרופסט</Button>
-                    </View>
-
-                </View>
             </View>
-
             <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
                 {openProps?.setId ? 'עדכון' : 'הוספה'}
             </Button>
-
-            <DropSetFormModal ref={dropSetModal} />
         </Modal>
     );
 })

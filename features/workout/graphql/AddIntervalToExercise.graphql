@@ -1,5 +1,6 @@
-mutation AddIntervalToExercise($workoutId: ID!, $exerciseId: ID!, $input: IntervalInput!) {
-    addIntervalToExercise(workoutId: $workoutId, exerciseId: $exerciseId, input: $input) {
+mutation AddIntervalToExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $input: IntervalInput!) {
+    addIntervalToExercise(trainerId: $trainerId, workoutId: $workoutId, exerciseId: $exerciseId, input: $input) {
+        trainerId
         exercises {
             __typename
             ... on StrengthExercise {

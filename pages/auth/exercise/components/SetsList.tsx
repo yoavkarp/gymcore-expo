@@ -7,17 +7,24 @@ import { parameterToString } from '@/utils/parameter-to-string';
 import Button from '@/components/ui/Button';
 import TouchableOpacity from '@/components/ui/TouchableOpacity';
 import SetFormModal from './SetFormModal';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useDeleteSetFromExercise } from '@/features/workout/hooks/api/useDeleteSetFromExercise';
+import { useWorkout } from '@/features/workout';
 
 type SetsListProps = {
     onSelectSet?: (setId: string) => void;
+    disableActions?: boolean;
 }
 
 const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
 
     const { exercise } = useExercise();
+    const { workoutId } = useWorkout();
     const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
 
     const setFormModalRef = useRef<SetFormModal>(null);
+
+    const { deleteSetFromExercise } = useDeleteSetFromExercise(workoutId);
 
     const handleSetPressed = (setId: string) => {
         setSelectedSetId(setId);
@@ -35,15 +42,16 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
                     <View style={[{ flex: 0.1 }]}>
                         <Text style={Styles.thText} center>#</Text>
                     </View>
-                    <View style={[{ flex: 0.3 }]}>
+                    <View style={[{ flex: 0.9 / 4 }]}>
                         <Text style={Styles.thText} center >חזרות</Text>
                     </View>
-                    <View style={[{ flex: 0.3 }]}>
+                    <View style={[{ flex: 0.9 / 4 }]}>
                         <Text style={Styles.thText} center>משקל</Text>
                     </View>
-                    <View style={[{ flex: 0.3 }]}>
+                    <View style={[{ flex: 0.9 / 4 }]}>
                         <Text style={Styles.thText} center>מנוחה</Text>
                     </View>
+                    <View style={{ flex: 0.9 / 4 }} />
                 </View>
                 <FlatList
                     removeClippedSubviews
@@ -54,20 +62,28 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
                             <View style={{ flex: 0.1 }}>
                                 <Text center>{index + 1}</Text>
                             </View>
-                            <View style={{ flex: 0.3 }}>
+                            <View style={{ flex: 0.9 / 4 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.reps)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.3 }}>
+                            <View style={{ flex: 0.9 / 4 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.weight)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.3 }}>
+                            <View style={{ flex: 0.9 / 4 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.rest)}
                                 </Text>
+                            </View>
+                            <View style={{ flex: 0.9 / 4, flexDirection: 'row', gap: theme.spacing.sm }}>
+                                <Button onPress={() => setFormModalRef.current?.open(item?.id)}>
+                                    <Ionicons name="pencil-sharp" size={20} />
+                                </Button>
+                                <Button error onPress={() => deleteSetFromExercise(exercise.id, item?.id!)}>
+                                    <Ionicons name="trash" size={20} />
+                                </Button>
                             </View>
                         </TouchableOpacity>
                     )}
@@ -97,7 +113,7 @@ const Styles = StyleSheet.create({
         color: theme.colors.background
     },
     tr: {
-        flexDirection: 'row', paddingVertical: theme.spacing.sm
+        flexDirection: 'row', paddingVertical: theme.spacing.sm, alignItems: 'center'
     },
     tdText: {
 

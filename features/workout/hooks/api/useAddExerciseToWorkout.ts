@@ -1,7 +1,9 @@
+import { useClub } from "@/features/club";
 import { AddExerciseToWorkoutInput, AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables, useAddExerciseToWorkoutMutation } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useAddExerciseToWorkout(workoutId: string, options?: MutationHookOptions<AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables>) {
+    const { currentTrainer } = useClub()
     const [addExerciseToWorkout, result] = useAddExerciseToWorkoutMutation({
         ...options,
         async update(cache, { data }, opts) {
@@ -22,7 +24,7 @@ export function useAddExerciseToWorkout(workoutId: string, options?: MutationHoo
 
     return {
         addExerciseToWorkout: (args: AddExerciseToWorkoutInput) => {
-            return addExerciseToWorkout({ variables: { id: workoutId, input: args } });
+            return addExerciseToWorkout({ variables: { id: workoutId, input: args, trainerId: currentTrainer?.id! } });
         },
         result
     }

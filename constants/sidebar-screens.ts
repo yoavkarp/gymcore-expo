@@ -21,6 +21,11 @@ const SCREENS: NavigationScreen[] = [
         href: "/library",
         icon: LibrarySolidIcon,
     },
+    {
+        name: "תכניות",
+        href: "/plans",
+        icon: LibrarySolidIcon,
+    },
 ] as const;
 
 export default SCREENS;

@@ -32,7 +32,7 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
     const [selectedExercise, setSelectedExercise] = useState<SearchResultItem | null>(null);
     const [openProps, setOpenProps] = useState<{ exerciseId?: string } | null>(null);
     const [visible, setVisible] = useState(false);
-    const { handleSubmit, setValue, getValues, reset, formState: { errors }, control } = useExerciseForm();
+    const { handleSubmit, setValue, getValues, reset, formState: { errors, isSubmitting }, control } = useExerciseForm();
     const { workout, workoutId } = useWorkout();
 
     const { addExerciseToWorkout, result: addExerciseToWorkoutResult } = useAddExerciseToWorkout(workoutId);
@@ -149,7 +149,7 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
                     </View>
                 )}
             />
-            <Button onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
+            <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
                 {openProps?.exerciseId ? 'עדכון' : 'הוספה'}
             </Button>
         </Modal>

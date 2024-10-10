@@ -16,6 +16,7 @@ const YesNoDialog = React.forwardRef<YesNoDialog, YesNoDialogProps>(({ title = "
 
     const [visible, setVisible] = useState(false);
     const [onPressYes, setOnPressYes] = useState<() => any>();
+    const [isPending, setIsPending] = useState(false);
 
     useImperativeHandle(ref, () => {
         return {
@@ -27,15 +28,16 @@ const YesNoDialog = React.forwardRef<YesNoDialog, YesNoDialogProps>(({ title = "
     }, [])
 
     return (
-        <Modal visible={visible} dismissable onDismiss={() => {
+        <Modal pointerEvents={isPending ? 'none' : undefined} visible={visible} dismissable onDismiss={() => {
             setVisible(false);
             setOnPressYes(undefined);
         }}>
             <Text h1>{title}</Text>
             <Text subtitle>{subtitle}</Text>
-
-            <Button error onPress={() => {
-                onPressYes?.();
+            <Button isLoading={isPending} disabled={isPending} error onPress={async () => {
+                setIsPending(true)
+                await onPressYes?.();
+                setIsPending(false);
                 setVisible(false);
                 setOnPressYes(undefined);
             }}>כן</Button>
@@ -44,7 +46,9 @@ const YesNoDialog = React.forwardRef<YesNoDialog, YesNoDialogProps>(({ title = "
                 setOnPressYes(undefined);
             }}>לא</Button>
         </Modal>
-    );
+    )
 })
+
+YesNoDialog.displayName = "YesNoDialog";
 
 export default YesNoDialog;

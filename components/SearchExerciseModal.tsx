@@ -3,8 +3,20 @@ import { useState, useTransition } from "react";
 import exercisesJSON from "@/assets/exercises2.json";
 
 type SearchExerciseModalProps = {
-    onChangeValue?: (value: SearchResultItem) => void;
+    onChangeValue?: (value: SearchResultItem) => any;
     defaultValue?: SearchResultItem;
+}
+
+const translate_with = {
+    machine: "מכונה",
+    dumbbells: "משקולות",
+    barbell: "מוט",
+    wBarbell: "מוט W",
+    cable: "כבל",
+    bodyWeight: "משקל גוף",
+    olympicBarble: "מוט אולימפי",
+    plate: "פלטה",
+    rubberBand: "גומיה"
 }
 
 const SearchExerciseModal: React.FC<SearchExerciseModalProps> = ({ onChangeValue, defaultValue }) => {
@@ -18,7 +30,7 @@ const SearchExerciseModal: React.FC<SearchExerciseModalProps> = ({ onChangeValue
             if (text.trim().length > 2)
                 result.push(
                     ...exercisesJSON.strength.filter((exercise) => exercise.name.he.includes(text.trim()))
-                        .map((ex) => ({ value: ex.id, title: ex.name.he })).slice(0, 5)
+                        .map((ex) => ({ value: ex.id, title: `${ex.name.he} כנגד ${translate_with[ex.against as keyof typeof translate_with]}` })).slice(0, 5)
                 );
 
             setItems(result);

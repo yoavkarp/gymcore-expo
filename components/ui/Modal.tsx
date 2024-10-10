@@ -30,6 +30,8 @@ const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, 
     );
 };
 
+Modal.displayName = "Modal";
+
 const styles = (theme: Theme) => StyleSheet.create({
     modalBackground: {
         justifyContent: 'center',

@@ -77,6 +77,11 @@ export type ClubConnection = {
   nextToken?: Maybe<Scalars['String']['output']>;
 };
 
+export type CreateEventInput = {
+  planId: Scalars['ID']['input'];
+  start_at: Scalars['AWSDateTime']['input'];
+};
+
 export type CreateMeasurementInput = {
   fat?: InputMaybe<Scalars['Float']['input']>;
   heart_rate?: InputMaybe<Scalars['Float']['input']>;
@@ -102,6 +107,12 @@ export type CreateMemberMeasurementInput = {
   weight?: InputMaybe<Scalars['Float']['input']>;
 };
 
+export type CreatePlanInput = {
+  meetings: Scalars['Int']['input'];
+  memberId: Scalars['ID']['input'];
+  weeks: Scalars['Int']['input'];
+};
+
 export type CreateTrainerInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   birthdate: Scalars['AWSDate']['input'];
@@ -116,7 +127,6 @@ export type CreateWorkoutInput = {
   memberId?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
   planId?: InputMaybe<Scalars['ID']['input']>;
-  trainerId: Scalars['ID']['input'];
 };
 
 export type Document = {
@@ -124,6 +134,24 @@ export type Document = {
   id: Scalars['ID']['output'];
   tenantId: Scalars['ID']['output'];
   updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type Event = {
+  __typename?: 'Event';
+  clubId: Scalars['ID']['output'];
+  created_at: Scalars['AWSDateTime']['output'];
+  id: Scalars['ID']['output'];
+  memberId: Scalars['ID']['output'];
+  start_at: Scalars['AWSDateTime']['output'];
+  tenantId: Scalars['ID']['output'];
+  trainerId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+};
+
+export type EventConnection = {
+  __typename?: 'EventConnection';
+  items?: Maybe<Array<Event>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type Exercise = CardioExercise | StrengthExercise;
@@ -160,6 +188,11 @@ export type GoalConnection = {
   __typename?: 'GoalConnection';
   items?: Maybe<Array<Goal>>;
   nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type ImportWorkoutFromLibraryInput = {
+  memberId?: InputMaybe<Scalars['ID']['input']>;
+  planId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type IntervalInput = {
@@ -204,6 +237,7 @@ export type Member = Document & {
   measurement?: Maybe<Measurement>;
   name?: Maybe<Scalars['String']['output']>;
   phone_number?: Maybe<Scalars['AWSPhone']['output']>;
+  plans?: Maybe<PlanConnection>;
   profile_picture?: Maybe<Scalars['AWSURL']['output']>;
   profile_workouts?: Maybe<WorkoutConnection>;
   registered?: Maybe<Scalars['Boolean']['output']>;
@@ -224,15 +258,20 @@ export type Mutation = {
   addIntervalToExercise?: Maybe<Workout>;
   addSetToExercise?: Maybe<Workout>;
   addWorkoutToLibrary?: Maybe<Workout>;
+  createEvent?: Maybe<Event>;
   createMeasurement?: Maybe<Measurement>;
   createMeasurementForMember?: Maybe<Measurement>;
   createMember?: Maybe<Member>;
+  createPlan?: Maybe<Plan>;
   createTrainer?: Maybe<Trainer>;
   createWorkout?: Maybe<Workout>;
+  deleteEvent?: Maybe<Event>;
   deleteExerciseFromWorkout?: Maybe<Workout>;
   deleteIntervalFromExercise?: Maybe<Workout>;
+  deletePlan?: Maybe<Plan>;
   deleteSetFromExercise?: Maybe<Workout>;
   deleteWorkout?: Maybe<Workout>;
+  importWorkoutFromLibrary?: Maybe<Workout>;
   moveExerciseInWorkout?: Maybe<Workout>;
   moveIntervalInExercise?: Maybe<Workout>;
   moveSetInExercise?: Maybe<Workout>;
@@ -247,6 +286,7 @@ export type Mutation = {
 
 export type MutationAddExerciseToWorkoutArgs = {
   input: AddExerciseToWorkoutInput;
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -254,6 +294,7 @@ export type MutationAddExerciseToWorkoutArgs = {
 export type MutationAddIntervalToExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   input: IntervalInput;
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -261,12 +302,19 @@ export type MutationAddIntervalToExerciseArgs = {
 export type MutationAddSetToExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   input: SetInput;
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddWorkoutToLibraryArgs = {
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateEventArgs = {
+  input: CreateEventInput;
 };
 
 
@@ -286,6 +334,12 @@ export type MutationCreateMemberArgs = {
 };
 
 
+export type MutationCreatePlanArgs = {
+  input: CreatePlanInput;
+  trainerId: Scalars['ID']['input'];
+};
+
+
 export type MutationCreateTrainerArgs = {
   input: CreateTrainerInput;
 };
@@ -293,11 +347,18 @@ export type MutationCreateTrainerArgs = {
 
 export type MutationCreateWorkoutArgs = {
   input: CreateWorkoutInput;
+  trainerId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteEventArgs = {
+  eventId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteExerciseFromWorkoutArgs = {
   exerciseId: Scalars['ID']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -305,13 +366,20 @@ export type MutationDeleteExerciseFromWorkoutArgs = {
 export type MutationDeleteIntervalFromExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   intervalId: Scalars['ID']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeletePlanArgs = {
+  planId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteSetFromExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   setId: Scalars['ID']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -321,9 +389,17 @@ export type MutationDeleteWorkoutArgs = {
 };
 
 
+export type MutationImportWorkoutFromLibraryArgs = {
+  input: ImportWorkoutFromLibraryInput;
+  trainerId: Scalars['ID']['input'];
+  workoutId: Scalars['ID']['input'];
+};
+
+
 export type MutationMoveExerciseInWorkoutArgs = {
   from: Scalars['Int']['input'];
   to: Scalars['Int']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -332,6 +408,7 @@ export type MutationMoveIntervalInExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   from: Scalars['Int']['input'];
   to: Scalars['Int']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -340,6 +417,7 @@ export type MutationMoveSetInExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   from: Scalars['Int']['input'];
   to: Scalars['Int']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -352,6 +430,7 @@ export type MutationRegisterArgs = {
 export type MutationUpdateExerciseInWorkoutArgs = {
   exerciseId: Scalars['ID']['input'];
   input: UpdateExerciseInWorkoutInput;
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -360,6 +439,7 @@ export type MutationUpdateIntervalInExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   input: IntervalInput;
   intervalId: Scalars['ID']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -373,12 +453,14 @@ export type MutationUpdateSetInExerciseArgs = {
   exerciseId: Scalars['ID']['input'];
   input: SetInput;
   setId: Scalars['ID']['input'];
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateWorkoutArgs = {
   input: UpdateWorkoutInput;
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 };
 
@@ -395,15 +477,42 @@ export type ParameterInput = {
   val?: InputMaybe<Scalars['Float']['input']>;
 };
 
+export type Plan = Document & {
+  __typename?: 'Plan';
+  clubId: Scalars['ID']['output'];
+  created_at: Scalars['AWSDateTime']['output'];
+  events?: Maybe<EventConnection>;
+  id: Scalars['ID']['output'];
+  meetings: Scalars['Int']['output'];
+  member?: Maybe<Member>;
+  memberId: Scalars['ID']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  tenantId: Scalars['ID']['output'];
+  trainerId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+  weeks: Scalars['Int']['output'];
+  workouts?: Maybe<WorkoutConnection>;
+};
+
+export type PlanConnection = {
+  __typename?: 'PlanConnection';
+  items?: Maybe<Array<Plan>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getClubById?: Maybe<Club>;
   getClubTrainers?: Maybe<Array<Trainer>>;
   getMemberById?: Maybe<Member>;
+  getPlanById?: Maybe<Plan>;
   getTenant?: Maybe<Tenant>;
   getTrainerById?: Maybe<Trainer>;
   getWorkoutById?: Maybe<Workout>;
   listLibraryWorkouts?: Maybe<WorkoutConnection>;
+  listPlansByClub?: Maybe<PlanConnection>;
+  listPlansByMemberId?: Maybe<PlanConnection>;
+  listPlansByTrainerId?: Maybe<PlanConnection>;
   searchMembers?: Maybe<Array<Maybe<Member>>>;
 };
 
@@ -415,6 +524,11 @@ export type QueryGetClubByIdArgs = {
 
 export type QueryGetMemberByIdArgs = {
   memberId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetPlanByIdArgs = {
+  planId: Scalars['ID']['input'];
 };
 
 
@@ -431,6 +545,26 @@ export type QueryGetWorkoutByIdArgs = {
 export type QueryListLibraryWorkoutsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   nextToken?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryListPlansByClubArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  nextToken?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryListPlansByMemberIdArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  memberId: Scalars['ID']['input'];
+  nextToken?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryListPlansByTrainerIdArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  nextToken?: InputMaybe<Scalars['String']['input']>;
+  trainerId: Scalars['ID']['input'];
 };
 
 
@@ -477,8 +611,8 @@ export type StrengthExerciseDropSet = {
 };
 
 export type StrengthExerciseDropSetInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
   reps?: InputMaybe<ParameterInput>;
-  times?: InputMaybe<Scalars['Int']['input']>;
   weight?: InputMaybe<ParameterInput>;
 };
 
@@ -587,7 +721,7 @@ export type GetMemberByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberByIdQuery = { __typename?: 'Query', getMemberById?: { __typename?: 'Member', tenantId: string, id: string, name?: string | null, phone_number?: string | null, email?: string | null, created_at: string, gender?: string | null, birthdate?: string | null, address?: string | null, profile_workouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string }> | null } | null, measurement?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null } | null };
+export type GetMemberByIdQuery = { __typename?: 'Query', getMemberById?: { __typename?: 'Member', tenantId: string, id: string, name?: string | null, phone_number?: string | null, email?: string | null, created_at: string, gender?: string | null, birthdate?: string | null, address?: string | null, profile_workouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string, trainerId: string }> | null } | null, plans?: { __typename?: 'PlanConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Plan', id: string, updated_at: string, meetings: number, weeks: number, trainerId: string }> | null } | null, measurement?: { __typename?: 'Measurement', height?: number | null, weight?: number | null, fat?: number | null, heart_rate?: number | null } | null } | null };
 
 export type SearchMembersQueryVariables = Exact<{
   text: Scalars['String']['input'];
@@ -595,6 +729,21 @@ export type SearchMembersQueryVariables = Exact<{
 
 
 export type SearchMembersQuery = { __typename?: 'Query', searchMembers?: Array<{ __typename?: 'Member', id: string, name?: string | null, phone_number?: string | null, email?: string | null } | null> | null };
+
+export type CreatePlanMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
+  input: CreatePlanInput;
+}>;
+
+
+export type CreatePlanMutation = { __typename?: 'Mutation', createPlan?: { __typename?: 'Plan', id: string, trainerId: string, updated_at: string, memberId: string, tenantId: string, weeks: number, meetings: number, member?: { __typename?: 'Member', name?: string | null } | null } | null };
+
+export type GetPlanByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetPlanByIdQuery = { __typename?: 'Query', getPlanById?: { __typename?: 'Plan', id: string, tenantId: string, weeks: number, meetings: number, created_at: string, updated_at: string, trainerId: string, memberId: string, workouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string }> | null } | null, member?: { __typename?: 'Member', name?: string | null } | null } | null };
 
 export type CreateTrainerMutationVariables = Exact<{
   input: CreateTrainerInput;
@@ -609,39 +758,44 @@ export type GetClubTrainersQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetClubTrainersQuery = { __typename?: 'Query', getClubTrainers?: Array<{ __typename?: 'Trainer', id: string, name: string, email?: string | null, phone_number: string }> | null };
 
 export type AddExerciseToWorkoutMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   id: Scalars['ID']['input'];
   input: AddExerciseToWorkoutInput;
 }>;
 
 
-export type AddExerciseToWorkoutMutation = { __typename?: 'Mutation', addExerciseToWorkout?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type AddExerciseToWorkoutMutation = { __typename?: 'Mutation', addExerciseToWorkout?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type AddIntervalToExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   input: IntervalInput;
 }>;
 
 
-export type AddIntervalToExerciseMutation = { __typename?: 'Mutation', addIntervalToExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type AddIntervalToExerciseMutation = { __typename?: 'Mutation', addIntervalToExercise?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type AddSetToExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   input: SetInput;
 }>;
 
 
-export type AddSetToExerciseMutation = { __typename?: 'Mutation', addSetToExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type AddSetToExerciseMutation = { __typename?: 'Mutation', addSetToExercise?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type AddWorkoutToLibraryMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
 }>;
 
 
-export type AddWorkoutToLibraryMutation = { __typename?: 'Mutation', addWorkoutToLibrary?: { __typename?: 'Workout', id: string, library?: boolean | null } | null };
+export type AddWorkoutToLibraryMutation = { __typename?: 'Mutation', addWorkoutToLibrary?: { __typename?: 'Workout', id: string, trainerId: string, library?: boolean | null } | null };
 
 export type CreateWorkoutMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   input: CreateWorkoutInput;
 }>;
 
@@ -649,30 +803,33 @@ export type CreateWorkoutMutationVariables = Exact<{
 export type CreateWorkoutMutation = { __typename?: 'Mutation', createWorkout?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, memberId?: string | null, created_at: string, updated_at: string, trainerId: string, name: string, notes?: string | null } | null };
 
 export type DeleteExerciseFromWorkoutMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteExerciseFromWorkoutMutation = { __typename?: 'Mutation', deleteExerciseFromWorkout?: { __typename?: 'Workout', id: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type DeleteExerciseFromWorkoutMutation = { __typename?: 'Mutation', deleteExerciseFromWorkout?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type DeleteIntervalFromExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   intervalId: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteIntervalFromExerciseMutation = { __typename?: 'Mutation', deleteIntervalFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type DeleteIntervalFromExerciseMutation = { __typename?: 'Mutation', deleteIntervalFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type DeleteSetFromExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   setId: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteSetFromExerciseMutation = { __typename?: 'Mutation', deleteSetFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type DeleteSetFromExerciseMutation = { __typename?: 'Mutation', deleteSetFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type DeleteWorkoutMutationVariables = Exact<{
   workoutId: Scalars['ID']['input'];
@@ -681,7 +838,7 @@ export type DeleteWorkoutMutationVariables = Exact<{
 
 export type DeleteWorkoutMutation = { __typename?: 'Mutation', deleteWorkout?: { __typename?: 'Workout', id: string } | null };
 
-export type StrengthExerciseFragmentFragment = { __typename?: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null };
+export type StrengthExerciseFragmentFragment = { __typename?: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null };
 
 export type CardioExerciseFragmentFragment = { __typename?: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null };
 
@@ -690,20 +847,31 @@ export type GetWorkoutByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, library?: boolean | null, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, library?: boolean | null, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type ParameterFragmentFragment = { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null };
 
+export type ImportWorkoutFromLibraryMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
+  workoutId: Scalars['ID']['input'];
+  input: ImportWorkoutFromLibraryInput;
+}>;
+
+
+export type ImportWorkoutFromLibraryMutation = { __typename?: 'Mutation', importWorkoutFromLibrary?: { __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string, trainerId: string } | null };
+
 export type MoveExerciseInWorkoutMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   from: Scalars['Int']['input'];
   to: Scalars['Int']['input'];
 }>;
 
 
-export type MoveExerciseInWorkoutMutation = { __typename?: 'Mutation', moveExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type MoveExerciseInWorkoutMutation = { __typename?: 'Mutation', moveExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type MoveIntervalInExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   from: Scalars['Int']['input'];
@@ -711,9 +879,10 @@ export type MoveIntervalInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type MoveIntervalInExerciseMutation = { __typename?: 'Mutation', moveIntervalInExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type MoveIntervalInExerciseMutation = { __typename?: 'Mutation', moveIntervalInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type MoveSetInExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   from: Scalars['Int']['input'];
@@ -721,18 +890,20 @@ export type MoveSetInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type MoveSetInExerciseMutation = { __typename?: 'Mutation', moveSetInExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type MoveSetInExerciseMutation = { __typename?: 'Mutation', moveSetInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateExerciseInWorkoutMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   input: UpdateExerciseInWorkoutInput;
 }>;
 
 
-export type UpdateExerciseInWorkoutMutation = { __typename?: 'Mutation', updateExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type UpdateExerciseInWorkoutMutation = { __typename?: 'Mutation', updateExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateIntervalInExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   intervalId: Scalars['ID']['input'];
@@ -740,9 +911,10 @@ export type UpdateIntervalInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type UpdateIntervalInExerciseMutation = { __typename?: 'Mutation', updateIntervalInExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type UpdateIntervalInExerciseMutation = { __typename?: 'Mutation', updateIntervalInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateSetInExerciseMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   workoutId: Scalars['ID']['input'];
   exerciseId: Scalars['ID']['input'];
   setId: Scalars['ID']['input'];
@@ -750,15 +922,16 @@ export type UpdateSetInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSetInExerciseMutation = { __typename?: 'Mutation', updateSetInExercise?: { __typename?: 'Workout', updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null }> | null } | null };
+export type UpdateSetInExerciseMutation = { __typename?: 'Mutation', updateSetInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateWorkoutMutationVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
   id: Scalars['ID']['input'];
   input: UpdateWorkoutInput;
 }>;
 
 
-export type UpdateWorkoutMutation = { __typename?: 'Mutation', updateWorkout?: { __typename?: 'Workout', updated_at: string, name: string, notes?: string | null } | null };
+export type UpdateWorkoutMutation = { __typename?: 'Mutation', updateWorkout?: { __typename?: 'Workout', updated_at: string, name: string, notes?: string | null, trainerId: string } | null };
 
 export type ListLibraryWorkoutsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -766,7 +939,30 @@ export type ListLibraryWorkoutsQueryVariables = Exact<{
 }>;
 
 
-export type ListLibraryWorkoutsQuery = { __typename?: 'Query', listLibraryWorkouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string }> | null } | null };
+export type ListLibraryWorkoutsQuery = { __typename?: 'Query', listLibraryWorkouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, trainerId: string, updated_at: string }> | null } | null };
+
+export type CreateEventMutationVariables = Exact<{
+  input: CreateEventInput;
+}>;
+
+
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent?: { __typename?: 'Event', start_at: string } | null };
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'Event', id: string } | null };
+
+export type ListPlansByTrainerQueryVariables = Exact<{
+  trainerId: Scalars['ID']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  nextToken?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ListPlansByTrainerQuery = { __typename?: 'Query', listPlansByTrainerId?: { __typename?: 'PlanConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Plan', id: string, updated_at: string, meetings: number, weeks: number, trainerId: string, memberId: string, member?: { __typename?: 'Member', name?: string | null } | null }> | null } | null };
 
 export const ParameterFragmentFragmentDoc = gql`
     fragment ParameterFragment on Parameter {
@@ -794,6 +990,15 @@ export const StrengthExerciseFragmentFragmentDoc = gql`
     }
     rest {
       ...ParameterFragment
+    }
+    dropsets {
+      id
+      reps {
+        ...ParameterFragment
+      }
+      weight {
+        ...ParameterFragment
+      }
     }
   }
 }
@@ -923,6 +1128,17 @@ export const GetMemberByIdDocument = gql`
         name
         created_at
         updated_at
+        trainerId
+      }
+      nextToken
+    }
+    plans {
+      items {
+        id
+        updated_at
+        meetings
+        weeks
+        trainerId
       }
       nextToken
     }
@@ -1011,6 +1227,108 @@ export type SearchMembersQueryHookResult = ReturnType<typeof useSearchMembersQue
 export type SearchMembersLazyQueryHookResult = ReturnType<typeof useSearchMembersLazyQuery>;
 export type SearchMembersSuspenseQueryHookResult = ReturnType<typeof useSearchMembersSuspenseQuery>;
 export type SearchMembersQueryResult = Apollo.QueryResult<SearchMembersQuery, SearchMembersQueryVariables>;
+export const CreatePlanDocument = gql`
+    mutation CreatePlan($trainerId: ID!, $input: CreatePlanInput!) {
+  createPlan(trainerId: $trainerId, input: $input) {
+    id
+    trainerId
+    updated_at
+    memberId
+    tenantId
+    weeks
+    meetings
+    member {
+      name
+    }
+  }
+}
+    `;
+export type CreatePlanMutationFn = Apollo.MutationFunction<CreatePlanMutation, CreatePlanMutationVariables>;
+
+/**
+ * __useCreatePlanMutation__
+ *
+ * To run a mutation, you first call `useCreatePlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPlanMutation, { data, loading, error }] = useCreatePlanMutation({
+ *   variables: {
+ *      trainerId: // value for 'trainerId'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePlanMutation(baseOptions?: Apollo.MutationHookOptions<CreatePlanMutation, CreatePlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePlanMutation, CreatePlanMutationVariables>(CreatePlanDocument, options);
+      }
+export type CreatePlanMutationHookResult = ReturnType<typeof useCreatePlanMutation>;
+export type CreatePlanMutationResult = Apollo.MutationResult<CreatePlanMutation>;
+export type CreatePlanMutationOptions = Apollo.BaseMutationOptions<CreatePlanMutation, CreatePlanMutationVariables>;
+export const GetPlanByIdDocument = gql`
+    query GetPlanById($id: ID!) {
+  getPlanById(planId: $id) {
+    id
+    tenantId
+    weeks
+    meetings
+    created_at
+    updated_at
+    trainerId
+    memberId
+    workouts {
+      items {
+        id
+        name
+        created_at
+        updated_at
+      }
+      nextToken
+    }
+    member {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPlanByIdQuery__
+ *
+ * To run a query within a React component, call `useGetPlanByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPlanByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPlanByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetPlanByIdQuery(baseOptions: Apollo.QueryHookOptions<GetPlanByIdQuery, GetPlanByIdQueryVariables> & ({ variables: GetPlanByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPlanByIdQuery, GetPlanByIdQueryVariables>(GetPlanByIdDocument, options);
+      }
+export function useGetPlanByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPlanByIdQuery, GetPlanByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPlanByIdQuery, GetPlanByIdQueryVariables>(GetPlanByIdDocument, options);
+        }
+export function useGetPlanByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPlanByIdQuery, GetPlanByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPlanByIdQuery, GetPlanByIdQueryVariables>(GetPlanByIdDocument, options);
+        }
+export type GetPlanByIdQueryHookResult = ReturnType<typeof useGetPlanByIdQuery>;
+export type GetPlanByIdLazyQueryHookResult = ReturnType<typeof useGetPlanByIdLazyQuery>;
+export type GetPlanByIdSuspenseQueryHookResult = ReturnType<typeof useGetPlanByIdSuspenseQuery>;
+export type GetPlanByIdQueryResult = Apollo.QueryResult<GetPlanByIdQuery, GetPlanByIdQueryVariables>;
 export const CreateTrainerDocument = gql`
     mutation CreateTrainer($input: CreateTrainerInput!) {
   createTrainer(input: $input) {
@@ -1090,8 +1408,9 @@ export type GetClubTrainersLazyQueryHookResult = ReturnType<typeof useGetClubTra
 export type GetClubTrainersSuspenseQueryHookResult = ReturnType<typeof useGetClubTrainersSuspenseQuery>;
 export type GetClubTrainersQueryResult = Apollo.QueryResult<GetClubTrainersQuery, GetClubTrainersQueryVariables>;
 export const AddExerciseToWorkoutDocument = gql`
-    mutation AddExerciseToWorkout($id: ID!, $input: AddExerciseToWorkoutInput!) {
-  addExerciseToWorkout(workoutId: $id, input: $input) {
+    mutation AddExerciseToWorkout($trainerId: ID!, $id: ID!, $input: AddExerciseToWorkoutInput!) {
+  addExerciseToWorkout(trainerId: $trainerId, workoutId: $id, input: $input) {
+    trainerId
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1121,6 +1440,7 @@ export type AddExerciseToWorkoutMutationFn = Apollo.MutationFunction<AddExercise
  * @example
  * const [addExerciseToWorkoutMutation, { data, loading, error }] = useAddExerciseToWorkoutMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
@@ -1134,12 +1454,14 @@ export type AddExerciseToWorkoutMutationHookResult = ReturnType<typeof useAddExe
 export type AddExerciseToWorkoutMutationResult = Apollo.MutationResult<AddExerciseToWorkoutMutation>;
 export type AddExerciseToWorkoutMutationOptions = Apollo.BaseMutationOptions<AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables>;
 export const AddIntervalToExerciseDocument = gql`
-    mutation AddIntervalToExercise($workoutId: ID!, $exerciseId: ID!, $input: IntervalInput!) {
+    mutation AddIntervalToExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $input: IntervalInput!) {
   addIntervalToExercise(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     input: $input
   ) {
+    trainerId
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1169,6 +1491,7 @@ export type AddIntervalToExerciseMutationFn = Apollo.MutationFunction<AddInterva
  * @example
  * const [addIntervalToExerciseMutation, { data, loading, error }] = useAddIntervalToExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      input: // value for 'input'
@@ -1183,8 +1506,14 @@ export type AddIntervalToExerciseMutationHookResult = ReturnType<typeof useAddIn
 export type AddIntervalToExerciseMutationResult = Apollo.MutationResult<AddIntervalToExerciseMutation>;
 export type AddIntervalToExerciseMutationOptions = Apollo.BaseMutationOptions<AddIntervalToExerciseMutation, AddIntervalToExerciseMutationVariables>;
 export const AddSetToExerciseDocument = gql`
-    mutation AddSetToExercise($workoutId: ID!, $exerciseId: ID!, $input: SetInput!) {
-  addSetToExercise(workoutId: $workoutId, exerciseId: $exerciseId, input: $input) {
+    mutation AddSetToExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $input: SetInput!) {
+  addSetToExercise(
+    trainerId: $trainerId
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+    input: $input
+  ) {
+    trainerId
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1214,6 +1543,7 @@ export type AddSetToExerciseMutationFn = Apollo.MutationFunction<AddSetToExercis
  * @example
  * const [addSetToExerciseMutation, { data, loading, error }] = useAddSetToExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      input: // value for 'input'
@@ -1228,9 +1558,10 @@ export type AddSetToExerciseMutationHookResult = ReturnType<typeof useAddSetToEx
 export type AddSetToExerciseMutationResult = Apollo.MutationResult<AddSetToExerciseMutation>;
 export type AddSetToExerciseMutationOptions = Apollo.BaseMutationOptions<AddSetToExerciseMutation, AddSetToExerciseMutationVariables>;
 export const AddWorkoutToLibraryDocument = gql`
-    mutation AddWorkoutToLibrary($workoutId: ID!) {
-  addWorkoutToLibrary(workoutId: $workoutId) {
+    mutation AddWorkoutToLibrary($trainerId: ID!, $workoutId: ID!) {
+  addWorkoutToLibrary(trainerId: $trainerId, workoutId: $workoutId) {
     id
+    trainerId
     library
   }
 }
@@ -1250,6 +1581,7 @@ export type AddWorkoutToLibraryMutationFn = Apollo.MutationFunction<AddWorkoutTo
  * @example
  * const [addWorkoutToLibraryMutation, { data, loading, error }] = useAddWorkoutToLibraryMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *   },
  * });
@@ -1262,8 +1594,8 @@ export type AddWorkoutToLibraryMutationHookResult = ReturnType<typeof useAddWork
 export type AddWorkoutToLibraryMutationResult = Apollo.MutationResult<AddWorkoutToLibraryMutation>;
 export type AddWorkoutToLibraryMutationOptions = Apollo.BaseMutationOptions<AddWorkoutToLibraryMutation, AddWorkoutToLibraryMutationVariables>;
 export const CreateWorkoutDocument = gql`
-    mutation CreateWorkout($input: CreateWorkoutInput!) {
-  createWorkout(input: $input) {
+    mutation CreateWorkout($trainerId: ID!, $input: CreateWorkoutInput!) {
+  createWorkout(trainerId: $trainerId, input: $input) {
     id
     tenantId
     clubId
@@ -1292,6 +1624,7 @@ export type CreateWorkoutMutationFn = Apollo.MutationFunction<CreateWorkoutMutat
  * @example
  * const [createWorkoutMutation, { data, loading, error }] = useCreateWorkoutMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      input: // value for 'input'
  *   },
  * });
@@ -1304,10 +1637,15 @@ export type CreateWorkoutMutationHookResult = ReturnType<typeof useCreateWorkout
 export type CreateWorkoutMutationResult = Apollo.MutationResult<CreateWorkoutMutation>;
 export type CreateWorkoutMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutMutation, CreateWorkoutMutationVariables>;
 export const DeleteExerciseFromWorkoutDocument = gql`
-    mutation DeleteExerciseFromWorkout($workoutId: ID!, $exerciseId: ID!) {
-  deleteExerciseFromWorkout(workoutId: $workoutId, exerciseId: $exerciseId) {
+    mutation DeleteExerciseFromWorkout($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!) {
+  deleteExerciseFromWorkout(
+    trainerId: $trainerId
+    workoutId: $workoutId
+    exerciseId: $exerciseId
+  ) {
     id
     updated_at
+    trainerId
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1336,6 +1674,7 @@ export type DeleteExerciseFromWorkoutMutationFn = Apollo.MutationFunction<Delete
  * @example
  * const [deleteExerciseFromWorkoutMutation, { data, loading, error }] = useDeleteExerciseFromWorkoutMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *   },
@@ -1349,14 +1688,16 @@ export type DeleteExerciseFromWorkoutMutationHookResult = ReturnType<typeof useD
 export type DeleteExerciseFromWorkoutMutationResult = Apollo.MutationResult<DeleteExerciseFromWorkoutMutation>;
 export type DeleteExerciseFromWorkoutMutationOptions = Apollo.BaseMutationOptions<DeleteExerciseFromWorkoutMutation, DeleteExerciseFromWorkoutMutationVariables>;
 export const DeleteIntervalFromExerciseDocument = gql`
-    mutation DeleteIntervalFromExercise($workoutId: ID!, $exerciseId: ID!, $intervalId: ID!) {
+    mutation DeleteIntervalFromExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $intervalId: ID!) {
   deleteIntervalFromExercise(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     intervalId: $intervalId
   ) {
     id
     updated_at
+    trainerId
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1385,6 +1726,7 @@ export type DeleteIntervalFromExerciseMutationFn = Apollo.MutationFunction<Delet
  * @example
  * const [deleteIntervalFromExerciseMutation, { data, loading, error }] = useDeleteIntervalFromExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      intervalId: // value for 'intervalId'
@@ -1399,14 +1741,16 @@ export type DeleteIntervalFromExerciseMutationHookResult = ReturnType<typeof use
 export type DeleteIntervalFromExerciseMutationResult = Apollo.MutationResult<DeleteIntervalFromExerciseMutation>;
 export type DeleteIntervalFromExerciseMutationOptions = Apollo.BaseMutationOptions<DeleteIntervalFromExerciseMutation, DeleteIntervalFromExerciseMutationVariables>;
 export const DeleteSetFromExerciseDocument = gql`
-    mutation DeleteSetFromExercise($workoutId: ID!, $exerciseId: ID!, $setId: ID!) {
+    mutation DeleteSetFromExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $setId: ID!) {
   deleteSetFromExercise(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     setId: $setId
   ) {
     id
     updated_at
+    trainerId
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1435,6 +1779,7 @@ export type DeleteSetFromExerciseMutationFn = Apollo.MutationFunction<DeleteSetF
  * @example
  * const [deleteSetFromExerciseMutation, { data, loading, error }] = useDeleteSetFromExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      setId: // value for 'setId'
@@ -1540,9 +1885,57 @@ export type GetWorkoutByIdQueryHookResult = ReturnType<typeof useGetWorkoutByIdQ
 export type GetWorkoutByIdLazyQueryHookResult = ReturnType<typeof useGetWorkoutByIdLazyQuery>;
 export type GetWorkoutByIdSuspenseQueryHookResult = ReturnType<typeof useGetWorkoutByIdSuspenseQuery>;
 export type GetWorkoutByIdQueryResult = Apollo.QueryResult<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>;
+export const ImportWorkoutFromLibraryDocument = gql`
+    mutation ImportWorkoutFromLibrary($trainerId: ID!, $workoutId: ID!, $input: ImportWorkoutFromLibraryInput!) {
+  importWorkoutFromLibrary(
+    trainerId: $trainerId
+    workoutId: $workoutId
+    input: $input
+  ) {
+    id
+    name
+    created_at
+    updated_at
+    trainerId
+  }
+}
+    `;
+export type ImportWorkoutFromLibraryMutationFn = Apollo.MutationFunction<ImportWorkoutFromLibraryMutation, ImportWorkoutFromLibraryMutationVariables>;
+
+/**
+ * __useImportWorkoutFromLibraryMutation__
+ *
+ * To run a mutation, you first call `useImportWorkoutFromLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportWorkoutFromLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importWorkoutFromLibraryMutation, { data, loading, error }] = useImportWorkoutFromLibraryMutation({
+ *   variables: {
+ *      trainerId: // value for 'trainerId'
+ *      workoutId: // value for 'workoutId'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useImportWorkoutFromLibraryMutation(baseOptions?: Apollo.MutationHookOptions<ImportWorkoutFromLibraryMutation, ImportWorkoutFromLibraryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ImportWorkoutFromLibraryMutation, ImportWorkoutFromLibraryMutationVariables>(ImportWorkoutFromLibraryDocument, options);
+      }
+export type ImportWorkoutFromLibraryMutationHookResult = ReturnType<typeof useImportWorkoutFromLibraryMutation>;
+export type ImportWorkoutFromLibraryMutationResult = Apollo.MutationResult<ImportWorkoutFromLibraryMutation>;
+export type ImportWorkoutFromLibraryMutationOptions = Apollo.BaseMutationOptions<ImportWorkoutFromLibraryMutation, ImportWorkoutFromLibraryMutationVariables>;
 export const MoveExerciseInWorkoutDocument = gql`
-    mutation MoveExerciseInWorkout($workoutId: ID!, $from: Int!, $to: Int!) {
-  moveExerciseInWorkout(workoutId: $workoutId, from: $from, to: $to) {
+    mutation MoveExerciseInWorkout($trainerId: ID!, $workoutId: ID!, $from: Int!, $to: Int!) {
+  moveExerciseInWorkout(
+    trainerId: $trainerId
+    workoutId: $workoutId
+    from: $from
+    to: $to
+  ) {
     exercises {
       __typename
       ... on StrengthExercise {
@@ -1553,6 +1946,7 @@ export const MoveExerciseInWorkoutDocument = gql`
       }
     }
     updated_at
+    trainerId
   }
 }
     ${StrengthExerciseFragmentFragmentDoc}
@@ -1572,6 +1966,7 @@ export type MoveExerciseInWorkoutMutationFn = Apollo.MutationFunction<MoveExerci
  * @example
  * const [moveExerciseInWorkoutMutation, { data, loading, error }] = useMoveExerciseInWorkoutMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      from: // value for 'from'
  *      to: // value for 'to'
@@ -1586,8 +1981,9 @@ export type MoveExerciseInWorkoutMutationHookResult = ReturnType<typeof useMoveE
 export type MoveExerciseInWorkoutMutationResult = Apollo.MutationResult<MoveExerciseInWorkoutMutation>;
 export type MoveExerciseInWorkoutMutationOptions = Apollo.BaseMutationOptions<MoveExerciseInWorkoutMutation, MoveExerciseInWorkoutMutationVariables>;
 export const MoveIntervalInExerciseDocument = gql`
-    mutation MoveIntervalInExercise($workoutId: ID!, $exerciseId: ID!, $from: Int!, $to: Int!) {
+    mutation MoveIntervalInExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $from: Int!, $to: Int!) {
   moveIntervalInExercise(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     from: $from
@@ -1603,6 +1999,7 @@ export const MoveIntervalInExerciseDocument = gql`
       }
     }
     updated_at
+    trainerId
   }
 }
     ${StrengthExerciseFragmentFragmentDoc}
@@ -1622,6 +2019,7 @@ export type MoveIntervalInExerciseMutationFn = Apollo.MutationFunction<MoveInter
  * @example
  * const [moveIntervalInExerciseMutation, { data, loading, error }] = useMoveIntervalInExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      from: // value for 'from'
@@ -1637,8 +2035,9 @@ export type MoveIntervalInExerciseMutationHookResult = ReturnType<typeof useMove
 export type MoveIntervalInExerciseMutationResult = Apollo.MutationResult<MoveIntervalInExerciseMutation>;
 export type MoveIntervalInExerciseMutationOptions = Apollo.BaseMutationOptions<MoveIntervalInExerciseMutation, MoveIntervalInExerciseMutationVariables>;
 export const MoveSetInExerciseDocument = gql`
-    mutation MoveSetInExercise($workoutId: ID!, $exerciseId: ID!, $from: Int!, $to: Int!) {
+    mutation MoveSetInExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $from: Int!, $to: Int!) {
   moveSetInExercise(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     from: $from
@@ -1654,6 +2053,7 @@ export const MoveSetInExerciseDocument = gql`
       }
     }
     updated_at
+    trainerId
   }
 }
     ${StrengthExerciseFragmentFragmentDoc}
@@ -1673,6 +2073,7 @@ export type MoveSetInExerciseMutationFn = Apollo.MutationFunction<MoveSetInExerc
  * @example
  * const [moveSetInExerciseMutation, { data, loading, error }] = useMoveSetInExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      from: // value for 'from'
@@ -1688,8 +2089,9 @@ export type MoveSetInExerciseMutationHookResult = ReturnType<typeof useMoveSetIn
 export type MoveSetInExerciseMutationResult = Apollo.MutationResult<MoveSetInExerciseMutation>;
 export type MoveSetInExerciseMutationOptions = Apollo.BaseMutationOptions<MoveSetInExerciseMutation, MoveSetInExerciseMutationVariables>;
 export const UpdateExerciseInWorkoutDocument = gql`
-    mutation UpdateExerciseInWorkout($workoutId: ID!, $exerciseId: ID!, $input: UpdateExerciseInWorkoutInput!) {
+    mutation UpdateExerciseInWorkout($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $input: UpdateExerciseInWorkoutInput!) {
   updateExerciseInWorkout(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     input: $input
@@ -1704,6 +2106,7 @@ export const UpdateExerciseInWorkoutDocument = gql`
       }
     }
     updated_at
+    trainerId
   }
 }
     ${StrengthExerciseFragmentFragmentDoc}
@@ -1723,6 +2126,7 @@ export type UpdateExerciseInWorkoutMutationFn = Apollo.MutationFunction<UpdateEx
  * @example
  * const [updateExerciseInWorkoutMutation, { data, loading, error }] = useUpdateExerciseInWorkoutMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      input: // value for 'input'
@@ -1737,8 +2141,9 @@ export type UpdateExerciseInWorkoutMutationHookResult = ReturnType<typeof useUpd
 export type UpdateExerciseInWorkoutMutationResult = Apollo.MutationResult<UpdateExerciseInWorkoutMutation>;
 export type UpdateExerciseInWorkoutMutationOptions = Apollo.BaseMutationOptions<UpdateExerciseInWorkoutMutation, UpdateExerciseInWorkoutMutationVariables>;
 export const UpdateIntervalInExerciseDocument = gql`
-    mutation UpdateIntervalInExercise($workoutId: ID!, $exerciseId: ID!, $intervalId: ID!, $input: IntervalInput!) {
+    mutation UpdateIntervalInExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $intervalId: ID!, $input: IntervalInput!) {
   updateIntervalInExercise(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     intervalId: $intervalId
@@ -1754,6 +2159,7 @@ export const UpdateIntervalInExerciseDocument = gql`
       }
     }
     updated_at
+    trainerId
   }
 }
     ${StrengthExerciseFragmentFragmentDoc}
@@ -1773,6 +2179,7 @@ export type UpdateIntervalInExerciseMutationFn = Apollo.MutationFunction<UpdateI
  * @example
  * const [updateIntervalInExerciseMutation, { data, loading, error }] = useUpdateIntervalInExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      intervalId: // value for 'intervalId'
@@ -1788,8 +2195,9 @@ export type UpdateIntervalInExerciseMutationHookResult = ReturnType<typeof useUp
 export type UpdateIntervalInExerciseMutationResult = Apollo.MutationResult<UpdateIntervalInExerciseMutation>;
 export type UpdateIntervalInExerciseMutationOptions = Apollo.BaseMutationOptions<UpdateIntervalInExerciseMutation, UpdateIntervalInExerciseMutationVariables>;
 export const UpdateSetInExerciseDocument = gql`
-    mutation UpdateSetInExercise($workoutId: ID!, $exerciseId: ID!, $setId: ID!, $input: SetInput!) {
+    mutation UpdateSetInExercise($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $setId: ID!, $input: SetInput!) {
   updateSetInExercise(
+    trainerId: $trainerId
     workoutId: $workoutId
     exerciseId: $exerciseId
     setId: $setId
@@ -1805,6 +2213,7 @@ export const UpdateSetInExerciseDocument = gql`
       }
     }
     updated_at
+    trainerId
   }
 }
     ${StrengthExerciseFragmentFragmentDoc}
@@ -1824,6 +2233,7 @@ export type UpdateSetInExerciseMutationFn = Apollo.MutationFunction<UpdateSetInE
  * @example
  * const [updateSetInExerciseMutation, { data, loading, error }] = useUpdateSetInExerciseMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      workoutId: // value for 'workoutId'
  *      exerciseId: // value for 'exerciseId'
  *      setId: // value for 'setId'
@@ -1839,11 +2249,12 @@ export type UpdateSetInExerciseMutationHookResult = ReturnType<typeof useUpdateS
 export type UpdateSetInExerciseMutationResult = Apollo.MutationResult<UpdateSetInExerciseMutation>;
 export type UpdateSetInExerciseMutationOptions = Apollo.BaseMutationOptions<UpdateSetInExerciseMutation, UpdateSetInExerciseMutationVariables>;
 export const UpdateWorkoutDocument = gql`
-    mutation UpdateWorkout($id: ID!, $input: UpdateWorkoutInput!) {
-  updateWorkout(workoutId: $id, input: $input) {
+    mutation UpdateWorkout($trainerId: ID!, $id: ID!, $input: UpdateWorkoutInput!) {
+  updateWorkout(trainerId: $trainerId, workoutId: $id, input: $input) {
     updated_at
     name
     notes
+    trainerId
   }
 }
     `;
@@ -1862,6 +2273,7 @@ export type UpdateWorkoutMutationFn = Apollo.MutationFunction<UpdateWorkoutMutat
  * @example
  * const [updateWorkoutMutation, { data, loading, error }] = useUpdateWorkoutMutation({
  *   variables: {
+ *      trainerId: // value for 'trainerId'
  *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
@@ -1880,6 +2292,8 @@ export const ListLibraryWorkoutsDocument = gql`
     items {
       id
       name
+      trainerId
+      updated_at
     }
     nextToken
   }
@@ -1919,3 +2333,126 @@ export type ListLibraryWorkoutsQueryHookResult = ReturnType<typeof useListLibrar
 export type ListLibraryWorkoutsLazyQueryHookResult = ReturnType<typeof useListLibraryWorkoutsLazyQuery>;
 export type ListLibraryWorkoutsSuspenseQueryHookResult = ReturnType<typeof useListLibraryWorkoutsSuspenseQuery>;
 export type ListLibraryWorkoutsQueryResult = Apollo.QueryResult<ListLibraryWorkoutsQuery, ListLibraryWorkoutsQueryVariables>;
+export const CreateEventDocument = gql`
+    mutation CreateEvent($input: CreateEventInput!) {
+  createEvent(input: $input) {
+    start_at
+  }
+}
+    `;
+export type CreateEventMutationFn = Apollo.MutationFunction<CreateEventMutation, CreateEventMutationVariables>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateEventMutation, CreateEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, options);
+      }
+export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
+export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const DeleteEventDocument = gql`
+    mutation DeleteEvent($id: ID!) {
+  deleteEvent(eventId: $id) {
+    id
+  }
+}
+    `;
+export type DeleteEventMutationFn = Apollo.MutationFunction<DeleteEventMutation, DeleteEventMutationVariables>;
+
+/**
+ * __useDeleteEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteEventMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEventMutation, DeleteEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, options);
+      }
+export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMutation>;
+export type DeleteEventMutationResult = Apollo.MutationResult<DeleteEventMutation>;
+export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
+export const ListPlansByTrainerDocument = gql`
+    query ListPlansByTrainer($trainerId: ID!, $limit: Int, $nextToken: String) {
+  listPlansByTrainerId(
+    trainerId: $trainerId
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      updated_at
+      meetings
+      weeks
+      trainerId
+      memberId
+      member {
+        name
+      }
+    }
+    nextToken
+  }
+}
+    `;
+
+/**
+ * __useListPlansByTrainerQuery__
+ *
+ * To run a query within a React component, call `useListPlansByTrainerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListPlansByTrainerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListPlansByTrainerQuery({
+ *   variables: {
+ *      trainerId: // value for 'trainerId'
+ *      limit: // value for 'limit'
+ *      nextToken: // value for 'nextToken'
+ *   },
+ * });
+ */
+export function useListPlansByTrainerQuery(baseOptions: Apollo.QueryHookOptions<ListPlansByTrainerQuery, ListPlansByTrainerQueryVariables> & ({ variables: ListPlansByTrainerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListPlansByTrainerQuery, ListPlansByTrainerQueryVariables>(ListPlansByTrainerDocument, options);
+      }
+export function useListPlansByTrainerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListPlansByTrainerQuery, ListPlansByTrainerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListPlansByTrainerQuery, ListPlansByTrainerQueryVariables>(ListPlansByTrainerDocument, options);
+        }
+export function useListPlansByTrainerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ListPlansByTrainerQuery, ListPlansByTrainerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ListPlansByTrainerQuery, ListPlansByTrainerQueryVariables>(ListPlansByTrainerDocument, options);
+        }
+export type ListPlansByTrainerQueryHookResult = ReturnType<typeof useListPlansByTrainerQuery>;
+export type ListPlansByTrainerLazyQueryHookResult = ReturnType<typeof useListPlansByTrainerLazyQuery>;
+export type ListPlansByTrainerSuspenseQueryHookResult = ReturnType<typeof useListPlansByTrainerSuspenseQuery>;
+export type ListPlansByTrainerQueryResult = Apollo.QueryResult<ListPlansByTrainerQuery, ListPlansByTrainerQueryVariables>;

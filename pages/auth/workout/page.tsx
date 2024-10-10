@@ -10,11 +10,15 @@ import ExerciseList from "./components/ExerciseList";
 import { useWorkout } from "@/features/workout/components/WorkoutProvider";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { useUpdateWorkout } from "@/features/workout/hooks/api/useUpdateWorkout";
-import Select from "@/components/ui/Select";
-import StrengthExerciseForm from "./components/StrengthExerciseForm";
-import CardioExerciseForm from "./components/CardioExerciseForm";
+import StrengthExerciseForm from "../exercise/components/StrengthExerciseForm";
+import CardioExerciseForm from "../exercise/components/CardioExerciseForm";
 import { useAddWorkoutToLibraryMutation } from "@/graphql";
 import { router } from "expo-router";
+import Section from "@/components/ui/Section";
+import { theme } from "@/theme";
+import StrengthExerciseSection from "./components/StrengthExerciseSection";
+import CardioExerciseSection from "./components/CardioExerciseSection";
+import { useClub } from "@/features/club";
 
 const WorkoutPage: React.FC = () => {
 
@@ -23,6 +27,7 @@ const WorkoutPage: React.FC = () => {
     const { updateWorkout, result } = useUpdateWorkout(workout!.id);
     const [show] = useSnackbar()
     const [selectedExerciseId, setSelectedExerciseId] = React.useState<string | null>(null);
+    const { currentTrainer } = useClub()
     const [addWorkoutToLibrary] = useAddWorkoutToLibraryMutation({
         onCompleted(data) {
             show("האימון נוסף לספרייה")
@@ -31,7 +36,8 @@ const WorkoutPage: React.FC = () => {
             show("שגיאה בהוספת האימון לספרייה", "error")
         },
         variables: {
-            workoutId: workout?.id!
+            workoutId: workout?.id!,
+            trainerId: currentTrainer?.id!
         }
     });
 
@@ -64,50 +70,40 @@ const WorkoutPage: React.FC = () => {
     }
 
     return (
-        <View style={{ padding: 8 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text h1>אימון</Text>
-            </View>
-
-            {!workout?.library && <Button onPress={() => addWorkoutToLibrary()}>Add To Library</Button>}
-
-            <View style={{ flexDirection: 'row', gap: 20 }}>
-                <View style={{ flexBasis: "50%", gap: 20 }}>
+        <View style={{ padding: theme.spacing.sm, gap: theme.spacing.sm }}>
+            <Section>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Controller control={control} name="name"
                         render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
-                            <View style={{ alignSelf: 'flex-start' }}>
-                                <Label>שם האימון</Label>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
+                                <Label>שם האימון:</Label>
                                 <TextInput readOnly={isSubmitting} style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value} />
                                 {isDirty && <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
                                 {error && <Text error>{error.message}</Text>}
                             </View>
                         )}
                     />
-
-                    <Controller control={control} name="notes"
-                        render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
-                            <View style={{ alignSelf: 'flex-start' }}>
-                                <Label>הערות</Label>
-                                <TextInput readOnly={isSubmitting} multiline numberOfLines={3} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value || ""} />
-                                {isDirty && <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
-                                {error && <Text error>{error.message}</Text>}
-                            </View>
-                        )}
-                    />
-                    <View style={{ maxHeight: 350 }}>
-                        <Label>רשימת תרגילים</Label>
-                        <ExerciseList exercises={workout?.exercises || []} onChangeSelect={(e) => router.push(`/workout/${workout?.id}/${e}`)} />
-                    </View>
-
+                    {!workout?.library && <Button onPress={() => addWorkoutToLibrary()}>הוספה לספרייה</Button>}
                 </View>
-                {selectedExercise && <View style={{ flexBasis: "48%", paddingTop: 10 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text h1>{selectedExercise?.name}</Text>
-                    </View>
-                    {selectedExercise.__typename === "StrengthExercise" ? <StrengthExerciseForm selectedExerciseId={selectedExerciseId} />
-                        : selectedExercise.__typename === "CardioExercise" && <CardioExerciseForm selectedExerciseId={selectedExerciseId} />}
-                </View>}
-            </View>
+                <Controller control={control} name="notes"
+                    render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
+                        <View style={{ alignSelf: 'flex-start', flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
+                            <Label>הערות:</Label>
+                            <TextInput readOnly={isSubmitting} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value || ""} />
+                            {isDirty && <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
+                            {error && <Text error>{error.message}</Text>}
+                        </View>
+                    )}
+                />
+            </Section>
+
+            <Section>
+                <ExerciseList onChangeSelect={setSelectedExerciseId} />
+            </Section>
+
+            {selectedExercise?.__typename === "StrengthExercise" ? (
+                <StrengthExerciseSection exercise={selectedExercise} />
+            ) : selectedExercise?.__typename === "CardioExercise" && <CardioExerciseSection exercise={selectedExercise} />}
         </View>
     );
 }
