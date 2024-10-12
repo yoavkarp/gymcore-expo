@@ -743,7 +743,7 @@ export type GetPlanByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetPlanByIdQuery = { __typename?: 'Query', getPlanById?: { __typename?: 'Plan', id: string, tenantId: string, weeks: number, meetings: number, created_at: string, updated_at: string, trainerId: string, memberId: string, workouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string }> | null } | null, member?: { __typename?: 'Member', name?: string | null } | null } | null };
+export type GetPlanByIdQuery = { __typename?: 'Query', getPlanById?: { __typename?: 'Plan', id: string, tenantId: string, weeks: number, meetings: number, created_at: string, updated_at: string, trainerId: string, memberId: string, events?: { __typename?: 'EventConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Event', id: string, start_at: string }> | null } | null, workouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string }> | null } | null, member?: { __typename?: 'Member', name?: string | null } | null } | null };
 
 export type CreateTrainerMutationVariables = Exact<{
   input: CreateTrainerInput;
@@ -946,7 +946,7 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', createEvent?: { __typename?: 'Event', start_at: string } | null };
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent?: { __typename?: 'Event', id: string, start_at: string } | null };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -1281,6 +1281,13 @@ export const GetPlanByIdDocument = gql`
     updated_at
     trainerId
     memberId
+    events {
+      items {
+        id
+        start_at
+      }
+      nextToken
+    }
     workouts {
       items {
         id
@@ -2336,6 +2343,7 @@ export type ListLibraryWorkoutsQueryResult = Apollo.QueryResult<ListLibraryWorko
 export const CreateEventDocument = gql`
     mutation CreateEvent($input: CreateEventInput!) {
   createEvent(input: $input) {
+    id
     start_at
   }
 }

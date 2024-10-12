@@ -8,6 +8,7 @@ import { useCreateEventMutation } from "@/graphql";
 import { usePlan } from "@/features/plan/components/PlanProvider";
 import DateSelect from "@/components/ui/DateSelect";
 import TimeSelect from "@/components/ui/TimeSelect";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 
 
 type CreateMeetingModal = {
@@ -19,9 +20,40 @@ const CreateMeetingModal = forwardRef<CreateMeetingModal>((_, ref) => {
 
     const [visible, setIsVisible] = useState(false);
     const { planId } = usePlan();
+    const [show] = useSnackbar()
 
-    const [createEvent, { loading, error: apiError }] = useCreateEventMutation();
-    const [start_at, setStart_at] = useState(new Date());
+    const [createEvent, { loading, error: apiError }] = useCreateEventMutation({
+        onCompleted() {
+            show("המפגש נוצר בהצלחה");
+        },
+        onError(err) {
+            show("שגיאה בעת יצירת מפגש: " + err.message, "error");
+        },
+        update(cache, { data }) {
+            const identifier = cache.identify({ id: planId, __typename: "Plan" });
+            const res = cache.modify({
+                id: identifier,
+                fields: {
+                    events(existing = []) {
+                        const newEventRef = cache.writeFragment({
+                            data: data?.createEvent,
+                            id: data?.createEvent?.id,
+                            fragment: `
+                                fragment NewEvent on Event {
+                                    id
+                                    start_at
+                                }
+                            `
+                        });
+
+                        return [newEventRef, ...existing];
+                    }
+                }
+            })
+
+        }
+    });
+    const [start_at, setStart_at] = useState(new Date(new Date().setSeconds(0, 0)));
 
 
     useImperativeHandle(ref, () => {
@@ -51,15 +83,11 @@ const CreateMeetingModal = forwardRef<CreateMeetingModal>((_, ref) => {
                 <Label>תאריך המפגש</Label>
                 <DateSelect
                     onChange={(date) => setStart_at(prev => {
-                        console.log(`${date.split("T")[0]}T${prev.toISOString().split("T")[1]}`)
-                        // new Date(`${date.split("T")[0]}T${prev.toISOString().split("T")[1]}`)
-                        return prev;
+                        return new Date(`${date.split("T")[0]}T${prev.toISOString().split("T")[1]}`);
                     })}
                     isoDate={start_at.toISOString()} />
                 <TimeSelect onChange={(date) => setStart_at(prev => {
-                    console.log(`${prev.toISOString().split("T")[0]}T${date.split("T")[1]}`)
-                    //new Date(`${prev.toISOString().split("T")[0]}T${date.split("T")[1]}`)
-                    return prev;
+                    return new Date(`${prev.toISOString().split("T")[0]}T${date.split("T")[1]}`)
                 })} isoDate={start_at.toISOString()} />
             </View>
             {apiError && <Text error>שגיאת שרת: {apiError.message}</Text>}

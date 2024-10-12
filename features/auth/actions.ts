@@ -1,185 +1,154 @@
-import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserSession, CookieStorage, IAuthenticationDetailsData } from "amazon-cognito-identity-js";
-import { Amplify } from "aws-amplify";
-import { Club } from "@/graphql";
-import { AuthenticateUserResult, AuthenticateUserSuccessResult } from "./types";
+import { AuthenticationDetails, ClientMetadata, CognitoUser, CognitoUserPool, CognitoUserSession, ICognitoUserPoolData } from "amazon-cognito-identity-js";
+import { AuthenticateUserMfaResult, AuthenticateUserResult, AuthenticateUserSuccessResult } from "./types";
+import { AuthNotInitializedError, MfaNotSupportedError, NoSessionError } from "./errors";
 
 let userPool: CognitoUserPool | null = null;
-let user: CognitoUser | null;
-let requiredAttributes: string[] = [];
-let userAttributes: { [x: string]: any } = {};
+let initialized: boolean = false;
+let currentUser: CognitoUser | null = null;
 
-let initialized = false;
-
-export async function initializeUserPool(pool?: CognitoUserPool) {
-    const { userPoolId: UserPoolId, userPoolClientId: ClientId } = Amplify.getConfig().Auth!.Cognito;
-
-    userPool = pool || new CognitoUserPool({
-        UserPoolId: UserPoolId!,
-        ClientId: ClientId!
-    });
-    if (!initialized) {
-        await sync();
-        initialized = true;
+function withInitialized<T extends (...args: any[]) => any = () => any>(fn: T): (...args: Parameters<T>) => ReturnType<T> {
+    return (...args) => {
+        if (!initialized) {
+            throw new AuthNotInitializedError(fn.name)
+        }
+        return fn(...args);
     }
-    user = userPool.getCurrentUser();
 }
 
-export function getUserPool() {
+function handleMfaRequired(challengeName: string, challengeParameters: any): AuthenticateUserMfaResult {
+
+    if (challengeName === "SMS_MFA") {
+        return {
+            type: "MFA_REQUIRED",
+            payload: challengeParameters
+        };
+    }
+
+    throw new MfaNotSupportedError()
+}
+
+function handleOnSuccess(session: CognitoUserSession, userConfirmationNecessary?: boolean): AuthenticateUserSuccessResult {
+    const user = userPool?.getCurrentUser();
+    user?.setSignInUserSession(session)
+    return {
+        type: "AUTHENTICATED",
+        payload: {
+            session,
+            userConfirmationNecessary
+        }
+    }
+}
+
+export function getCurrentSession() {
+    return new Promise<CognitoUserSession | null>((resolve, reject) => {
+        const user = userPool?.getCurrentUser();
+        if (!user) {
+            resolve(null)
+        }
+
+        user?.getSession((err: Error | null, session: CognitoUserSession | null) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(session!)
+            }
+        });
+    })
+}
+
+export async function initialize(pool: ICognitoUserPoolData) {
+    userPool = new CognitoUserPool(pool);
+    await sync();
+    initialized = true;
     return userPool;
 }
 
-export function getUser() {
-    if (userPool)
-        return userPool.getCurrentUser();
-    else return user;
-}
+export const refreshToken = withInitialized(() => {
+    return new Promise<AuthenticateUserResult>(async (resolve, reject) => {
+        const session = await getCurrentSession();
 
-export function getNewPasswordAttributes() {
-    return { userAttributes, requiredAttributes };
-}
-
-export const authenticateUser = (authenticationDetails: IAuthenticationDetailsData) => {
-    return new Promise<AuthenticateUserResult | null>((resolve, reject) => {
-        user = new CognitoUser({ Username: authenticationDetails.Username, Pool: userPool! });
-        if (user)
-            user.authenticateUser(new AuthenticationDetails(authenticationDetails), {
-                onSuccess: (session, userConfirmationNecessary) => {
-                    user!.setSignInUserSession(session)
-                    resolve({
-                        type: "success",
-                        payload: {
-                            session,
-                            userConfirmationNecessary
-                        }
-                    });
-                },
-                onFailure: reject,
-                newPasswordRequired: (_userAttributes, _requiredAttributes) => {
-
-                    userAttributes = _userAttributes;
-                    requiredAttributes = _requiredAttributes;
-
-                    resolve({
-                        type: "newPasswordRequired",
-                        payload: {
-                            userAttributes,
-                            requiredAttributes
-                        }
-                    });
-                }
-            })
-        else {
-            reject(new Error("No user found"))
-        }
-    })
-}
-
-export const getSession = () => {
-    return new Promise<CognitoUserSession | null>((resolve, reject) => {
-        if (!user) {
-            reject(new Error("No user found"))
-        }
-        else {
-            user.getSession((err: Error | null, session: CognitoUserSession | null) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve(session)
-                }
-            });
+        if (!session) {
+            return reject(new NoSessionError())
         }
 
-    })
-}
+        const user = userPool?.getCurrentUser();
 
-export const refreshToken = () => {
-    return new Promise<CognitoUserSession | null>(async (resolve, reject) => {
-        if (!user) {
-            reject(new Error("No user found"))
-        }
-        else {
-            const session = await getSession();
-            if (!session) {
-                reject(new Error("No session found"))
-            }
-            else {
-                user.refreshSession(session.getRefreshToken(), (err: Error | null, session: CognitoUserSession | null) => {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(session)
+        user?.refreshSession(session.getRefreshToken(), (err: Error | null, session: CognitoUserSession | null) => {
+            if (err)
+                reject(err)
+
+            if (session) {
+                user?.setSignInUserSession(session);
+                resolve({
+                    type: "AUTHENTICATED",
+                    payload: {
+                        session,
                     }
                 })
             }
-        }
-    })
-}
 
-export const signOut = (callback?: () => any) => {
-    return new Promise<void>((resolve, reject) => {
+        })
+
+    })
+})
+
+export const signOut = withInitialized((callback?: () => any) => {
+    return new Promise<void>((resolve) => {
+        const user = userPool?.getCurrentUser();
+        user?.signOut(async () => {
+            await callback?.();
+            resolve()
+        });
+    })
+})
+
+export const signIn = withInitialized((username: string, clientMetadata?: ClientMetadata) => {
+    return new Promise<AuthenticateUserResult>((resolve, reject) => {
+        const user = new CognitoUser({ Username: username, Pool: userPool! });
+        currentUser = user;
+        user.authenticateUser(new AuthenticationDetails({ Username: username, Password: "Abcd1234!@", ClientMetadata: clientMetadata }), {
+            onSuccess: (session, userConfirmationNecessary) => {
+                const result = handleOnSuccess(session, userConfirmationNecessary)
+                resolve(result);
+            },
+            onFailure: reject,
+            mfaRequired: (challengeName, challengeParameters) => {
+                const result = handleMfaRequired(challengeName, challengeParameters);
+                resolve(result);
+            },
+        })
+    })
+})
+
+export const verifyPhoneNumber = withInitialized((code: string) => {
+    return new Promise<AuthenticateUserSuccessResult>((resolve, reject) => {
+        console.log(userPool?.getCurrentUser() || currentUser)
+        const user = userPool?.getCurrentUser() || currentUser;
         if (!user) {
-            reject(new Error("No user found"))
+            return reject(new AuthNotInitializedError())
         }
-        else {
-            user.signOut(async () => {
-                await callback?.();
-                user = null;
-                resolve()
-            });
-        }
+
+        user.sendMFACode(code, {
+            onSuccess: (session, userConfirmationNecessary) => {
+                const result = handleOnSuccess(session, userConfirmationNecessary)
+                resolve(result);
+            },
+            onFailure: reject
+        })
     })
-}
+})
 
-export const completeNewPasswordChallenge = (newPassword: string, userAttributes: { [x: string]: any }) => {
-    return new Promise<AuthenticateUserSuccessResult | null>((resolve, reject) => {
-        if (!user) {
-            reject(new Error("No user found"))
-        }
-        else {
-            user.completeNewPasswordChallenge(newPassword, userAttributes, {
-                onSuccess: (session, userConfirmationNecessary) => {
-                    user!.setSignInUserSession(session)
-                    requiredAttributes = [];
-                    userAttributes = {};
-                    resolve({
-                        type: "success",
-                        payload: {
-                            session,
-                            userConfirmationNecessary
-                        }
-                    })
-                },
-                onFailure: reject
-            })
-        }
-    })
-}
+export const resendOTP = withInitialized(() => {
+    if (!currentUser) {
+        throw new AuthNotInitializedError()
+    }
 
-export const forgotPassword = (username: string) => {
-    return new Promise<void>((resolve, reject) => {
-        if (!userPool) {
-            reject(new Error("No user pool found"))
-        }
-        else {
-            new CognitoUser({ Username: username, Pool: userPool }).forgotPassword({
-                onSuccess: resolve,
-                onFailure: reject,
-                inputVerificationCode: function (data) {
-                    console.log('Code sent to: ' + JSON.stringify(data));
-                    resolve(data)
-                },
-
-            })
-
-            new CognitoUser({ Username: username, Pool: userPool }).confirmPassword
-        }
-    })
-}
+    return signIn(currentUser.getUsername(), { "resend": "true" })
+})
 
 export const sync = () => {
     return new Promise<string>((resolve, reject) => {
         if (!userPool) {
-            console.log("Sync completed")
             reject(new Error("No user pool found"))
         }
         else {

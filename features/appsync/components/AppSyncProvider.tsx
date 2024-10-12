@@ -9,7 +9,7 @@ import {
     ApolloLink,
 } from "@apollo/client";
 import { PropsWithChildren } from "react";
-import { getSession, refreshToken } from "@/features/auth/actions";
+import { getCurrentSession, refreshToken } from "@/features/auth/actions";
 import { Amplify } from "aws-amplify";
 
 /* The HTTPS endpoint of the AWS AppSync API 
@@ -23,12 +23,15 @@ const region = Amplify.getConfig().API?.GraphQL?.region || "eu-central-1";
 const auth: AuthOptions = {
     type: "AMAZON_COGNITO_USER_POOLS",
     jwtToken: async () => {
-        let session = await getSession();
+        let session = await getCurrentSession();
         if (!session) {
             throw new Error("No session");
         }
         if (!session.isValid()) {
-            session = await refreshToken();
+            const res = await refreshToken()
+            if (res.type === "AUTHENTICATED") {
+                session = res.payload.session
+            }
         }
         if (!session)
             throw new Error("Failed to refresh session");

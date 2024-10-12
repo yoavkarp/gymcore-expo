@@ -1,5 +1,6 @@
 mutation CreateEvent($input: CreateEventInput!) {
     createEvent(input: $input) {
+        id
         start_at
     }
 }

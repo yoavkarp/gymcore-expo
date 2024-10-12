@@ -8,6 +8,13 @@ query GetPlanById($id: ID!) {
         updated_at
         trainerId
         memberId
+        events {
+            items {
+                id
+                start_at
+            }
+            nextToken
+        }
         workouts {
             items {
                 id

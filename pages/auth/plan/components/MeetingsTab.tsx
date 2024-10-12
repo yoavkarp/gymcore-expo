@@ -4,19 +4,18 @@ import Section from "@/components/ui/Section";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
 import YesNoDialog from "@/components/YesNoDialog";
-import { useClub } from "@/features/club";
 import { usePlan } from "@/features/plan/components/PlanProvider";
-import { useDeleteEventMutation, useCreateEventMutation } from "@/graphql";
+import { useDeleteEventMutation } from "@/graphql";
 import { theme } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { useRef } from "react";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import CreateMeetingModal from "./CreateMeetingModal";
 
 const MeetingsTab = () => {
 
     const { plan } = usePlan();
+    console.log(plan);
 
     const yesNoDialogRef = useRef<YesNoDialog>(null);
     const importFromLibraryModalRef = useRef<ImportFromLibraryModal>(null);

@@ -8,6 +8,7 @@ import { useFonts } from 'expo-font';
 import ThemeProvider from "@/contexts/ThemeContext";
 import SnackBarProvider from "@/contexts/SnackbarContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import config from "@/constants/aws-config";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -46,8 +47,16 @@ export default function RootLayout() {
 
   if (!loaded) return null;
 
+  console.log({
+    UserPoolId: config.Auth?.Cognito.userPoolId!,
+    ClientId: config.Auth?.Cognito.userPoolClientId!,
+  })
+
   return (
-    <AuthProvider>
+    <AuthProvider config={{
+      UserPoolId: config.Auth?.Cognito.userPoolId!,
+      ClientId: config.Auth?.Cognito.userPoolClientId!,
+    }}>
       <AppSyncProvider>
         <ThemeProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>

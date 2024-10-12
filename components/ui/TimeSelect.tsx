@@ -55,16 +55,16 @@ const TimeSelect: FunctionComponent<TimeSelectProps> = ({ isoDate = new Date().t
 
     return (
         <View style={viewLayout({ gap: 5, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start', flexDirection: 'row-reverse' })}>
-            <HourPicker date={date} onChange={(_date) => {
-                const newDate = new Date(new Date(date).setDate(_date))
+            <HourPicker date={date} onChange={(hours) => {
+                const newDate = new Date(new Date(date).setHours(hours))
                 setDate(newDate);
-                onChange?.(newDate.toISOString().substring(0, 10));
+                onChange?.(newDate.toISOString());
             }} />
             <Text>:</Text>
-            <MinutePicker date={date} onChange={(month) => {
-                const newDate = new Date(new Date(date).setMonth(month));
+            <MinutePicker date={date} onChange={(minutes) => {
+                const newDate = new Date(new Date(date).setMinutes(minutes));
                 setDate(newDate);
-                onChange?.(newDate.toISOString().substring(0, 10));
+                onChange?.(newDate.toISOString());
             }} />
         </View>
     );

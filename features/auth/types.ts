@@ -1,20 +1,18 @@
 import { CognitoUserSession } from "amazon-cognito-identity-js"
-import { Club } from "@/graphql";
-
-export type AuthenticateUserNewPasswordRequiredResult = {
-    type: "newPasswordRequired",
-    payload: { userAttributes: { [x: string]: any }, requiredAttributes: string[] }
-}
 
 export type AuthenticateUserSuccessResult = {
-    type: "success",
+    type: "AUTHENTICATED",
     payload: { session: CognitoUserSession, userConfirmationNecessary?: boolean }
 }
 
-export type AuthenticateUserResult = AuthenticateUserNewPasswordRequiredResult | AuthenticateUserSuccessResult
+export type AuthenticateUserMfaResult = {
+    type: "MFA_REQUIRED",
+    payload: { CODE_DELIVERY_DELIVERY_MEDIUM: string, CODE_DELIVERY_DESTINATION: string }
+}
 
+export type AuthenticateUserResult = AuthenticateUserSuccessResult | AuthenticateUserMfaResult;
 
-export type CognitoSessionDecodedPayload = Record<`club:${keyof Omit<Club, "__typename">}`, string> & {
+export type CognitoSessionDecodedPayload = {
     readonly "cognito:groups": Array<'member' | 'club'>;
     readonly "email_verified": boolean;
     readonly "zoneinfo": string,
