@@ -15,6 +15,7 @@ import { useExercise } from "./ExerciseProvider";
 import { useWorkout } from "@/features/workout";
 import { useUpdateSetInExercise } from "@/features/workout/hooks/api/useUpdateSetInExercise";
 import { removeTypename } from "@/utils/remove-typename";
+import CloseButton from "@/components/ui/CloseButton";
 
 interface DropSetFormModalProps {
     onDismiss?: () => void;
@@ -81,10 +82,12 @@ const DropSetFormModal = React.forwardRef<DropSetFormModal, DropSetFormModalProp
     }, [visible])
 
     return (
-        <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
-            <Text h2>דרופסט</Text>
+        <Modal onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text h2>דרופסט</Text>
+                <CloseButton onPress={() => setVisible(false)} />
+            </View>
             <Text subtitle>הכנס משקל וחזרות עבור דרופסט</Text>
-
             <View>
                 <Controller control={control} name={"reps"}
 

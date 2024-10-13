@@ -1,5 +1,5 @@
 import { useClub } from "@/features/club";
-import { CreateWorkoutMutation, CreateWorkoutMutationVariables, ListLibraryWorkoutsDocument, useCreateWorkoutMutation } from "@/graphql";
+import { CreateWorkoutMutation, CreateWorkoutMutationVariables, GetMemberByIdDocument, GetMemberByIdQuery, GetMemberByIdQueryVariables, ListLibraryWorkoutsDocument, useCreateWorkoutMutation } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useCreateWorkout(options?: MutationHookOptions<CreateWorkoutMutation, CreateWorkoutMutationVariables>) {
@@ -9,15 +9,21 @@ export function useCreateWorkout(options?: MutationHookOptions<CreateWorkoutMuta
         update(cache, { data }, opts) {
             if (opts.variables?.input.memberId) {
                 cache.modify({
-                    id: cache.identify({ __typename: "Member", id: opts.variables?.input.memberId }),
+                    id: cache.identify({ id: opts.variables.input.memberId, __typename: "Member" }),
                     fields: {
-                        profile_workouts(exists) {
+                        profile_workouts(prev, { toReference }) {
+
+                            console.log({
+                                items: [toReference(data?.createWorkout!), ...prev.items],
+                                nextToken: prev.nextToken
+                            })
                             return {
-                                ...exists,
-                                items: [data?.createWorkout, ...(exists.items || [])]
+                                items: [toReference(data?.createWorkout!), ...prev.items],
+                                nextToken: prev.nextToken
                             }
                         }
-                    }
+                    },
+                    broadcast: false
                 })
             }
             else if (opts.variables?.input.library) {

@@ -51,7 +51,7 @@ const MeetingsTab = () => {
                 <View style={[{ flex: 0.9 / 3 }]} />
             </View>
             <FlatList
-                style={{ maxHeight: 250 }}
+                style={{ height: 460 }}
                 removeClippedSubviews
                 data={plan?.events?.items}
                 keyExtractor={(item) => item?.id!}
@@ -64,12 +64,12 @@ const MeetingsTab = () => {
                         </View>
                         <View style={{ flex: 0.9 / 3 }}>
                             <Text center style={Styles.tdText}>
-                                {new Date(item.updated_at).toLocaleDateString('en-GB', { year: '2-digit', month: '2-digit', day: '2-digit' })}
+                                {new Date(item.start_at).toLocaleDateString('en-GB', { year: '2-digit', month: '2-digit', day: '2-digit' })}
                             </Text>
                         </View>
                         <View style={{ flex: 0.9 / 3 }}>
                             <Text center style={Styles.tdText}>
-                                {new Date(item.updated_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
+                                {new Date(item.start_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
                             </Text>
                         </View>
                         <View style={{ flex: 0.9 / 3, flexDirection: 'row', gap: theme.spacing.sm }}>

@@ -12,6 +12,7 @@ import Button from "@/components/ui/Button";
 import Section from "@/components/ui/Section";
 import OTPForm from "./components/OTPForm";
 import SignInForm from "./components/SignInForm";
+import { theme } from "@/theme";
 
 export default function SignInPage() {
 
@@ -23,6 +24,7 @@ export default function SignInPage() {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
+                backgroundColor: theme.colors.background,
             }}
         >
             <Section style={{ gap: 5 }}>

@@ -16,6 +16,7 @@ import React, { useImperativeHandle, useMemo } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useExercise } from "./ExerciseProvider";
+import CloseButton from "@/components/ui/CloseButton";
 
 interface IntervalFormModalProps {
     onDismiss?: () => void;
@@ -87,8 +88,11 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
     }, [visible])
 
     return (
-        <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
-            <Text h1>{openProps?.intervalId ? 'עריכת אינטרוול קיים' : 'הוספת אינטרוול'}</Text>
+        <Modal onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text h1>{openProps?.intervalId ? 'עריכת אינטרוול קיים' : 'הוספת אינטרוול'}</Text>
+                <CloseButton onPress={() => setVisible(false)} />
+            </View>
 
             <Controller control={control} name="distance"
                 render={({ field: { onChange, value }, fieldState: { error } }) => {

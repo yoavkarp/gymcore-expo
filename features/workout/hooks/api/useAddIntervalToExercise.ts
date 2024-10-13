@@ -1,5 +1,5 @@
 import { useClub } from "@/features/club";
-import { IntervalInput, AddIntervalToExerciseMutation, AddIntervalToExerciseMutationVariables, useAddIntervalToExerciseMutation } from "@/graphql";
+import { IntervalInput, AddIntervalToExerciseMutation, AddIntervalToExerciseMutationVariables, useAddIntervalToExerciseMutation, GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables, GetWorkoutByIdDocument } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useAddIntervalToExercise(workoutId: string, options?: MutationHookOptions<AddIntervalToExerciseMutation, AddIntervalToExerciseMutationVariables>) {
@@ -7,18 +7,27 @@ export function useAddIntervalToExercise(workoutId: string, options?: MutationHo
     const [addIntervalToExercise, result] = useAddIntervalToExerciseMutation({
         ...options,
         async update(cache, { data }, opts) {
-            cache.modify({
-                id: cache.identify({ __typename: "Workout", id: workoutId }),
-                fields: {
-                    exercises() {
-                        return data?.addIntervalToExercise?.exercises
-                    },
-                    updated_at() {
-                        return data?.addIntervalToExercise?.updated_at
-                    }
+
+            const existingItems = cache.readQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>({
+                query: GetWorkoutByIdDocument,
+                variables: {
+                    workoutId
                 }
-            })
-            await options?.update?.(cache, { data }, opts)
+            });
+
+            if (existingItems?.getWorkoutById)
+                cache.writeQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>({
+                    query: GetWorkoutByIdDocument,
+                    variables: {
+                        workoutId
+                    },
+                    data: {
+                        getWorkoutById: {
+                            ...existingItems?.getWorkoutById!,
+                            ...data?.addIntervalToExercise
+                        }
+                    }
+                });
         }
     });
 

@@ -1,5 +1,5 @@
 import { useClub } from "@/features/club";
-import { AddExerciseToWorkoutInput, AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables, useAddExerciseToWorkoutMutation } from "@/graphql";
+import { AddExerciseToWorkoutInput, AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables, GetWorkoutByIdDocument, GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables, useAddExerciseToWorkoutMutation } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useAddExerciseToWorkout(workoutId: string, options?: MutationHookOptions<AddExerciseToWorkoutMutation, AddExerciseToWorkoutMutationVariables>) {
@@ -7,18 +7,27 @@ export function useAddExerciseToWorkout(workoutId: string, options?: MutationHoo
     const [addExerciseToWorkout, result] = useAddExerciseToWorkoutMutation({
         ...options,
         async update(cache, { data }, opts) {
-            cache.modify({
-                id: cache.identify({ __typename: "Workout", id: workoutId }),
-                fields: {
-                    exercises() {
-                        return data?.addExerciseToWorkout?.exercises
-                    },
-                    updated_at() {
-                        return data?.addExerciseToWorkout?.updated_at
-                    }
+
+            const existingItems = cache.readQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>({
+                query: GetWorkoutByIdDocument,
+                variables: {
+                    workoutId
                 }
-            })
-            await options?.update?.(cache, { data }, opts)
+            });
+
+            if (existingItems?.getWorkoutById)
+                cache.writeQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>({
+                    query: GetWorkoutByIdDocument,
+                    variables: {
+                        workoutId
+                    },
+                    data: {
+                        getWorkoutById: {
+                            ...existingItems?.getWorkoutById!,
+                            ...data?.addExerciseToWorkout
+                        }
+                    }
+                });
         }
     });
 

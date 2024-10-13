@@ -77,6 +77,10 @@ export function AuthProvider({ children, config }: PropsWithChildren<AuthProvide
         onEffect();
     }, [])
 
+    const cancelSignIn = () => {
+        reset();
+    }
+
     return (
         <AuthContext.Provider value={{
             isLoading,
@@ -87,7 +91,8 @@ export function AuthProvider({ children, config }: PropsWithChildren<AuthProvide
             signIn,
             resendOTP: AuthActions.resendOTP,
             refreshToken,
-            verifyOTP
+            verifyOTP,
+            cancelSignIn
         }
         }>
             {children}

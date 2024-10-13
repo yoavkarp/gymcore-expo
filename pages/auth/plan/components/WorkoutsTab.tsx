@@ -37,10 +37,10 @@ const WorkoutsTab = () => {
             cache.modify({
                 id: cache.identify({ __typename: "Plan", id: opts.variables?.input.planId }),
                 fields: {
-                    workouts(exists) {
+                    workouts(exists, { toReference }) {
                         return {
                             ...exists,
-                            items: [result.data?.importWorkoutFromLibrary, ...(exists.items || [])]
+                            items: [toReference(result.data?.importWorkoutFromLibrary!), ...(exists?.items || [])]
                         }
                     }
                 }
@@ -69,7 +69,7 @@ const WorkoutsTab = () => {
                 <View style={{ flex: 1 / 3 }} />
             </View>
             <FlatList
-                style={{ maxHeight: 250 }}
+                style={{ height: 460 }}
                 removeClippedSubviews
                 data={plan?.workouts?.items}
                 keyExtractor={(item) => item?.id!}

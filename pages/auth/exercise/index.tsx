@@ -86,7 +86,7 @@ const ExercisePage = () => {
 
                         return (
                             <View style={{}}>
-                                <Label>הערות:</Label>
+                                <Label>הערות על התרגיל:</Label>
                                 <View style={{ flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
                                     <TextInput style={{ width: 500, textAlign: 'center' }} error={Boolean(error)} onBlur={handleBlur} onChangeText={handleChange} value={value || ""} />
                                     {isSubmitting && isDirty && <LoadingIndicator />}

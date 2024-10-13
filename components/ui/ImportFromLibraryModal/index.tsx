@@ -4,6 +4,8 @@ import Text from "../Text";
 import Button from "../Button";
 import LibraryView from "./LibraryView";
 import WorkoutView from "./WorkoutView";
+import CloseButton from "../CloseButton";
+import { View } from "../View";
 
 interface ImportFromLibraryModalProps {
 
@@ -30,10 +32,13 @@ const ImportFromLibraryModal = React.forwardRef<ImportFromLibraryModal, ImportFr
     }, [])
 
     return (
-        <Modal style={{ width: 1000 }} visible={visible} dismissable onDismiss={() => {
+        <Modal style={{ width: 1000 }} visible={visible} onDismiss={() => {
             setVisible(false);
             setOnPressImport(undefined);
         }}>
+            <View style={{ flex: 0, alignItems: 'flex-end' }}>
+                <CloseButton onPress={() => setVisible(false)} />
+            </View>
             {!Boolean(workoutId) ? <LibraryView onPressWorkout={(wid) => setWorkoutId(wid)} /> : <WorkoutView
                 onPressBack={() => setWorkoutId(null)}
                 onPressImport={async (wid) => {

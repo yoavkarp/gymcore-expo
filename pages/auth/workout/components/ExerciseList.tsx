@@ -15,6 +15,7 @@ import TouchableOpacity from "@/components/ui/TouchableOpacity";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import Label from "@/components/ui/Label";
 import { useMoveExerciseInWorkout } from "@/features/workout/hooks/api/useMoveExerciseInWorkout";
+import { router } from "expo-router";
 
 interface ExerciseListItemProps {
     item: Exercise;
@@ -138,7 +139,7 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect }) => {
                                 setSelectedExerciseId(null)
                                 onChangeSelect(null);
                             })}
-                            onPressEdit={() => newExerciseModalRef.current?.open(item?.id)}
+                            onPressEdit={() => router.push(`/workout/${workoutId}/${item.id}`)}
                         />
 
                     )

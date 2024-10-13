@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/TextInput";
 import Label from "@/components/ui/Label";
 import { router } from "expo-router";
+import { theme } from "@/theme";
 
 const _6DigitsMessage = "קוד אימות חייב להיות בעל 6 ספרות (0-9)";
 
@@ -18,9 +19,9 @@ type OTPFormInput = z.infer<typeof validator>;
 
 const OTPForm = () => {
 
-    const { verifyOTP } = useSession();
+    const { verifyOTP, cancelSignIn } = useSession();
 
-    const { control, handleSubmit } = useForm<OTPFormInput>({
+    const { control, handleSubmit, formState: { isSubmitting } } = useForm<OTPFormInput>({
         resolver: zodResolver(validator)
     });
 
@@ -30,7 +31,7 @@ const OTPForm = () => {
     }
 
     return (
-        <View>
+        <View style={{ gap: theme.spacing.md }}>
             <Controller control={control} name="otp"
                 render={({ field: { onChange, value } }) => (
                     <View>
@@ -39,7 +40,8 @@ const OTPForm = () => {
                     </View>
                 )}
             />
-            <Button onPress={handleSubmit(onSubmit)}>אישור</Button>
+            <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit)}>אישור</Button>
+            <Button error onPress={cancelSignIn}>ביטול</Button>
         </View>
     )
 }

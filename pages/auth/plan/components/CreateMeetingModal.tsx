@@ -9,6 +9,8 @@ import { usePlan } from "@/features/plan/components/PlanProvider";
 import DateSelect from "@/components/ui/DateSelect";
 import TimeSelect from "@/components/ui/TimeSelect";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import { theme } from "@/theme";
+import CloseButton from "@/components/ui/CloseButton";
 
 
 type CreateMeetingModal = {
@@ -25,8 +27,10 @@ const CreateMeetingModal = forwardRef<CreateMeetingModal>((_, ref) => {
     const [createEvent, { loading, error: apiError }] = useCreateEventMutation({
         onCompleted() {
             show("המפגש נוצר בהצלחה");
+            setIsVisible(false);
         },
         onError(err) {
+            console.log(JSON.stringify(err, null, 2));
             show("שגיאה בעת יצירת מפגש: " + err.message, "error");
         },
         update(cache, { data }) {
@@ -34,24 +38,15 @@ const CreateMeetingModal = forwardRef<CreateMeetingModal>((_, ref) => {
             const res = cache.modify({
                 id: identifier,
                 fields: {
-                    events(existing = []) {
-                        const newEventRef = cache.writeFragment({
-                            data: data?.createEvent,
-                            id: data?.createEvent?.id,
-                            fragment: `
-                                fragment NewEvent on Event {
-                                    id
-                                    start_at
-                                }
-                            `
-                        });
-
-                        return [newEventRef, ...existing];
+                    events(exists, { toReference }) {
+                        return {
+                            ...exists,
+                            items: [toReference(data?.createEvent!), ...exists.items]
+                        };
                     }
-                }
+                },
             })
-
-        }
+        },
     });
     const [start_at, setStart_at] = useState(new Date(new Date().setSeconds(0, 0)));
 
@@ -77,9 +72,13 @@ const CreateMeetingModal = forwardRef<CreateMeetingModal>((_, ref) => {
     console.log(start_at);
 
     return (
-        <Modal visible={visible} dismissable onDismiss={() => setIsVisible(false)} style={{ gap: 8 }}>
-            <Text h1>יצירת מפגש</Text>
-            <View>
+        <Modal visible={visible} onDismiss={() => setIsVisible(false)} style={{ gap: 8 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text h1>יצירת מפגש</Text>
+                <CloseButton onPress={() => setIsVisible(false)} />
+            </View>
+
+            <View style={{ gap: theme.spacing.md }}>
                 <Label>תאריך המפגש</Label>
                 <DateSelect
                     onChange={(date) => setStart_at(prev => {
@@ -91,7 +90,7 @@ const CreateMeetingModal = forwardRef<CreateMeetingModal>((_, ref) => {
                 })} isoDate={start_at.toISOString()} />
             </View>
             {apiError && <Text error>שגיאת שרת: {apiError.message}</Text>}
-            <Button isLoading={loading} disabled={loading} onPress={onSubmit}>יצירת תכנית</Button>
+            <Button isLoading={loading} disabled={loading} onPress={onSubmit}>יצירת מפגש</Button>
         </Modal>
     );
 })

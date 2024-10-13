@@ -17,6 +17,7 @@ import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useExercise } from "./ExerciseProvider";
+import CloseButton from "@/components/ui/CloseButton";
 
 interface SetFormModalProps {
     onDismiss?: () => void;
@@ -78,8 +79,12 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     }, [visible])
 
     return (
-        <Modal dismissable onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
-            <Text h1>{openProps?.setId ? 'עריכת סט קיים' : 'הוספת סט'}</Text>
+        <Modal onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                <Text h1>{openProps?.setId ? 'עריכת סט קיים' : 'הוספת סט'}</Text>
+                <CloseButton onPress={() => setVisible(false)} />
+            </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View>
                     <Controller control={control} name="reps"

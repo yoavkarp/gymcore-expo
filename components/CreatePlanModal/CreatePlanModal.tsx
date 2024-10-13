@@ -23,7 +23,7 @@ type CreatePlanModal = {
 const CreatePlanModal = forwardRef<CreatePlanModal, CreatePlanModalProps>(({ memberId }, ref) => {
 
     const [visible, setIsVisible] = useState(false);
-    const { control, handleSubmit } = useCreatePlanForm();
+    const { control, handleSubmit, formState: { isSubmitting } } = useCreatePlanForm();
     const { currentTrainer } = useClub();
 
     const {
@@ -80,7 +80,7 @@ const CreatePlanModal = forwardRef<CreatePlanModal, CreatePlanModalProps>(({ mem
                 }}
             />
             {apiError && <Text error>שגיאת שרת: {apiError.message}</Text>}
-            <Button onPress={handleSubmit(onSubmit)}>יצירת תכנית</Button>
+            <Button disabled={isSubmitting} isLoading={isSubmitting} onPress={handleSubmit(onSubmit)}>יצירת תכנית</Button>
         </Modal>
     );
 })

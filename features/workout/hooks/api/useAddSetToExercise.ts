@@ -1,5 +1,5 @@
 import { useClub } from "@/features/club";
-import { SetInput, AddSetToExerciseMutation, AddSetToExerciseMutationVariables, useAddSetToExerciseMutation } from "@/graphql";
+import { SetInput, AddSetToExerciseMutation, AddSetToExerciseMutationVariables, useAddSetToExerciseMutation, GetWorkoutByIdQuery, GetWorkoutByIdDocument, GetWorkoutByIdQueryVariables } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useAddSetToExercise(workoutId: string, options?: MutationHookOptions<AddSetToExerciseMutation, AddSetToExerciseMutationVariables>) {
@@ -8,18 +8,26 @@ export function useAddSetToExercise(workoutId: string, options?: MutationHookOpt
     const [addSetToExercise, result] = useAddSetToExerciseMutation({
         ...options,
         async update(cache, { data }, opts) {
-            cache.modify({
-                id: cache.identify({ __typename: "Workout", id: workoutId }),
-                fields: {
-                    exercises() {
-                        return data?.addSetToExercise?.exercises
-                    },
-                    updated_at() {
-                        return data?.addSetToExercise?.updated_at
-                    }
+            const existingItems = cache.readQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>({
+                query: GetWorkoutByIdDocument,
+                variables: {
+                    workoutId
                 }
-            })
-            await options?.update?.(cache, { data }, opts)
+            });
+
+            if (existingItems?.getWorkoutById)
+                cache.writeQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>({
+                    query: GetWorkoutByIdDocument,
+                    variables: {
+                        workoutId
+                    },
+                    data: {
+                        getWorkoutById: {
+                            ...existingItems?.getWorkoutById!,
+                            ...data?.addSetToExercise
+                        }
+                    }
+                });
         }
     });
 

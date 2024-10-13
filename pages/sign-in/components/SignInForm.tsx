@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/TextInput";
 import Label from "@/components/ui/Label";
+import { theme } from "@/theme";
 
 const validator = z.object({
     username: z.string().trim().min(10).max(10).refine(val => !isNaN(Number(val))).or(z.string().email())
@@ -17,7 +18,7 @@ const SignInForm = () => {
 
     const { signIn } = useSession();
 
-    const { control, handleSubmit } = useForm<SignInFormInput>({
+    const { control, handleSubmit, formState: { isSubmitting } } = useForm<SignInFormInput>({
         resolver: zodResolver(validator),
         defaultValues: {
             username: "0501111112"
@@ -36,7 +37,7 @@ const SignInForm = () => {
     }
 
     return (
-        <View>
+        <View style={{ gap: theme.spacing.md }}>
             <Controller control={control} name="username"
                 render={({ field: { onChange, value } }) => (
                     <View>
@@ -45,7 +46,7 @@ const SignInForm = () => {
                     </View>
                 )}
             />
-            <Button onPress={handleSubmit(onSubmit)}>התחברות</Button>
+            <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit)}>התחברות</Button>
         </View>
     )
 }

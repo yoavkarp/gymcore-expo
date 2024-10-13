@@ -96,15 +96,7 @@ export function ClubProvider({ children }: PropsWithChildren<ClubProviderProps>)
                 error={createTrainerError}
             />
             <Modal visible={isTrainersListVisible} dismissable>
-                <TrainerList
-                    trainers={clubTrainersData?.getClubTrainers || []}
-                    onPressNewTrainer={() => setIsCreateTrainerModalVisible(true)}
-                    onPressTrainer={(trainerId) => {
-                        setCurrentTrainer(trainerId)
-                        setIsTrainersListVisible(false);
-                    }}
-                    currentTrainerId={currentTrainerId || undefined}
-                />
+                <TrainerList />
             </Modal>
         </ClubContext.Provider>
     )

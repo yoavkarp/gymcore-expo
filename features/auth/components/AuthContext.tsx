@@ -13,6 +13,8 @@ type AuthContextType = {
     verifyOTP: (code: string) => Promise<AuthenticateUserResult>;
     refreshToken: () => Promise<AuthenticateUserResult>;
     resendOTP: () => Promise<AuthenticateUserResult>;
+
+    cancelSignIn: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);

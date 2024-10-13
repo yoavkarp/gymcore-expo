@@ -1,4 +1,5 @@
 import Button from "@/components/ui/Button";
+import Label from "@/components/ui/Label";
 import Section from "@/components/ui/Section";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
@@ -79,7 +80,19 @@ const StrengthExerciseSection: React.FC<StrengthExerciseSectionProps> = ({ exerc
                                     </Text>
                                 </View>
                                 <View style={{ flex: 0.9 / 4 }}>
-                                    <Text>#TODO:SETDROPSET</Text>
+                                    {
+                                        item?.dropsets?.map((dropset, index) => (
+                                            <View key={index} style={{ gap: theme.spacing.sm }}>
+                                                <Label>דרופסט {index + 1}</Label>
+                                                <Text center style={Styles.tdText}>
+                                                    {parameterToString(dropset?.reps)}
+                                                </Text>
+                                                <Text center style={Styles.tdText}>
+                                                    {parameterToString(dropset?.weight)}
+                                                </Text>
+                                            </View>
+                                        ))
+                                    }
                                 </View>
                             </View>
                         )}

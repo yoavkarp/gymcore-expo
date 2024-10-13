@@ -11,6 +11,7 @@ import SidebarButton from '../Sidebar/SidebarButton';
 import { LogoutSolidIcon } from '../../SvgIcons';
 import { useTranslation } from 'react-i18next';
 import SCREENS from "@/constants/sidebar-screens";
+import Button from "../Button";
 
 interface SidebarProps { }
 
@@ -18,6 +19,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
     const navigate = router.navigate;
     const path = usePathname();
+
+    const { signOut } = useSession()
 
     return (
         <View style={[Styles.container, { height: Dimensions.get('screen').height }]}>
@@ -27,6 +30,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </View>
             <View id='buttons' style={Styles.buttonsContainer}>
                 {SCREENS.map((screen) => <SidebarButton key={screen.name} href={screen.href} onPress={() => navigate(screen.href)} icon={screen.icon} selected={path === screen.href} title={screen.name} />)}
+            </View>
+            <View>
+                <Button onPress={() => signOut()}>Logout</Button>
             </View>
             <View style={Styles.divider} />
             <View />

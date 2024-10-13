@@ -19,6 +19,8 @@ import { theme } from "@/theme";
 import StrengthExerciseSection from "./components/StrengthExerciseSection";
 import CardioExerciseSection from "./components/CardioExerciseSection";
 import { useClub } from "@/features/club";
+import { NativeSyntheticEvent, TextInputFocusEventData } from "react-native";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 const WorkoutPage: React.FC = () => {
 
@@ -40,6 +42,10 @@ const WorkoutPage: React.FC = () => {
             trainerId: currentTrainer?.id!
         }
     });
+
+    const handleBlur = async (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+        await handleSubmit(onSubmitUpdateWorkout, (env) => console.log(env))();
+    }
 
     const selectedExercise = workout?.exercises?.find((exercise) => exercise.id === selectedExerciseId);
 
@@ -74,26 +80,41 @@ const WorkoutPage: React.FC = () => {
             <Section>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Controller control={control} name="name"
-                        render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
-                                <Label>שם האימון:</Label>
-                                <TextInput readOnly={isSubmitting} style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value} />
-                                {isDirty && <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
-                                {error && <Text error>{error.message}</Text>}
-                            </View>
-                        )}
+                        render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => {
+
+                            const handleChange = (val: string) => {
+                                onChange(val.trim() ? val : "")
+                            }
+
+                            return (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
+                                    <Label>שם האימון:</Label>
+                                    <TextInput readOnly={isSubmitting} style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={handleChange} onBlur={handleBlur} value={value} />
+                                    {isSubmitting && isDirty && <LoadingIndicator />}
+                                    {error && <Text error>{error.message}</Text>}
+                                </View>
+                            )
+                        }}
                     />
                     {!workout?.library && <Button onPress={() => addWorkoutToLibrary()}>הוספה לספרייה</Button>}
                 </View>
                 <Controller control={control} name="notes"
-                    render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => (
-                        <View style={{ alignSelf: 'flex-start', flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
-                            <Label>הערות:</Label>
-                            <TextInput readOnly={isSubmitting} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value || ""} />
-                            {isDirty && <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmitUpdateWorkout)}>שמור</Button>}
-                            {error && <Text error>{error.message}</Text>}
-                        </View>
-                    )}
+                    render={({ field: { onChange, onBlur, value }, fieldState: { error, isDirty } }) => {
+
+                        const handleChange = (val: string) => {
+                            onChange(val.trim() ? val : undefined)
+                        }
+
+                        return (
+                            <View style={{ alignSelf: 'flex-start', flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
+                                <Label>הערות על האימון:</Label>
+                                <TextInput readOnly={isSubmitting} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={handleChange} onBlur={handleBlur} value={value || ""} />
+                                {isSubmitting && isDirty && <LoadingIndicator />}
+                                {error && <Text error>{error.message}</Text>}
+                            </View>
+
+                        )
+                    }}
                 />
             </Section>
 

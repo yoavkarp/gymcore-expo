@@ -24,7 +24,7 @@ type CreateWorkoutModal = {
 const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProps>(({ memberId, planId, library = false }, ref) => {
 
     const [visible, setIsVisible] = useState(false);
-    const { control, handleSubmit } = useCreateWorkoutForm();
+    const { control, handleSubmit, formState: { isSubmitting } } = useCreateWorkoutForm();
     const { currentTrainer } = useClub();
 
     const {
@@ -74,7 +74,7 @@ const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProp
                 }}
             />
             {apiError && <Text error>שגיאת שרת: {apiError.message}</Text>}
-            <Button onPress={handleSubmit(onSubmit)}>יצירת אימון</Button>
+            <Button disabled={isSubmitting} isLoading={isSubmitting} onPress={handleSubmit(onSubmit)}>יצירת אימון</Button>
         </Modal>
     );
 })

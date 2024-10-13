@@ -43,7 +43,7 @@ const MemberProfileWorkoutsSection: React.FC<MemberProfileWorkoutsSectionProps> 
     const [deleteWorkout] = useDeleteWorkoutMutation({
         update(cache, result, { variables }) {
             cache.evict({
-                id: cache.identify({ id: variables?.workoutId, __typename: "Workout" })
+                id: cache.identify({ id: variables?.workoutId, __typename: "Workout" }),
             })
         }
     })
@@ -53,10 +53,10 @@ const MemberProfileWorkoutsSection: React.FC<MemberProfileWorkoutsSectionProps> 
             cache.modify({
                 id: cache.identify({ __typename: "Member", id: opts.variables?.input.memberId }),
                 fields: {
-                    profile_workouts(exists) {
+                    profile_workouts(exists, { toReference }) {
                         return {
                             ...exists,
-                            items: [result.data?.importWorkoutFromLibrary, ...(exists.items || [])]
+                            items: [toReference(result.data?.importWorkoutFromLibrary!), ...(exists.items || [])]
                         }
                     }
                 }

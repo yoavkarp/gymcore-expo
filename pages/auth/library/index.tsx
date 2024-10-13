@@ -13,14 +13,14 @@ import { parameterToString } from "@/utils/parameter-to-string";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { useRef } from "react";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, TouchableOpacity } from "react-native";
 
 const MemberProfileWorkoutsSection = () => {
     const { theme } = useTheme();
     const styles = stylesWithTheme(theme);
     const createWorkoutModalRef = useRef<CreateWorkoutModal>(null);
     const yesNoDialogRef = useRef<YesNoDialog>(null);
-    const { data, loading, error } = useListLibraryWorkoutsQuery({ fetchPolicy: "network-only" });
+    const { data, loading, error, refetch } = useListLibraryWorkoutsQuery({ fetchPolicy: "network-only" });
     const { trainers } = useClub();
 
     const [deleteWorkout] = useDeleteWorkoutMutation({
@@ -50,6 +50,8 @@ const MemberProfileWorkoutsSection = () => {
                 <View style={{ flex: 1 / 4 }} />
             </View>
             <FlatList
+                refreshControl={<RefreshControl refreshing={loading} onRefresh={() => refetch()} />}
+                refreshing={loading}
                 style={{ maxHeight: 250 }}
                 removeClippedSubviews
                 data={data?.listLibraryWorkouts?.items}
