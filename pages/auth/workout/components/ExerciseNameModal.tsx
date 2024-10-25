@@ -18,6 +18,7 @@ import { View } from "react-native";
 import Label from "@/components/ui/Label";
 import TextInput from "@/components/ui/TextInput";
 import CloseButton from "@/components/ui/CloseButton";
+import { router } from "expo-router";
 
 interface ExerciseNameModalProps {
     onDismiss?: () => void;
@@ -36,7 +37,12 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
     const { handleSubmit, setValue, getValues, reset, formState: { errors, isSubmitting }, control } = useExerciseForm();
     const { workout, workoutId } = useWorkout();
 
-    const { addExerciseToWorkout, result: addExerciseToWorkoutResult } = useAddExerciseToWorkout(workoutId);
+    const { addExerciseToWorkout, result: addExerciseToWorkoutResult } = useAddExerciseToWorkout(workoutId, {
+        onCompleted(data) {
+            if (data.addExerciseToWorkout?.exercises?.[-1].id)
+                router.push(`/workout/${workoutId}/exercise/${data.addExerciseToWorkout?.exercises?.[-1].id}`)
+        }
+    });
     const { updateExerciseInWorkout, result: updateExerciseInWorkoutResult } = useUpdateExerciseInWorkout(workoutId);
 
     const [show] = useSnackbar();

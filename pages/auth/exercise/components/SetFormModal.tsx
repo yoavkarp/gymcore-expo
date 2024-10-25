@@ -1,4 +1,4 @@
-import RangedInput from "@/components/RangedInput";
+import RangedInput, { RangedInputRef } from "@/components/RangedInput";
 import Button from "@/components/ui/Button";
 import Label from "@/components/ui/Label";
 import Modal from "@/components/ui/Modal";
@@ -18,6 +18,7 @@ import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useExercise } from "./ExerciseProvider";
 import CloseButton from "@/components/ui/CloseButton";
+import { Keyboard } from "react-native";
 
 interface SetFormModalProps {
     onDismiss?: () => void;
@@ -41,6 +42,8 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
     const { workoutId } = useWorkout();
     const { addSetToExercise } = useAddSetToExercise(workoutId);
     const { updateSetInExercise } = useUpdateSetInExercise(workoutId);
+
+    const [weightRef, restRef] = [useRef<RangedInputRef>(null), useRef<RangedInputRef>(null)];
 
     const onSubmit = async (data: SetFormInput) => {
 
@@ -104,7 +107,7 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
                                 <View>
                                     <Label>חזרות</Label>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                        {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || REPS_UNITS[0].value })} />}
+                                        {showInput && <RangedInput value={value} onSubmitEditing={() => weightRef.current?.focus()} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || REPS_UNITS[0].value })} />}
                                         <Select containerStyle={{ width: 200 }} items={REPS_UNITS} defaultValue={value?.unit || "reps"} onChangeValue={handleChangeUnits} />
                                     </View>
                                     {error && <Text error>{error.message}</Text>}
@@ -130,7 +133,7 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
                                 <View>
                                     <Label>משקל</Label>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                        {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />}
+                                        {showInput && <RangedInput ref={weightRef} onSubmitEditing={() => restRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />}
                                         <Select containerStyle={{ width: 200 }} items={WEIGHT_UNITS} defaultValue={value?.unit || "kg"} onChangeValue={handleChangeUnits} />
                                     </View>
 
@@ -147,7 +150,7 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
                             <View>
                                 <Label>מנוחה</Label>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                    <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || REST_UNITS[0].value })} />
+                                    <RangedInput value={value} ref={restRef} onSubmitEditing={() => Keyboard.dismiss()} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || REST_UNITS[0].value })} />
                                     <Select containerStyle={{ width: 200 }} items={REST_UNITS} defaultValue={value?.unit || "seconds"} onChangeValue={(item) => onChange({ ...value, unit: item.value })} />
                                 </View>
                                 {error && <Text error>{error.message}</Text>}

@@ -1,4 +1,4 @@
-import RangedInput from "@/components/RangedInput";
+import RangedInput, { RangedInputRef } from "@/components/RangedInput";
 import Button from "@/components/ui/Button";
 import Label from "@/components/ui/Label";
 import Modal from "@/components/ui/Modal";
@@ -12,11 +12,12 @@ import { useAddIntervalToExercise } from "@/features/workout/hooks/api/useAddInt
 import { useUpdateIntervalInExercise } from "@/features/workout/hooks/api/useUpdateIntervalInExercise";
 import { CardioExercise } from "@/graphql";
 import { removeTypename, removeUndefined } from "@/utils/remove-typename";
-import React, { useImperativeHandle, useMemo } from "react";
+import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useExercise } from "./ExerciseProvider";
 import CloseButton from "@/components/ui/CloseButton";
+import { Keyboard } from "react-native";
 
 interface IntervalFormModalProps {
     onDismiss?: () => void;
@@ -37,6 +38,9 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
     const { exercise: _exercise } = useExercise();
     const exercise = _exercise as CardioExercise;
 
+
+    const [tempoRef, intensityRef, angleRef, resistanceRef, restRef, ref6] = [useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null)]
+
     const { workout, workoutId } = useWorkout();
     const { addIntervalToExercise, result: addIntervalToExerciseResult } = useAddIntervalToExercise(workoutId);
     const { updateIntervalInExercise, result: updateIntervalInExerciseResult } = useUpdateIntervalInExercise(workoutId, {
@@ -46,6 +50,8 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
     });
 
     const onSubmit = async (data: IntervalFormInput) => {
+
+        console.log("DATA", JSON.stringify(data, null, 2));
 
         if (!openProps?.intervalId) {
             await addIntervalToExercise(exercise.id, { ...data });
@@ -101,8 +107,8 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
                         <View>
                             <Label>מרחק</Label>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput value={value} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || DISTANCE_UNITS[0].value })} />
-                                <Select containerStyle={{ width: 200 }} items={DISTANCE_UNITS} defaultValue={value?.unit || "meter"} onChangeValue={(val) => onChange({ ...(value || {}), units: val })} />
+                                <RangedInput onSubmitEditing={() => tempoRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || DISTANCE_UNITS[0].value })} />
+                                <Select containerStyle={{ width: 200 }} items={DISTANCE_UNITS} defaultValue={value?.unit || "meter"} onChangeValue={(val) => onChange({ ...(value || {}), unit: val.value })} />
                             </View>
                             {error && <Text error>{error.message}</Text>}
                         </View>
@@ -117,8 +123,8 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
                         <View>
                             <Label>קצב</Label>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || TEMPO_UNITS[0].value })} />
-                                <Select containerStyle={{ width: 200 }} items={TEMPO_UNITS} defaultValue={value?.unit || "meter/minute"} onChangeValue={(val) => onChange({ ...(value || {}), units: val })} />
+                                <RangedInput ref={tempoRef} onSubmitEditing={() => intensityRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || TEMPO_UNITS[0].value })} />
+                                <Select containerStyle={{ width: 200 }} items={TEMPO_UNITS} defaultValue={value?.unit || "meter/minute"} onChangeValue={(val) => onChange({ ...(value || {}), unit: val.value })} />
                             </View>
                             {error && <Text error>{error.message}</Text>}
                         </View>
@@ -133,7 +139,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
                         <View>
                             <Label>עצימות</Label>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />
+                                <RangedInput ref={intensityRef} onSubmitEditing={() => angleRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: "%" })} />
                                 <Text>%</Text>
                             </View>
                             {error && <Text error>{error.message}</Text>}
@@ -148,7 +154,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
                         <View>
                             <Label>שיפוע</Label>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />
+                                <RangedInput ref={angleRef} onSubmitEditing={() => resistanceRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val })} />
                             </View>
                             {error && <Text error>{error.message}</Text>}
                         </View>
@@ -162,7 +168,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
                         <View>
                             <Label>התנגדות</Label>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />
+                                <RangedInput ref={resistanceRef} onSubmitEditing={() => restRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val })} />
                             </View>
                             {error && <Text error>{error.message}</Text>}
                         </View>
@@ -175,7 +181,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
                     <View>
                         <Label>מנוחה</Label>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                            <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || REST_UNITS[0].value })} />
+                            <RangedInput ref={restRef} onSubmitEditing={() => Keyboard.dismiss()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || REST_UNITS[0].value })} />
                             <Select containerStyle={{ width: 200 }} items={REST_UNITS} defaultValue={value?.unit || "seconds"} onChangeValue={(item) => onChange({ ...value, unit: item.value })} />
                         </View>
                         {error && <Text error>{error.message}</Text>}

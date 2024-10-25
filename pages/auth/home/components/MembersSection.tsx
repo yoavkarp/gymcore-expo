@@ -27,7 +27,11 @@ const MembersSection: React.FC<MembersSectionProps> = () => {
     const [searchText, setSearchText] = useState<string>('');
     const [showCreateMemberModal, setShowCreateMemberModal] = useState<boolean>(false);
 
-    const [createMemberMutation, { data: createMemberMutationData }] = useCreateMemberMutation();
+    const [createMemberMutation, { data: createMemberMutationData }] = useCreateMemberMutation({
+        onCompleted(data) {
+            handleMemberCardPress(data.createMember as Member)
+        }
+    });
     const [searchMembersQuery, { data: searchMembersQueryData, loading: isSearchingMembers, client }] = useSearchMembersLazyQuery();
 
     const [show] = useSnackbar()

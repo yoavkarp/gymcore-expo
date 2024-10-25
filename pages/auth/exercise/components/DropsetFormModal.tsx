@@ -1,4 +1,4 @@
-import RangedInput from "@/components/RangedInput";
+import RangedInput, { RangedInputRef } from "@/components/RangedInput";
 import Button from "@/components/ui/Button";
 import Label from "@/components/ui/Label";
 import Modal from "@/components/ui/Modal";
@@ -6,7 +6,7 @@ import Select, { SelectItem } from "@/components/ui/Select";
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
 import { REPS_UNITS, WEIGHT_UNITS } from "@/constants/units";
-import React, { useImperativeHandle, useMemo } from "react";
+import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { DropSetFormInput, useDropSetForm } from "../hooks/useDropsetForm";
@@ -16,6 +16,7 @@ import { useWorkout } from "@/features/workout";
 import { useUpdateSetInExercise } from "@/features/workout/hooks/api/useUpdateSetInExercise";
 import { removeTypename } from "@/utils/remove-typename";
 import CloseButton from "@/components/ui/CloseButton";
+import { Keyboard } from "react-native";
 
 interface DropSetFormModalProps {
     onDismiss?: () => void;
@@ -35,6 +36,7 @@ const DropSetFormModal = React.forwardRef<DropSetFormModal, DropSetFormModalProp
 
     const [visible, setVisible] = useState(false);
     const [openProps, setOpenProps] = useState<{ setId: string, dropsetId?: string } | null>(null);
+    const weightRef = useRef<RangedInputRef>(null)
 
     const set = useMemo(() => exercise.sets?.find((set) => set?.id === openProps?.setId), [openProps?.setId, exercise]);
     const { updateSetInExercise } = useUpdateSetInExercise(workoutId);
@@ -107,7 +109,7 @@ const DropSetFormModal = React.forwardRef<DropSetFormModal, DropSetFormModalProp
                             <View>
                                 <Label>חזרות</Label>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                    {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || REPS_UNITS[0].value })} />}
+                                    {showInput && <RangedInput onSubmitEditing={() => weightRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...(value || {}), ...val, unit: value?.unit || REPS_UNITS[0].value })} />}
                                     <Select containerStyle={{ width: 200 }} items={REPS_UNITS} defaultValue={value?.unit || "reps"} onChangeValue={handleChangeUnits} />
                                 </View>
                                 {error && <Text error>{error.message}</Text>}
@@ -132,7 +134,7 @@ const DropSetFormModal = React.forwardRef<DropSetFormModal, DropSetFormModalProp
                             <View>
                                 <Label>משקל</Label>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                    {showInput && <RangedInput value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />}
+                                    {showInput && <RangedInput ref={weightRef} onSubmitEditing={() => Keyboard.dismiss()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: value?.unit || WEIGHT_UNITS[0].value })} />}
                                     <Select containerStyle={{ width: 200 }} items={WEIGHT_UNITS} defaultValue={value?.unit || "kg"} onChangeValue={handleChangeUnits} />
                                 </View>
 

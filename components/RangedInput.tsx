@@ -1,5 +1,5 @@
 import TextInput, { TextInputProps, TextInputRef } from "./ui/TextInput";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Text from "./ui/Text";
 import { View } from "./ui/View";
 import { ParameterInput } from "@/graphql";
@@ -12,7 +12,11 @@ export type RangedInputProps = {
     returnKeyType?: TextInputRef['props']['returnKeyType']
 }
 
-const RangedInput: React.FC<RangedInputProps> = (props) => {
+export type RangedInputRef = {
+    focus: () => void;
+}
+
+const RangedInput = forwardRef<RangedInputRef, RangedInputProps>((props, ref) => {
 
     const [value, setValue] = useState<ParameterInput>(props.value || {});
     const [valRef, maxRef] = [useRef<TextInputRef>(null), useRef<TextInputRef>(null)];
@@ -20,6 +24,14 @@ const RangedInput: React.FC<RangedInputProps> = (props) => {
     useEffect(() => {
         setValue(props.value || {});
     }, [props.value])
+
+    useImperativeHandle(ref, () => {
+        return {
+            focus: () => {
+                valRef.current?.focus();
+            }
+        }
+    }, [valRef.current])
 
     const handleValueChange = (val?: string) => {
         if (!val) {
@@ -50,6 +62,6 @@ const RangedInput: React.FC<RangedInputProps> = (props) => {
             <TextInput returnKeyType={props.returnKeyType} selectTextOnFocus keyboardType="numeric" defaultValue={value.max ? String(value.max) : ""} ref={maxRef} onSubmitEditing={props.onSubmitEditing} onChangeText={handleMaxChange} style={{ width: 70, textAlign: 'center' }} />
         </View>
     );
-}
+})
 
 export default RangedInput;
