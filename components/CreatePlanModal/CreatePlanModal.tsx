@@ -1,11 +1,11 @@
 import { Controller } from "react-hook-form";
 import Modal from "../ui/Modal";
 import Text from "../ui/Text";
-import TextInput from "../ui/TextInput";
+import TextInput, { TextInputRef } from "../ui/TextInput";
 import { CreatePlanFormInput, useCreatePlanForm } from "./hooks/useCreatePlanForm";
 import { View } from "../ui/View";
 import Button from "../ui/Button";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { router } from "expo-router";
 import { useClub } from "@/features/club";
 import { useCreatePlan } from "@/features/plan";
@@ -25,6 +25,8 @@ const CreatePlanModal = forwardRef<CreatePlanModal, CreatePlanModalProps>(({ mem
     const [visible, setIsVisible] = useState(false);
     const { control, handleSubmit, formState: { isSubmitting } } = useCreatePlanForm();
     const { currentTrainer } = useClub();
+
+    const meetingsRef = useRef<TextInputRef>(null);
 
     const {
         createPlan: createPlanMutation,
@@ -61,7 +63,9 @@ const CreatePlanModal = forwardRef<CreatePlanModal, CreatePlanModalProps>(({ mem
                     return (
                         <View>
                             <Label>מספר שבועות</Label>
-                            <TextInput keyboardType="numeric" error={Boolean(error)} onChangeText={(text) => onChange(parseInt(text))} onBlur={onBlur} value={`${value || ""}`} />
+                            <TextInput
+                                onSubmitEditing={() => meetingsRef.current?.focus()}
+                                keyboardType="numeric" error={Boolean(error)} onChangeText={(text) => onChange(parseInt(text))} onBlur={onBlur} value={`${value || ""}`} />
                             {error && <Text error>{error.message}</Text>}
                         </View>
                     )
@@ -73,7 +77,7 @@ const CreatePlanModal = forwardRef<CreatePlanModal, CreatePlanModalProps>(({ mem
                     return (
                         <View>
                             <Label>מספר מפגשים</Label>
-                            <TextInput keyboardType="numeric" error={Boolean(error)} onChangeText={(text) => onChange(parseInt(text))} onBlur={onBlur} value={`${value || ""}`} />
+                            <TextInput ref={meetingsRef} keyboardType="numeric" error={Boolean(error)} onChangeText={(text) => onChange(parseInt(text))} onBlur={onBlur} value={`${value || ""}`} />
                             {error && <Text error>{error.message}</Text>}
                         </View>
                     )

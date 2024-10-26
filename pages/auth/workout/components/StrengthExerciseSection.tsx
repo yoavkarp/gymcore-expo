@@ -28,7 +28,7 @@ const StrengthExerciseSection: React.FC<StrengthExerciseSectionProps> = ({ exerc
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: theme.spacing.sm }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
                     <Text h1>{exercise.name}</Text>
-                    {exercise.notes ? <Text subtitle>{exercise.notes}</Text> : null}
+                    {exercise.notes ? <Text subtitle style={{ overflow: "scroll", width: 480 }} numberOfLines={1}>{exercise.notes}</Text> : null}
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
                     <Button error onPress={() => deleteModalRef.current?.open(() => deleteExerciseFromWorkout(exercise.id))}>מחיקה</Button>

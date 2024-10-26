@@ -1,6 +1,6 @@
 import { getMemberById } from "@/features/appsync/queries";
 import { useClub } from "@/features/club";
-import { CreatePlanInput, CreatePlanMutation, CreatePlanMutationVariables, useCreatePlanMutation } from "@/graphql";
+import { CreatePlanInput, CreatePlanMutation, CreatePlanMutationVariables, GetMemberByIdDocument, GetMemberByIdQuery, GetMemberByIdQueryVariables, useCreatePlanMutation } from "@/graphql";
 import { MutationHookOptions } from "@apollo/client";
 
 export function useCreatePlan(options?: MutationHookOptions<CreatePlanMutation, CreatePlanMutationVariables>) {
@@ -8,11 +8,26 @@ export function useCreatePlan(options?: MutationHookOptions<CreatePlanMutation, 
     const [createPlan, result] = useCreatePlanMutation({
         ...options,
         update(cache, { data }, opts) {
-            // const q = cache.read({
-            //     query: getMemberById,
-            //     variables: { id: opts.variables?.input.memberId },
-            //     optimistic: true
-            // })
+            const existingItems = cache.read<GetMemberByIdQuery, GetMemberByIdQueryVariables>({
+                query: GetMemberByIdDocument,
+                variables: { id: opts.variables?.input.memberId! },
+                optimistic: true
+            })
+
+            if (existingItems?.getMemberById)
+                cache.writeQuery<GetMemberByIdQuery, GetMemberByIdQueryVariables>({
+                    query: GetMemberByIdDocument,
+                    variables: { id: opts.variables?.input.memberId! },
+                    data: {
+                        getMemberById: {
+                            ...existingItems.getMemberById!,
+                            plans: {
+                                ...existingItems.getMemberById.plans,
+                                items: [...(existingItems?.getMemberById.plans?.items || []), data?.createPlan!],
+                            }
+                        }
+                    }
+                });
         }
     });
 
