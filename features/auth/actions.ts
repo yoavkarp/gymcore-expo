@@ -6,6 +6,7 @@ let userPool: CognitoUserPool | null = null;
 let initialized: boolean = false;
 let currentUser: CognitoUser | null = null;
 
+
 function withInitialized<T extends (...args: any[]) => any = () => any>(fn: T): (...args: Parameters<T>) => ReturnType<T> {
     return (...args) => {
         if (!initialized) {
@@ -111,7 +112,10 @@ export const signIn = withInitialized((username: string, clientMetadata?: Client
                 const result = handleOnSuccess(session, userConfirmationNecessary)
                 resolve(result);
             },
-            onFailure: reject,
+            onFailure: (err: Error) => {
+                console.error("GYMCORE", "features/auth/actions.ts", err, err.stack)
+                reject(err)
+            },
             mfaRequired: (challengeName, challengeParameters) => {
                 const result = handleMfaRequired(challengeName, challengeParameters);
                 resolve(result);

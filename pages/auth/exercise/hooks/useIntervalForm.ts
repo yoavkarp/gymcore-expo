@@ -10,6 +10,7 @@ export const createIntervalSchema = z.object({
     resistance: parameterInputSchema.optional(),
     rest: parameterInputSchema.optional(),
     tempo: parameterInputSchema.optional(),
+    target_heart_rate: parameterInputSchema.optional(),
 })
     .refine(data => {
         if (Object.keys(data).filter(d => data[d as keyof typeof data]).length === 0) {

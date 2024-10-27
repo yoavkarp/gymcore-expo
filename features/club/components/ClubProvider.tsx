@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { CreateTrainerInput, Gender, GetClubTrainersDocument, GetClubTrainersQuery, GetClubTrainersQueryResult, GetClubTrainersQueryVariables, Tenant, Trainer, useCreateTrainerMutation, useGetClubTrainersQuery } from "@/graphql";
 import { NetworkStatus } from "@apollo/client";
 import Modal from "@/components/ui/Modal";
-import Text from "@/components/ui/Text";
 import CreateTrainerModal from "@/components/CreateTrainerModal";
 import TrainerList from "@/components/TrainerList";
 import { useSession } from "@/features/auth";

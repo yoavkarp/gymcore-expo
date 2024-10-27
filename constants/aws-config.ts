@@ -15,8 +15,9 @@ const config: ResourcesConfig = {
         Cognito: {
             userPoolId: awsJson.UserPoolId,
             userPoolClientId: awsJson.UserPoolClientId,
+            identityPoolId: awsJson.IdentityPoolId,
         }
-    }
+    },
 };
 
 export default config;

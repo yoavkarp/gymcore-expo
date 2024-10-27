@@ -15,6 +15,11 @@ export function useAddExerciseToWorkout(workoutId: string, options?: MutationHoo
                 }
             });
 
+            console.log({
+                ...existingItems?.getWorkoutById!,
+                ...data?.addExerciseToWorkout
+            })
+
             if (existingItems?.getWorkoutById)
                 cache.writeQuery<GetWorkoutByIdQuery, GetWorkoutByIdQueryVariables>({
                     query: GetWorkoutByIdDocument,
@@ -28,6 +33,9 @@ export function useAddExerciseToWorkout(workoutId: string, options?: MutationHoo
                         }
                     }
                 });
+        },
+        onError(err) {
+            console.log("ERR FROM APOLO", err)
         }
     });
 

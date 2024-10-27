@@ -36,5 +36,6 @@ fragment CardioExerciseFragment on CardioExercise {
         angle { ...ParameterFragment }
         resistance { ...ParameterFragment }
         rest { ...ParameterFragment }
+        target_heart_rate { ...ParameterFragment }
     }
 }

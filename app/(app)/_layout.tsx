@@ -40,6 +40,7 @@ export default function Layout() {
         <Sidebar />
         <View style={{ flex: 1 }}>
           <Header />
+
           <View style={{ flex: 1, paddingHorizontal: theme.spacing.md }}>
             <Stack screenOptions={{ headerShown: false, navigationBarHidden: true, animation: "fade_from_bottom", contentStyle: { backgroundColor: theme.colors.background }, statusBarHidden: true }}>
               <Stack.Screen name="workout/[workoutId]" options={{ freezeOnBlur: true }} />

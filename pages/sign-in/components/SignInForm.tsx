@@ -26,12 +26,20 @@ const SignInForm = () => {
     });
 
     const onSubmit = async (input: SignInFormInput) => {
+        console.error("GYMCORE input is", input.username)
+
         if (z.string().email().safeParse(input.username).success) {
             // send to email
             alert("Send OTP To email doesnt set yet.")
         }
         else {
-            await signIn(`+972${input.username}`)
+            try {
+                console.log("GYMCORE", "try to sign in with", `+972${input.username}`)
+                await signIn(`+972${input.username}`)
+            }
+            catch (e) {
+                console.error("GYMCORE", e)
+            }
         }
 
     }

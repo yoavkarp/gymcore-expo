@@ -27,5 +27,13 @@ query GetPlanById($id: ID!) {
         member {
             name
         }
+        activeWorkouts {
+            items {
+                end_at
+                id
+                name
+            }
+            nextToken
+        }
     }
 }

@@ -10,12 +10,15 @@ import IntervalFormModal from './IntervalFormModal';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useWorkout } from '@/features/workout';
 import { useDeleteIntervalFromExercise } from '@/features/workout/hooks/api/useDeleteIntervalFromExercise';
+import { useAddIntervalToExercise } from '@/features/workout/hooks/api/useAddIntervalToExercise';
+import { removeTypename } from '@/utils/remove-typename';
 
 type IntervalsListProps = {
     onSelectInterval?: (setId: string) => void;
+    intervalFormModalRef: React.RefObject<IntervalFormModal>
 }
 
-const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval }) => {
+const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval, intervalFormModalRef }) => {
 
     const { workoutId } = useWorkout();
     const { exercise } = useExercise();
@@ -23,8 +26,7 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval }) => {
 
     const { deleteIntervalFromExercise } = useDeleteIntervalFromExercise(workoutId);
 
-    const intervalFormModalRef = useRef<IntervalFormModal>(null);
-
+    const { addIntervalToExercise } = useAddIntervalToExercise(workoutId);
     const handleIntervalPressed = (setId: string) => {
         setSelectedIntervalId(setId);
         onSelectInterval?.(setId);
@@ -38,83 +40,104 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval }) => {
         <View style={Styles.container}>
             <View>
                 <View style={Styles.header}>
-                    <View style={[{ flex: 0.1 }]}>
+                    <View style={[{ flex: 0.05 }]}>
                         <Text style={Styles.thText} center>#</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 8 }]}>
+                    <View style={[{ flex: 0.95 / 9 }]}>
                         <Text style={Styles.thText} center >מרחק</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 8 }]}>
+                    <View style={[{ flex: 0.95 / 9 }]}>
                         <Text style={Styles.thText} center>משך</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 8 }]}>
+                    <View style={[{ flex: 0.95 / 9 }]}>
                         <Text style={Styles.thText} center>קצב</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 8 }]}>
+                    <View style={[{ flex: 0.95 / 9 }]}>
                         <Text style={Styles.thText} center>עצימות</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 8 }]}>
+                    <View style={[{ flex: 0.95 / 9 }]}>
+                        <Text style={Styles.thText} center>דופק מטרה</Text>
+                    </View>
+                    <View style={[{ flex: 0.95 / 9 }]}>
                         <Text style={Styles.thText} center>שיפוע</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 8 }]}>
+                    <View style={[{ flex: 0.95 / 9 }]}>
                         <Text style={Styles.thText} center>התנגדות</Text>
                     </View>
-                    <View style={[{ flex: 0.9 / 8 }]}>
+                    <View style={[{ flex: 0.95 / 9 }]}>
                         <Text style={Styles.thText} center>מנוחה</Text>
                     </View>
-                    <View style={{ flex: 0.9 / 8 }} />
+                    <View style={{ flex: 0.12 }} />
                 </View>
                 <FlatList
                     removeClippedSubviews
                     data={exercise.intervals}
+                    style={{ maxHeight: 340 }}
                     keyExtractor={(item) => item?.id!}
                     renderItem={({ item, index }) => (
                         <TouchableOpacity onPress={() => handleIntervalPressed(item?.id!)} style={[Styles.tr, selectedIntervalId === item?.id && Styles.selectedTr]}>
-                            <View style={{ flex: 0.1 }}>
+                            <View style={{ flex: 0.05 }}>
                                 <Text center>{index + 1}</Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8 }}>
+                            <View style={{ flex: 0.95 / 9 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.distance)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8 }}>
+                            <View style={{ flex: 0.95 / 9 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.duration)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8 }}>
+                            <View style={{ flex: 0.95 / 9 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.tempo)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8 }}>
+                            <View style={{ flex: 0.95 / 9 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.intensity)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8 }}>
+                            <View style={{ flex: 0.95 / 9 }}>
+                                <Text center style={Styles.tdText}>
+                                    {parameterToString(item?.target_heart_rate)}
+                                </Text>
+                            </View>
+                            <View style={{ flex: 0.95 / 9 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.resistance)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8 }}>
+                            <View style={{ flex: 0.95 / 9 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.angle)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8 }}>
+                            <View style={{ flex: 0.95 / 9 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.rest)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 8, flexDirection: 'row', gap: theme.spacing.sm }}>
-                                <Button onPress={() => intervalFormModalRef.current?.open(item?.id)}>
-                                    <Ionicons name="pencil-sharp" size={20} />
-                                </Button>
-                                <Button error onPress={() => deleteIntervalFromExercise(exercise.id, item?.id!)}>
-                                    <Ionicons name="trash" size={20} />
-                                </Button>
+                            <View style={{ flex: 0.12, flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => intervalFormModalRef.current?.open(item?.id)}>
+                                    <Ionicons color={'white'} name="pencil-sharp" size={20} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.error, borderRadius: 8 }} onPress={() => deleteIntervalFromExercise(exercise.id, item?.id!)}>
+                                    <Ionicons color="white" name="trash" size={20} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => addIntervalToExercise(exercise.id, removeTypename({
+                                    intensity: item?.intensity,
+                                    distance: item?.distance,
+                                    duration: item?.duration,
+                                    tempo: item?.tempo,
+                                    target_heart_rate: item?.target_heart_rate,
+                                    resistance: item?.resistance,
+                                    angle: item?.angle,
+                                    rest: item?.rest,
+                                }))}>
+                                    <Ionicons color="white" name="copy" size={20} />
+                                </TouchableOpacity>
                             </View>
                         </TouchableOpacity>
                     )}

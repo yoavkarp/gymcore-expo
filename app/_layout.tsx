@@ -1,3 +1,4 @@
+import '@/initialize';
 import { AppSyncProvider } from "@/features/appsync";
 import { Slot, SplashScreen } from "expo-router";
 import { useEffect, useMemo } from "react";

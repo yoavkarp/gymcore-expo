@@ -8,8 +8,8 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
-export const createMeasurement = /* GraphQL */ `mutation CreateMeasurement($input: CreateMeasurementInput!) {
-  createMeasurement(input: $input) {
+export const test = /* GraphQL */ `mutation Test($input: CreateMeasurementInput!) {
+  test(input: $input) {
     id
     tenantId
     created_at
@@ -23,10 +23,7 @@ export const createMeasurement = /* GraphQL */ `mutation CreateMeasurement($inpu
     __typename
   }
 }
-` as GeneratedMutation<
-  APITypes.CreateMeasurementMutationVariables,
-  APITypes.CreateMeasurementMutation
->;
+` as GeneratedMutation<APITypes.TestMutationVariables, APITypes.TestMutation>;
 export const createMeasurementForMember = /* GraphQL */ `mutation CreateMeasurementForMember(
   $memberId: ID!
   $input: CreateMeasurementInput!
@@ -101,6 +98,18 @@ export const createMember = /* GraphQL */ `mutation CreateMember($input: CreateM
       nextToken
       __typename
     }
+    tenant {
+      id
+      name
+      email
+      phone_number
+      profile_picture
+      address
+      created_at
+      updated_at
+      __typename
+    }
+    picture
     __typename
   }
 }
@@ -120,6 +129,7 @@ export const createTrainer = /* GraphQL */ `mutation CreateTrainer($input: Creat
     birthdate
     gender
     address
+    picture
     __typename
   }
 }
@@ -191,9 +201,28 @@ export const createPlan = /* GraphQL */ `mutation CreatePlan($trainerId: ID!, $i
       gender
       registered
       status
+      picture
+      __typename
+    }
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    activeWorkouts {
       nextToken
       __typename
     }
@@ -234,9 +263,28 @@ export const deletePlan = /* GraphQL */ `mutation DeletePlan($planId: ID!) {
       gender
       registered
       status
+      picture
+      __typename
+    }
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    activeWorkouts {
       nextToken
       __typename
     }
@@ -279,6 +327,20 @@ export const createWorkout = /* GraphQL */ `mutation CreateWorkout($trainerId: I
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -322,6 +384,20 @@ export const updateWorkout = /* GraphQL */ `mutation UpdateWorkout(
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -361,6 +437,20 @@ export const deleteWorkout = /* GraphQL */ `mutation DeleteWorkout($workoutId: I
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -408,6 +498,20 @@ export const addExerciseToWorkout = /* GraphQL */ `mutation AddExerciseToWorkout
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -457,6 +561,20 @@ export const updateExerciseInWorkout = /* GraphQL */ `mutation UpdateExerciseInW
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -504,6 +622,20 @@ export const deleteExerciseFromWorkout = /* GraphQL */ `mutation DeleteExerciseF
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -553,6 +685,20 @@ export const addSetToExercise = /* GraphQL */ `mutation AddSetToExercise(
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -604,6 +750,20 @@ export const updateSetInExercise = /* GraphQL */ `mutation UpdateSetInExercise(
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -653,6 +813,20 @@ export const deleteSetFromExercise = /* GraphQL */ `mutation DeleteSetFromExerci
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -702,6 +876,20 @@ export const addIntervalToExercise = /* GraphQL */ `mutation AddIntervalToExerci
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -753,6 +941,20 @@ export const updateIntervalInExercise = /* GraphQL */ `mutation UpdateIntervalIn
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -802,6 +1004,20 @@ export const deleteIntervalFromExercise = /* GraphQL */ `mutation DeleteInterval
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -841,6 +1057,20 @@ export const addWorkoutToLibrary = /* GraphQL */ `mutation AddWorkoutToLibrary($
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -888,6 +1118,20 @@ export const importWorkoutFromLibrary = /* GraphQL */ `mutation ImportWorkoutFro
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -939,6 +1183,20 @@ export const moveSetInExercise = /* GraphQL */ `mutation MoveSetInExercise(
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -990,6 +1248,20 @@ export const moveIntervalInExercise = /* GraphQL */ `mutation MoveIntervalInExer
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -1039,12 +1311,250 @@ export const moveExerciseInWorkout = /* GraphQL */ `mutation MoveExerciseInWorko
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
 ` as GeneratedMutation<
   APITypes.MoveExerciseInWorkoutMutationVariables,
   APITypes.MoveExerciseInWorkoutMutation
+>;
+export const startActiveWorkout = /* GraphQL */ `mutation StartActiveWorkout($workoutId: ID!) {
+  startActiveWorkout(workoutId: $workoutId) {
+    id
+    tenantId
+    clubId
+    workoutId
+    created_at
+    updated_at
+    started_at
+    end_at
+    name
+    exercises {
+      ... on ActiveStrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on ActiveCardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    memberId
+    planId
+    notes
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.StartActiveWorkoutMutationVariables,
+  APITypes.StartActiveWorkoutMutation
+>;
+export const endActiveWorkout = /* GraphQL */ `mutation EndActiveWorkout {
+  endActiveWorkout {
+    id
+    tenantId
+    clubId
+    workoutId
+    created_at
+    updated_at
+    started_at
+    end_at
+    name
+    exercises {
+      ... on ActiveStrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on ActiveCardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    memberId
+    planId
+    notes
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.EndActiveWorkoutMutationVariables,
+  APITypes.EndActiveWorkoutMutation
+>;
+export const endActiveWorkoutInterval = /* GraphQL */ `mutation EndActiveWorkoutInterval($input: EndIntervalInput!) {
+  endActiveWorkoutInterval(input: $input) {
+    id
+    tenantId
+    clubId
+    workoutId
+    created_at
+    updated_at
+    started_at
+    end_at
+    name
+    exercises {
+      ... on ActiveStrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on ActiveCardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    memberId
+    planId
+    notes
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.EndActiveWorkoutIntervalMutationVariables,
+  APITypes.EndActiveWorkoutIntervalMutation
+>;
+export const endActiveWorkoutSet = /* GraphQL */ `mutation EndActiveWorkoutSet($input: EndSetInput!) {
+  endActiveWorkoutSet(input: $input) {
+    id
+    tenantId
+    clubId
+    workoutId
+    created_at
+    updated_at
+    started_at
+    end_at
+    name
+    exercises {
+      ... on ActiveStrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on ActiveCardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    memberId
+    planId
+    notes
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.EndActiveWorkoutSetMutationVariables,
+  APITypes.EndActiveWorkoutSetMutation
+>;
+export const endActiveWorkoutDropset = /* GraphQL */ `mutation EndActiveWorkoutDropset($input: EndDropsetInput!) {
+  endActiveWorkoutDropset(input: $input) {
+    id
+    tenantId
+    clubId
+    workoutId
+    created_at
+    updated_at
+    started_at
+    end_at
+    name
+    exercises {
+      ... on ActiveStrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on ActiveCardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    memberId
+    planId
+    notes
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.EndActiveWorkoutDropsetMutationVariables,
+  APITypes.EndActiveWorkoutDropsetMutation
+>;
+export const createMeasurement = /* GraphQL */ `mutation CreateMeasurement($input: CreateMeasurementInput!) {
+  createMeasurement(input: $input) {
+    id
+    tenantId
+    created_at
+    updated_at
+    memberId
+    clubId
+    weight
+    height
+    fat
+    heart_rate
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMeasurementMutationVariables,
+  APITypes.CreateMeasurementMutation
 >;
 export const register = /* GraphQL */ `mutation Register($input: RegisterInput!) {
   register(input: $input) {
@@ -1098,6 +1608,18 @@ export const register = /* GraphQL */ `mutation Register($input: RegisterInput!)
       nextToken
       __typename
     }
+    tenant {
+      id
+      name
+      email
+      phone_number
+      profile_picture
+      address
+      created_at
+      updated_at
+      __typename
+    }
+    picture
     __typename
   }
 }
@@ -1157,6 +1679,18 @@ export const updateMemberProfile = /* GraphQL */ `mutation UpdateMemberProfile($
       nextToken
       __typename
     }
+    tenant {
+      id
+      name
+      email
+      phone_number
+      profile_picture
+      address
+      created_at
+      updated_at
+      __typename
+    }
+    picture
     __typename
   }
 }

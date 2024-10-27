@@ -42,7 +42,10 @@
     },
     "extra": {
       "supportsRTL": true,
-      "forceRTL": true
+      "forceRTL": true,
+      "eas": {
+        "projectId": "6c68e4ce-0159-4172-bb79-d141c05bca5d"
+      }
     },
     "experiments": {
       "typedRoutes": true

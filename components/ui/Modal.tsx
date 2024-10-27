@@ -8,6 +8,7 @@ export type ModalProps = ViewProps & {
     visible?: MP['visible'];
     dismissable?: boolean;
     onDismiss?: () => any;
+    width?: number;
 }
 
 const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, ...props }) => {
@@ -24,7 +25,7 @@ const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, 
             onRequestClose={onDismiss}
         >
             <TouchableOpacity style={_styles.modalBackground} onPress={dismissable ? onDismiss : undefined} activeOpacity={0.9}>
-                <View {...props} style={[_styles.modalContent, props.style]} />
+                <View {...props} style={[_styles.modalContent, props.style, Boolean(props.width) && { width: props.width }]} />
             </TouchableOpacity>
         </M>
     );

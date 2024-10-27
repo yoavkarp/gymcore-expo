@@ -1,12 +1,10 @@
-import { Trainer } from "@/graphql";
-import { FlatList } from "react-native";
+
 import List from "./ui/List";
 import { View } from "./ui/View";
 import Text from "./ui/Text";
 import Button from "./ui/Button";
 import CloseButton from "./ui/CloseButton";
-import { useClub } from "@/features/club";
-
+import { useClub } from "@/features/club/components/ClubProvider";
 
 const TrainerList: React.FC = () => {
 

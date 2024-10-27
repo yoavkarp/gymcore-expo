@@ -38,6 +38,7 @@ export const getTrainerById = /* GraphQL */ `query GetTrainerById($trainerId: ID
     birthdate
     gender
     address
+    picture
     __typename
   }
 }
@@ -91,6 +92,20 @@ export const getWorkoutById = /* GraphQL */ `query GetWorkoutById($workoutId: ID
       }
     }
     library
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
+      __typename
+    }
     __typename
   }
 }
@@ -110,6 +125,7 @@ export const getClubTrainers = /* GraphQL */ `query GetClubTrainers {
     birthdate
     gender
     address
+    picture
     __typename
   }
 }
@@ -169,6 +185,18 @@ export const getMemberById = /* GraphQL */ `query GetMemberById($memberId: ID!) 
       nextToken
       __typename
     }
+    tenant {
+      id
+      name
+      email
+      phone_number
+      profile_picture
+      address
+      created_at
+      updated_at
+      __typename
+    }
+    picture
     __typename
   }
 }
@@ -206,9 +234,28 @@ export const getPlanById = /* GraphQL */ `query GetPlanById($planId: ID!) {
       gender
       registered
       status
+      picture
+      __typename
+    }
+    trainer {
+      id
+      tenantId
+      created_at
+      updated_at
+      phone_number
+      name
+      email
+      birthdate
+      gender
+      address
+      picture
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    activeWorkouts {
       nextToken
       __typename
     }
@@ -371,10 +418,159 @@ export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) 
       nextToken
       __typename
     }
+    tenant {
+      id
+      name
+      email
+      phone_number
+      profile_picture
+      address
+      created_at
+      updated_at
+      __typename
+    }
+    picture
     __typename
   }
 }
 ` as GeneratedQuery<
   APITypes.SearchMembersQueryVariables,
   APITypes.SearchMembersQuery
+>;
+export const getActiveWorkout = /* GraphQL */ `query GetActiveWorkout {
+  getActiveWorkout {
+    id
+    tenantId
+    clubId
+    workoutId
+    created_at
+    updated_at
+    started_at
+    end_at
+    name
+    exercises {
+      ... on ActiveStrengthExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+      ... on ActiveCardioExercise {
+        id
+        xid
+        name
+        type
+        notes
+        machine_number
+        seat_height
+      }
+    }
+    memberId
+    planId
+    notes
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetActiveWorkoutQueryVariables,
+  APITypes.GetActiveWorkoutQuery
+>;
+export const getCurrentMember = /* GraphQL */ `query GetCurrentMember {
+  getCurrentMember {
+    id
+    tenantId
+    created_at
+    updated_at
+    name
+    email
+    phone_number
+    profile_picture
+    address
+    birthdate
+    gender
+    registered
+    status
+    measurement {
+      id
+      tenantId
+      created_at
+      updated_at
+      memberId
+      clubId
+      weight
+      height
+      fat
+      heart_rate
+      __typename
+    }
+    goal {
+      id
+      tenantId
+      created_at
+      updated_at
+      memberId
+      clubId
+      title
+      weight
+      height
+      fat
+      heart_rate
+      completed
+      completed_at
+      __typename
+    }
+    profile_workouts {
+      nextToken
+      __typename
+    }
+    plans {
+      nextToken
+      __typename
+    }
+    tenant {
+      id
+      name
+      email
+      phone_number
+      profile_picture
+      address
+      created_at
+      updated_at
+      __typename
+    }
+    picture
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetCurrentMemberQueryVariables,
+  APITypes.GetCurrentMemberQuery
+>;
+export const listActiveWorkoutsHistory = /* GraphQL */ `query ListActiveWorkoutsHistory {
+  listActiveWorkoutsHistory {
+    items {
+      id
+      tenantId
+      clubId
+      workoutId
+      created_at
+      updated_at
+      started_at
+      end_at
+      name
+      memberId
+      planId
+      notes
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListActiveWorkoutsHistoryQueryVariables,
+  APITypes.ListActiveWorkoutsHistoryQuery
 >;

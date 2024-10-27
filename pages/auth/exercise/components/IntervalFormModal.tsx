@@ -39,7 +39,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
     const exercise = _exercise as CardioExercise;
 
 
-    const [tempoRef, intensityRef, angleRef, resistanceRef, restRef, ref6] = [useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null)]
+    const [tempoRef, intensityRef, angleRef, resistanceRef, restRef, target_heart_rateRef] = [useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null), useRef<RangedInputRef>(null)]
 
     const { workout, workoutId } = useWorkout();
     const { addIntervalToExercise, result: addIntervalToExerciseResult } = useAddIntervalToExercise(workoutId);
@@ -79,6 +79,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
                         duration: interval?.duration || undefined,
                         intensity: interval?.intensity || undefined,
                         tempo: interval?.tempo || undefined,
+                        target_heart_rate: interval?.target_heart_rate || undefined
                     })
                 }
                 else {
@@ -94,7 +95,7 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
     }, [visible])
 
     return (
-        <Modal onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
+        <Modal width={600} onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text h1>{openProps?.intervalId ? 'עריכת אינטרוול קיים' : 'הוספת אינטרוול'}</Text>
                 <CloseButton onPress={() => setVisible(false)} />
@@ -133,48 +134,69 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
 
             />
 
-            <Controller control={control} name="intensity"
-                render={({ field: { onChange, value }, fieldState: { error } }) => {
-                    return (
-                        <View>
-                            <Label>עצימות</Label>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput ref={intensityRef} onSubmitEditing={() => angleRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: "%" })} />
-                                <Text>%</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Controller control={control} name="intensity"
+                    render={({ field: { onChange, value }, fieldState: { error } }) => {
+                        return (
+                            <View style={{ flex: 0.5 }}>
+                                <Label>עצימות</Label>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                    <RangedInput ref={intensityRef} onSubmitEditing={() => target_heart_rateRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: "%" })} />
+                                    <Text>%</Text>
+                                </View>
+                                {error && <Text error>{error.message}</Text>}
                             </View>
-                            {error && <Text error>{error.message}</Text>}
-                        </View>
-                    )
-                }}
-            />
+                        )
+                    }}
+                />
 
-            <Controller control={control} name="angle"
-                render={({ field: { onChange, value }, fieldState: { error } }) => {
-                    return (
-                        <View>
-                            <Label>שיפוע</Label>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput ref={angleRef} onSubmitEditing={() => resistanceRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val })} />
+                <Controller control={control} name="target_heart_rate"
+                    render={({ field: { onChange, value }, fieldState: { error } }) => {
+                        return (
+                            <View style={{ flex: 0.5 }}>
+                                <Label>דופק מטרה</Label>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                    <RangedInput ref={target_heart_rateRef} onSubmitEditing={() => angleRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val, unit: "BPM" })} />
+                                    <Text>BPM</Text>
+                                </View>
+                                {error && <Text error>{error.message}</Text>}
                             </View>
-                            {error && <Text error>{error.message}</Text>}
-                        </View>
-                    )
-                }}
-            />
+                        )
+                    }}
+                />
 
-            <Controller control={control} name="resistance"
-                render={({ field: { onChange, value }, fieldState: { error } }) => {
-                    return (
-                        <View>
-                            <Label>התנגדות</Label>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                                <RangedInput ref={resistanceRef} onSubmitEditing={() => restRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val })} />
+            </View>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+                <Controller control={control} name="angle"
+                    render={({ field: { onChange, value }, fieldState: { error } }) => {
+                        return (
+                            <View style={{ flex: 0.5 }}>
+                                <Label>שיפוע</Label>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                    <RangedInput ref={angleRef} onSubmitEditing={() => resistanceRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val })} />
+                                </View>
+                                {error && <Text error>{error.message}</Text>}
                             </View>
-                            {error && <Text error>{error.message}</Text>}
-                        </View>
-                    )
-                }}
-            />
+                        )
+                    }}
+                />
+
+                <Controller control={control} name="resistance"
+                    render={({ field: { onChange, value }, fieldState: { error } }) => {
+                        return (
+                            <View style={{ flex: 0.5 }}>
+                                <Label>התנגדות</Label>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                    <RangedInput ref={resistanceRef} onSubmitEditing={() => restRef.current?.focus()} value={value} onChangeValue={(val) => onChange({ ...value, ...val })} />
+                                </View>
+                                {error && <Text error>{error.message}</Text>}
+                            </View>
+                        )
+                    }}
+                />
+            </View>
 
             <Controller control={control} name="rest"
                 render={({ field: { onChange, value }, fieldState: { error }, }) => (

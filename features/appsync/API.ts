@@ -57,6 +57,7 @@ export type Trainer = {
   birthdate: string,
   gender: Gender,
   address?: string | null,
+  picture?: string | null,
 };
 
 export enum Gender {
@@ -79,6 +80,7 @@ export type Workout = {
   notes?: string | null,
   exercises?:  Array<Exercise > | null,
   library?: boolean | null,
+  trainer?: Trainer | null,
 };
 
 export type Exercise = StrengthExercise | CardioExercise
@@ -138,6 +140,7 @@ export type CardioExercise = {
   seat_height?: string | null,
   angle?: Parameter | null,
   resistance?: Parameter | null,
+  target_heart_rate?: Parameter | null,
   intervals?:  Array<CardioExerciseInterval | null > | null,
 };
 
@@ -151,6 +154,7 @@ export type CardioExerciseInterval = {
   angle?: Parameter | null,
   resistance?: Parameter | null,
   rest?: Parameter | null,
+  target_heart_rate?: Parameter | null,
 };
 
 export type Member = {
@@ -172,6 +176,8 @@ export type Member = {
   goal?: Goal | null,
   profile_workouts?: WorkoutConnection | null,
   plans?: PlanConnection | null,
+  tenant?: Tenant | null,
+  picture?: string | null,
 };
 
 export type Goal = {
@@ -217,7 +223,9 @@ export type Plan = {
   created_at: string,
   updated_at: string,
   member?: Member | null,
+  trainer?: Trainer | null,
   events?: EventConnection | null,
+  activeWorkouts?: ActiveWorkoutConnection | null,
 };
 
 export type EventConnection = {
@@ -234,6 +242,109 @@ export type Event = {
   trainerId: string,
   memberId: string,
   start_at: string,
+  created_at: string,
+  updated_at: string,
+};
+
+export type ActiveWorkoutConnection = {
+  __typename: "ActiveWorkoutConnection",
+  items?:  Array<ActiveWorkout > | null,
+  nextToken?: string | null,
+};
+
+export type ActiveWorkout = {
+  __typename: "ActiveWorkout",
+  id: string,
+  tenantId: string,
+  clubId: string,
+  workoutId: string,
+  created_at: string,
+  updated_at: string,
+  started_at: string,
+  end_at?: string | null,
+  name: string,
+  exercises?:  Array<ActiveExercise > | null,
+  memberId: string,
+  planId?: string | null,
+  notes?: string | null,
+};
+
+export type ActiveExercise = ActiveStrengthExercise | ActiveCardioExercise
+
+
+export type ActiveStrengthExercise = {
+  __typename: "ActiveStrengthExercise",
+  id: string,
+  xid: string,
+  name: string,
+  type: ExerciseType,
+  notes?: string | null,
+  machine_number?: string | null,
+  seat_height?: string | null,
+  angle?: ActiveParameter | null,
+  resistance?: ActiveParameter | null,
+  sets?:  Array<ActiveStrengthExerciseSet | null > | null,
+};
+
+export type ActiveParameter = {
+  __typename: "ActiveParameter",
+  val?: number | null,
+  max?: number | null,
+  unit?: string | null,
+  done?: number | null,
+};
+
+export type ActiveStrengthExerciseSet = {
+  __typename: "ActiveStrengthExerciseSet",
+  id: string,
+  reps?: ActiveParameter | null,
+  rest?: ActiveParameter | null,
+  weight?: ActiveParameter | null,
+  dropsets?:  Array<ActiveStrengthExerciseDropSet > | null,
+};
+
+export type ActiveStrengthExerciseDropSet = {
+  __typename: "ActiveStrengthExerciseDropSet",
+  id: string,
+  reps?: ActiveParameter | null,
+  weight?: ActiveParameter | null,
+};
+
+export type ActiveCardioExercise = {
+  __typename: "ActiveCardioExercise",
+  id: string,
+  xid: string,
+  name: string,
+  type: ExerciseType,
+  notes?: string | null,
+  machine_number?: string | null,
+  seat_height?: string | null,
+  angle?: ActiveParameter | null,
+  resistance?: ActiveParameter | null,
+  target_heart_rate?: ActiveParameter | null,
+  intervals?:  Array<ActiveCardioExerciseInterval | null > | null,
+};
+
+export type ActiveCardioExerciseInterval = {
+  __typename: "ActiveCardioExerciseInterval",
+  id: string,
+  duration?: ActiveParameter | null,
+  distance?: ActiveParameter | null,
+  tempo?: ActiveParameter | null,
+  intensity?: ActiveParameter | null,
+  angle?: ActiveParameter | null,
+  resistance?: ActiveParameter | null,
+  rest?: ActiveParameter | null,
+};
+
+export type Tenant = {
+  __typename: "Tenant",
+  id: string,
+  name: string,
+  email: string,
+  phone_number: string,
+  profile_picture: string,
+  address: string,
   created_at: string,
   updated_at: string,
 };
@@ -333,11 +444,41 @@ export type IntervalInput = {
   angle?: ParameterInput | null,
   resistance?: ParameterInput | null,
   rest?: ParameterInput | null,
+  target_heart_rate?: ParameterInput | null,
 };
 
 export type ImportWorkoutFromLibraryInput = {
   memberId?: string | null,
   planId?: string | null,
+};
+
+export type EndIntervalInput = {
+  exerciseId: string,
+  intervalId: string,
+  duration?: number | null,
+  distance?: number | null,
+  tempo?: number | null,
+  intensity?: number | null,
+  angle?: number | null,
+  resistance?: number | null,
+  rest?: number | null,
+  target_heart_rate?: number | null,
+};
+
+export type EndSetInput = {
+  exerciseId: string,
+  setId: string,
+  weight?: number | null,
+  rest?: number | null,
+  reps?: number | null,
+};
+
+export type EndDropsetInput = {
+  exerciseId: string,
+  setId: string,
+  dropsetId: string,
+  weight?: number | null,
+  reps?: number | null,
 };
 
 export type RegisterInput = {
@@ -356,26 +497,15 @@ export type UpdateMemberProfileInput = {
   address?: string | null,
   birthdate?: string | null,
   gender?: Gender | null,
+  picture?: string | null,
 };
 
-export type Tenant = {
-  __typename: "Tenant",
-  id: string,
-  name: string,
-  email: string,
-  phone_number: string,
-  profile_picture: string,
-  address: string,
-  created_at: string,
-  updated_at: string,
-};
-
-export type CreateMeasurementMutationVariables = {
+export type TestMutationVariables = {
   input: CreateMeasurementInput,
 };
 
-export type CreateMeasurementMutation = {
-  createMeasurement?:  {
+export type TestMutation = {
+  test?:  {
     __typename: "Measurement",
     id: string,
     tenantId: string,
@@ -468,6 +598,18 @@ export type CreateMemberMutation = {
       __typename: "PlanConnection",
       nextToken?: string | null,
     } | null,
+    tenant?:  {
+      __typename: "Tenant",
+      id: string,
+      name: string,
+      email: string,
+      phone_number: string,
+      profile_picture: string,
+      address: string,
+      created_at: string,
+      updated_at: string,
+    } | null,
+    picture?: string | null,
   } | null,
 };
 
@@ -488,6 +630,7 @@ export type CreateTrainerMutation = {
     birthdate: string,
     gender: Gender,
     address?: string | null,
+    picture?: string | null,
   } | null,
 };
 
@@ -564,9 +707,28 @@ export type CreatePlanMutation = {
       gender?: string | null,
       registered?: boolean | null,
       status?: string | null,
+      picture?: string | null,
+    } | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
     } | null,
     events?:  {
       __typename: "EventConnection",
+      nextToken?: string | null,
+    } | null,
+    activeWorkouts?:  {
+      __typename: "ActiveWorkoutConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -608,9 +770,28 @@ export type DeletePlanMutation = {
       gender?: string | null,
       registered?: boolean | null,
       status?: string | null,
+      picture?: string | null,
+    } | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
     } | null,
     events?:  {
       __typename: "EventConnection",
+      nextToken?: string | null,
+    } | null,
+    activeWorkouts?:  {
+      __typename: "ActiveWorkoutConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -654,6 +835,20 @@ export type CreateWorkoutMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -696,6 +891,20 @@ export type UpdateWorkoutMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -736,6 +945,20 @@ export type DeleteWorkoutMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -778,6 +1001,20 @@ export type AddExerciseToWorkoutMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -821,6 +1058,20 @@ export type UpdateExerciseInWorkoutMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -863,6 +1114,20 @@ export type DeleteExerciseFromWorkoutMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -906,6 +1171,20 @@ export type AddSetToExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -950,6 +1229,20 @@ export type UpdateSetInExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -993,6 +1286,20 @@ export type DeleteSetFromExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1036,6 +1343,20 @@ export type AddIntervalToExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1080,6 +1401,20 @@ export type UpdateIntervalInExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1123,6 +1458,20 @@ export type DeleteIntervalFromExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1164,6 +1513,20 @@ export type AddWorkoutToLibraryMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1206,6 +1569,20 @@ export type ImportWorkoutFromLibraryMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1250,6 +1627,20 @@ export type MoveSetInExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1294,6 +1685,20 @@ export type MoveIntervalInExerciseMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1337,6 +1742,249 @@ export type MoveExerciseInWorkoutMutation = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
+  } | null,
+};
+
+export type StartActiveWorkoutMutationVariables = {
+  workoutId: string,
+};
+
+export type StartActiveWorkoutMutation = {
+  startActiveWorkout?:  {
+    __typename: "ActiveWorkout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    workoutId: string,
+    created_at: string,
+    updated_at: string,
+    started_at: string,
+    end_at?: string | null,
+    name: string,
+    exercises:  Array<( {
+        __typename: "ActiveStrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "ActiveCardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+    memberId: string,
+    planId?: string | null,
+    notes?: string | null,
+  } | null,
+};
+
+export type EndActiveWorkoutMutationVariables = {
+};
+
+export type EndActiveWorkoutMutation = {
+  endActiveWorkout?:  {
+    __typename: "ActiveWorkout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    workoutId: string,
+    created_at: string,
+    updated_at: string,
+    started_at: string,
+    end_at?: string | null,
+    name: string,
+    exercises:  Array<( {
+        __typename: "ActiveStrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "ActiveCardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+    memberId: string,
+    planId?: string | null,
+    notes?: string | null,
+  } | null,
+};
+
+export type EndActiveWorkoutIntervalMutationVariables = {
+  input: EndIntervalInput,
+};
+
+export type EndActiveWorkoutIntervalMutation = {
+  endActiveWorkoutInterval?:  {
+    __typename: "ActiveWorkout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    workoutId: string,
+    created_at: string,
+    updated_at: string,
+    started_at: string,
+    end_at?: string | null,
+    name: string,
+    exercises:  Array<( {
+        __typename: "ActiveStrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "ActiveCardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+    memberId: string,
+    planId?: string | null,
+    notes?: string | null,
+  } | null,
+};
+
+export type EndActiveWorkoutSetMutationVariables = {
+  input: EndSetInput,
+};
+
+export type EndActiveWorkoutSetMutation = {
+  endActiveWorkoutSet?:  {
+    __typename: "ActiveWorkout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    workoutId: string,
+    created_at: string,
+    updated_at: string,
+    started_at: string,
+    end_at?: string | null,
+    name: string,
+    exercises:  Array<( {
+        __typename: "ActiveStrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "ActiveCardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+    memberId: string,
+    planId?: string | null,
+    notes?: string | null,
+  } | null,
+};
+
+export type EndActiveWorkoutDropsetMutationVariables = {
+  input: EndDropsetInput,
+};
+
+export type EndActiveWorkoutDropsetMutation = {
+  endActiveWorkoutDropset?:  {
+    __typename: "ActiveWorkout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    workoutId: string,
+    created_at: string,
+    updated_at: string,
+    started_at: string,
+    end_at?: string | null,
+    name: string,
+    exercises:  Array<( {
+        __typename: "ActiveStrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "ActiveCardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+    memberId: string,
+    planId?: string | null,
+    notes?: string | null,
+  } | null,
+};
+
+export type CreateMeasurementMutationVariables = {
+  input: CreateMeasurementInput,
+};
+
+export type CreateMeasurementMutation = {
+  createMeasurement?:  {
+    __typename: "Measurement",
+    id: string,
+    tenantId: string,
+    created_at: string,
+    updated_at: string,
+    memberId: string,
+    clubId?: string | null,
+    weight?: number | null,
+    height?: number | null,
+    fat?: number | null,
+    heart_rate?: number | null,
   } | null,
 };
 
@@ -1397,6 +2045,18 @@ export type RegisterMutation = {
       __typename: "PlanConnection",
       nextToken?: string | null,
     } | null,
+    tenant?:  {
+      __typename: "Tenant",
+      id: string,
+      name: string,
+      email: string,
+      phone_number: string,
+      profile_picture: string,
+      address: string,
+      created_at: string,
+      updated_at: string,
+    } | null,
+    picture?: string | null,
   } | null,
 };
 
@@ -1457,6 +2117,18 @@ export type UpdateMemberProfileMutation = {
       __typename: "PlanConnection",
       nextToken?: string | null,
     } | null,
+    tenant?:  {
+      __typename: "Tenant",
+      id: string,
+      name: string,
+      email: string,
+      phone_number: string,
+      profile_picture: string,
+      address: string,
+      created_at: string,
+      updated_at: string,
+    } | null,
+    picture?: string | null,
   } | null,
 };
 
@@ -1496,6 +2168,7 @@ export type GetTrainerByIdQuery = {
     birthdate: string,
     gender: Gender,
     address?: string | null,
+    picture?: string | null,
   } | null,
 };
 
@@ -1553,6 +2226,20 @@ export type GetWorkoutByIdQuery = {
       }
     ) > | null,
     library?: boolean | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1572,6 +2259,7 @@ export type GetClubTrainersQuery = {
     birthdate: string,
     gender: Gender,
     address?: string | null,
+    picture?: string | null,
   } > | null,
 };
 
@@ -1632,6 +2320,18 @@ export type GetMemberByIdQuery = {
       __typename: "PlanConnection",
       nextToken?: string | null,
     } | null,
+    tenant?:  {
+      __typename: "Tenant",
+      id: string,
+      name: string,
+      email: string,
+      phone_number: string,
+      profile_picture: string,
+      address: string,
+      created_at: string,
+      updated_at: string,
+    } | null,
+    picture?: string | null,
   } | null,
 };
 
@@ -1671,9 +2371,28 @@ export type GetPlanByIdQuery = {
       gender?: string | null,
       registered?: boolean | null,
       status?: string | null,
+      picture?: string | null,
+    } | null,
+    trainer?:  {
+      __typename: "Trainer",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      phone_number: string,
+      name: string,
+      email?: string | null,
+      birthdate: string,
+      gender: Gender,
+      address?: string | null,
+      picture?: string | null,
     } | null,
     events?:  {
       __typename: "EventConnection",
+      nextToken?: string | null,
+    } | null,
+    activeWorkouts?:  {
+      __typename: "ActiveWorkoutConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -1838,5 +2557,154 @@ export type SearchMembersQuery = {
       __typename: "PlanConnection",
       nextToken?: string | null,
     } | null,
+    tenant?:  {
+      __typename: "Tenant",
+      id: string,
+      name: string,
+      email: string,
+      phone_number: string,
+      profile_picture: string,
+      address: string,
+      created_at: string,
+      updated_at: string,
+    } | null,
+    picture?: string | null,
   } | null > | null,
+};
+
+export type GetActiveWorkoutQueryVariables = {
+};
+
+export type GetActiveWorkoutQuery = {
+  getActiveWorkout?:  {
+    __typename: "ActiveWorkout",
+    id: string,
+    tenantId: string,
+    clubId: string,
+    workoutId: string,
+    created_at: string,
+    updated_at: string,
+    started_at: string,
+    end_at?: string | null,
+    name: string,
+    exercises:  Array<( {
+        __typename: "ActiveStrengthExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      } | {
+        __typename: "ActiveCardioExercise",
+        id: string,
+        xid: string,
+        name: string,
+        type: ExerciseType,
+        notes?: string | null,
+        machine_number?: string | null,
+        seat_height?: string | null,
+      }
+    ) > | null,
+    memberId: string,
+    planId?: string | null,
+    notes?: string | null,
+  } | null,
+};
+
+export type GetCurrentMemberQueryVariables = {
+};
+
+export type GetCurrentMemberQuery = {
+  getCurrentMember?:  {
+    __typename: "Member",
+    id: string,
+    tenantId: string,
+    created_at: string,
+    updated_at: string,
+    name?: string | null,
+    email?: string | null,
+    phone_number?: string | null,
+    profile_picture?: string | null,
+    address?: string | null,
+    birthdate?: string | null,
+    gender?: string | null,
+    registered?: boolean | null,
+    status?: string | null,
+    measurement?:  {
+      __typename: "Measurement",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      memberId: string,
+      clubId?: string | null,
+      weight?: number | null,
+      height?: number | null,
+      fat?: number | null,
+      heart_rate?: number | null,
+    } | null,
+    goal?:  {
+      __typename: "Goal",
+      id: string,
+      tenantId: string,
+      created_at: string,
+      updated_at: string,
+      memberId: string,
+      clubId?: string | null,
+      title: string,
+      weight?: number | null,
+      height?: number | null,
+      fat?: number | null,
+      heart_rate?: number | null,
+      completed?: boolean | null,
+      completed_at?: string | null,
+    } | null,
+    profile_workouts?:  {
+      __typename: "WorkoutConnection",
+      nextToken?: string | null,
+    } | null,
+    plans?:  {
+      __typename: "PlanConnection",
+      nextToken?: string | null,
+    } | null,
+    tenant?:  {
+      __typename: "Tenant",
+      id: string,
+      name: string,
+      email: string,
+      phone_number: string,
+      profile_picture: string,
+      address: string,
+      created_at: string,
+      updated_at: string,
+    } | null,
+    picture?: string | null,
+  } | null,
+};
+
+export type ListActiveWorkoutsHistoryQueryVariables = {
+};
+
+export type ListActiveWorkoutsHistoryQuery = {
+  listActiveWorkoutsHistory?:  {
+    __typename: "ActiveWorkoutConnection",
+    items?:  Array< {
+      __typename: "ActiveWorkout",
+      id: string,
+      tenantId: string,
+      clubId: string,
+      workoutId: string,
+      created_at: string,
+      updated_at: string,
+      started_at: string,
+      end_at?: string | null,
+      name: string,
+      memberId: string,
+      planId?: string | null,
+      notes?: string | null,
+    } > | null,
+    nextToken?: string | null,
+  } | null,
 };

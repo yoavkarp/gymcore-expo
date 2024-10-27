@@ -108,7 +108,7 @@ const ExercisePage = () => {
                             <View>
                                 <Label>מספר מכונה:</Label>
                                 <View style={{ flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
-                                    <TextInput style={{ width: 250, textAlign: 'center' }} error={Boolean(error)} onBlur={handleBlur} onChangeText={handleChange} value={value || ""} />
+                                    <TextInput selectTextOnFocus style={{ width: 250, textAlign: 'center' }} error={Boolean(error)} onBlur={handleBlur} onChangeText={handleChange} value={value || ""} />
                                     {isSubmitting && isDirty && <LoadingIndicator />}
                                 </View>
                                 {error && <Text error>{error.message}</Text>}
@@ -128,7 +128,7 @@ const ExercisePage = () => {
                             <View>
                                 <Label>גובה מושב:</Label>
                                 <View style={{ flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
-                                    <TextInput style={{ width: 250, textAlign: 'center' }} error={Boolean(error)} onBlur={handleBlur} onChangeText={handleChange} value={value || ""} />
+                                    <TextInput selectTextOnFocus style={{ width: 250, textAlign: 'center' }} error={Boolean(error)} onBlur={handleBlur} onChangeText={handleChange} value={value || ""} />
                                     {isSubmitting && isDirty && <LoadingIndicator />}
                                 </View>
                                 {error && <Text error>{error.message}</Text>}

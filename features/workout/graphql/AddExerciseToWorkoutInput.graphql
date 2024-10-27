@@ -1,6 +1,7 @@
 mutation AddExerciseToWorkout($trainerId: ID!, $id: ID!, $input: AddExerciseToWorkoutInput!) {
     addExerciseToWorkout(trainerId: $trainerId, workoutId: $id, input: $input) {
         trainerId
+        id
         exercises {
             __typename
             ... on StrengthExercise {

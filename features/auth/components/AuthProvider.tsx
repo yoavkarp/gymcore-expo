@@ -37,6 +37,7 @@ export function AuthProvider({ children, config }: PropsWithChildren<AuthProvide
 
     const signIn = async (username: string) => {
         const result = await AuthActions.signIn(username);
+        console.log("GYMCORE", "features/auth/AuthProvider.ts", result.type, result.payload)
         handlePayloadReceived(result)
         return result;
 

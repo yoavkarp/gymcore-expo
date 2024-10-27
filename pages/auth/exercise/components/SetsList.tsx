@@ -10,6 +10,8 @@ import SetFormModal from './SetFormModal';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useDeleteSetFromExercise } from '@/features/workout/hooks/api/useDeleteSetFromExercise';
 import { useWorkout } from '@/features/workout';
+import { useAddSetToExercise } from '@/features/workout/hooks/api/useAddSetToExercise';
+import { removeTypename } from '@/utils/remove-typename';
 
 type SetsListProps = {
     onSelectSet?: (setId: string) => void;
@@ -25,6 +27,7 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
     const setFormModalRef = useRef<SetFormModal>(null);
 
     const { deleteSetFromExercise } = useDeleteSetFromExercise(workoutId);
+    const { addSetToExercise } = useAddSetToExercise(workoutId);
 
     const handleSetPressed = (setId: string) => {
         setSelectedSetId(setId);
@@ -56,6 +59,8 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
                 <FlatList
                     removeClippedSubviews
                     data={exercise.sets}
+                    style={{ maxHeight: 310 }}
+                    persistentScrollbar
                     keyExtractor={(item) => item?.id!}
                     renderItem={({ item, index }) => (
                         <TouchableOpacity onPress={() => handleSetPressed(item?.id!)} style={[Styles.tr, selectedSetId === item?.id && Styles.selectedTr]}>
@@ -77,13 +82,21 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
                                     {parameterToString(item?.rest)}
                                 </Text>
                             </View>
-                            <View style={{ flex: 0.9 / 4, flexDirection: 'row', gap: theme.spacing.sm }}>
-                                <Button onPress={() => setFormModalRef.current?.open(item?.id)}>
-                                    <Ionicons name="pencil-sharp" size={20} />
-                                </Button>
-                                <Button error onPress={() => deleteSetFromExercise(exercise.id, item?.id!)}>
-                                    <Ionicons name="trash" size={20} />
-                                </Button>
+                            <View style={{ flex: 0.9 / 4, flexDirection: 'row', gap: theme.spacing.xs }}>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => setFormModalRef.current?.open(item?.id)}>
+                                    <Ionicons color="white" name="pencil-sharp" size={20} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.error, borderRadius: 8 }} onPress={() => deleteSetFromExercise(exercise.id, item?.id!)}>
+                                    <Ionicons color="white" name="trash" size={20} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => addSetToExercise(exercise.id, removeTypename({
+                                    rest: item?.rest,
+                                    reps: item?.reps,
+                                    weight: item?.weight,
+                                    dropsets: item?.dropsets,
+                                }))}>
+                                    <Ionicons color="white" name="copy" size={20} />
+                                </TouchableOpacity>
                             </View>
                         </TouchableOpacity>
                     )}

@@ -23,6 +23,96 @@ export type Scalars = {
   AWSURL: { input: string; output: string; }
 };
 
+export type ActiveCardioExercise = {
+  __typename?: 'ActiveCardioExercise';
+  angle?: Maybe<ActiveParameter>;
+  id: Scalars['ID']['output'];
+  intervals?: Maybe<Array<Maybe<ActiveCardioExerciseInterval>>>;
+  machine_number?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  resistance?: Maybe<ActiveParameter>;
+  seat_height?: Maybe<Scalars['String']['output']>;
+  target_heart_rate?: Maybe<ActiveParameter>;
+  type: ExerciseType;
+  xid: Scalars['ID']['output'];
+};
+
+export type ActiveCardioExerciseInterval = {
+  __typename?: 'ActiveCardioExerciseInterval';
+  angle?: Maybe<ActiveParameter>;
+  distance?: Maybe<ActiveParameter>;
+  duration?: Maybe<ActiveParameter>;
+  id: Scalars['ID']['output'];
+  intensity?: Maybe<ActiveParameter>;
+  resistance?: Maybe<ActiveParameter>;
+  rest?: Maybe<ActiveParameter>;
+  tempo?: Maybe<ActiveParameter>;
+};
+
+export type ActiveExercise = ActiveCardioExercise | ActiveStrengthExercise;
+
+export type ActiveParameter = {
+  __typename?: 'ActiveParameter';
+  done?: Maybe<Scalars['Float']['output']>;
+  max?: Maybe<Scalars['Float']['output']>;
+  unit?: Maybe<Scalars['String']['output']>;
+  val?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ActiveStrengthExercise = {
+  __typename?: 'ActiveStrengthExercise';
+  angle?: Maybe<ActiveParameter>;
+  id: Scalars['ID']['output'];
+  machine_number?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  resistance?: Maybe<ActiveParameter>;
+  seat_height?: Maybe<Scalars['String']['output']>;
+  sets?: Maybe<Array<Maybe<ActiveStrengthExerciseSet>>>;
+  type: ExerciseType;
+  xid: Scalars['ID']['output'];
+};
+
+export type ActiveStrengthExerciseDropSet = {
+  __typename?: 'ActiveStrengthExerciseDropSet';
+  id: Scalars['ID']['output'];
+  reps?: Maybe<ActiveParameter>;
+  weight?: Maybe<ActiveParameter>;
+};
+
+export type ActiveStrengthExerciseSet = {
+  __typename?: 'ActiveStrengthExerciseSet';
+  dropsets?: Maybe<Array<ActiveStrengthExerciseDropSet>>;
+  id: Scalars['ID']['output'];
+  reps?: Maybe<ActiveParameter>;
+  rest?: Maybe<ActiveParameter>;
+  weight?: Maybe<ActiveParameter>;
+};
+
+export type ActiveWorkout = Document & {
+  __typename?: 'ActiveWorkout';
+  clubId: Scalars['ID']['output'];
+  created_at: Scalars['AWSDateTime']['output'];
+  end_at?: Maybe<Scalars['AWSDateTime']['output']>;
+  exercises?: Maybe<Array<ActiveExercise>>;
+  id: Scalars['ID']['output'];
+  memberId: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  planId?: Maybe<Scalars['ID']['output']>;
+  started_at: Scalars['AWSDateTime']['output'];
+  tenantId: Scalars['ID']['output'];
+  updated_at: Scalars['AWSDateTime']['output'];
+  workoutId: Scalars['ID']['output'];
+};
+
+export type ActiveWorkoutConnection = {
+  __typename?: 'ActiveWorkoutConnection';
+  items?: Maybe<Array<ActiveWorkout>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
 export type AddExerciseToWorkoutInput = {
   machine_number?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
@@ -42,6 +132,7 @@ export type CardioExercise = {
   notes?: Maybe<Scalars['String']['output']>;
   resistance?: Maybe<Parameter>;
   seat_height?: Maybe<Scalars['String']['output']>;
+  target_heart_rate?: Maybe<Parameter>;
   type: ExerciseType;
   xid: Scalars['ID']['output'];
 };
@@ -55,6 +146,7 @@ export type CardioExerciseInterval = {
   intensity?: Maybe<Parameter>;
   resistance?: Maybe<Parameter>;
   rest?: Maybe<Parameter>;
+  target_heart_rate?: Maybe<Parameter>;
   tempo?: Maybe<Parameter>;
 };
 
@@ -136,6 +228,35 @@ export type Document = {
   updated_at: Scalars['AWSDateTime']['output'];
 };
 
+export type EndDropsetInput = {
+  dropsetId: Scalars['ID']['input'];
+  exerciseId: Scalars['ID']['input'];
+  reps?: InputMaybe<Scalars['Int']['input']>;
+  setId: Scalars['ID']['input'];
+  weight?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type EndIntervalInput = {
+  angle?: InputMaybe<Scalars['Float']['input']>;
+  distance?: InputMaybe<Scalars['Float']['input']>;
+  duration?: InputMaybe<Scalars['Float']['input']>;
+  exerciseId: Scalars['ID']['input'];
+  intensity?: InputMaybe<Scalars['Float']['input']>;
+  intervalId: Scalars['ID']['input'];
+  resistance?: InputMaybe<Scalars['Float']['input']>;
+  rest?: InputMaybe<Scalars['Float']['input']>;
+  target_heart_rate?: InputMaybe<Scalars['Float']['input']>;
+  tempo?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type EndSetInput = {
+  exerciseId: Scalars['ID']['input'];
+  reps?: InputMaybe<Scalars['Int']['input']>;
+  rest?: InputMaybe<Scalars['Float']['input']>;
+  setId: Scalars['ID']['input'];
+  weight?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type Event = {
   __typename?: 'Event';
   clubId: Scalars['ID']['output'];
@@ -202,6 +323,7 @@ export type IntervalInput = {
   intensity?: InputMaybe<ParameterInput>;
   resistance?: InputMaybe<ParameterInput>;
   rest?: InputMaybe<ParameterInput>;
+  target_heart_rate?: InputMaybe<ParameterInput>;
   tempo?: InputMaybe<ParameterInput>;
 };
 
@@ -237,11 +359,13 @@ export type Member = Document & {
   measurement?: Maybe<Measurement>;
   name?: Maybe<Scalars['String']['output']>;
   phone_number?: Maybe<Scalars['AWSPhone']['output']>;
+  picture?: Maybe<Scalars['AWSURL']['output']>;
   plans?: Maybe<PlanConnection>;
   profile_picture?: Maybe<Scalars['AWSURL']['output']>;
   profile_workouts?: Maybe<WorkoutConnection>;
   registered?: Maybe<Scalars['Boolean']['output']>;
   status?: Maybe<Scalars['AWSJSON']['output']>;
+  tenant?: Maybe<Tenant>;
   tenantId: Scalars['ID']['output'];
   updated_at: Scalars['AWSDateTime']['output'];
 };
@@ -271,11 +395,17 @@ export type Mutation = {
   deletePlan?: Maybe<Plan>;
   deleteSetFromExercise?: Maybe<Workout>;
   deleteWorkout?: Maybe<Workout>;
+  endActiveWorkout?: Maybe<ActiveWorkout>;
+  endActiveWorkoutDropset?: Maybe<ActiveWorkout>;
+  endActiveWorkoutInterval?: Maybe<ActiveWorkout>;
+  endActiveWorkoutSet?: Maybe<ActiveWorkout>;
   importWorkoutFromLibrary?: Maybe<Workout>;
   moveExerciseInWorkout?: Maybe<Workout>;
   moveIntervalInExercise?: Maybe<Workout>;
   moveSetInExercise?: Maybe<Workout>;
   register?: Maybe<Member>;
+  startActiveWorkout?: Maybe<ActiveWorkout>;
+  test?: Maybe<Measurement>;
   updateExerciseInWorkout?: Maybe<Workout>;
   updateIntervalInExercise?: Maybe<Workout>;
   updateMemberProfile?: Maybe<Member>;
@@ -389,6 +519,21 @@ export type MutationDeleteWorkoutArgs = {
 };
 
 
+export type MutationEndActiveWorkoutDropsetArgs = {
+  input: EndDropsetInput;
+};
+
+
+export type MutationEndActiveWorkoutIntervalArgs = {
+  input: EndIntervalInput;
+};
+
+
+export type MutationEndActiveWorkoutSetArgs = {
+  input: EndSetInput;
+};
+
+
 export type MutationImportWorkoutFromLibraryArgs = {
   input: ImportWorkoutFromLibraryInput;
   trainerId: Scalars['ID']['input'];
@@ -424,6 +569,16 @@ export type MutationMoveSetInExerciseArgs = {
 
 export type MutationRegisterArgs = {
   input: RegisterInput;
+};
+
+
+export type MutationStartActiveWorkoutArgs = {
+  workoutId: Scalars['ID']['input'];
+};
+
+
+export type MutationTestArgs = {
+  input: CreateMeasurementInput;
 };
 
 
@@ -479,6 +634,7 @@ export type ParameterInput = {
 
 export type Plan = Document & {
   __typename?: 'Plan';
+  activeWorkouts?: Maybe<ActiveWorkoutConnection>;
   clubId: Scalars['ID']['output'];
   created_at: Scalars['AWSDateTime']['output'];
   events?: Maybe<EventConnection>;
@@ -488,6 +644,7 @@ export type Plan = Document & {
   memberId: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   tenantId: Scalars['ID']['output'];
+  trainer?: Maybe<Trainer>;
   trainerId: Scalars['ID']['output'];
   updated_at: Scalars['AWSDateTime']['output'];
   weeks: Scalars['Int']['output'];
@@ -502,13 +659,16 @@ export type PlanConnection = {
 
 export type Query = {
   __typename?: 'Query';
+  getActiveWorkout?: Maybe<ActiveWorkout>;
   getClubById?: Maybe<Club>;
   getClubTrainers?: Maybe<Array<Trainer>>;
+  getCurrentMember?: Maybe<Member>;
   getMemberById?: Maybe<Member>;
   getPlanById?: Maybe<Plan>;
   getTenant?: Maybe<Tenant>;
   getTrainerById?: Maybe<Trainer>;
   getWorkoutById?: Maybe<Workout>;
+  listActiveWorkoutsHistory?: Maybe<ActiveWorkoutConnection>;
   listLibraryWorkouts?: Maybe<WorkoutConnection>;
   listPlansByClub?: Maybe<PlanConnection>;
   listPlansByMemberId?: Maybe<PlanConnection>;
@@ -647,6 +807,7 @@ export type Trainer = Document & {
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   phone_number: Scalars['AWSPhone']['output'];
+  picture?: Maybe<Scalars['AWSURL']['output']>;
   tenantId: Scalars['ID']['output'];
   updated_at: Scalars['AWSDateTime']['output'];
 };
@@ -672,6 +833,7 @@ export type UpdateMemberProfileInput = {
   email?: InputMaybe<Scalars['AWSEmail']['input']>;
   gender?: InputMaybe<Gender>;
   name?: InputMaybe<Scalars['String']['input']>;
+  picture?: InputMaybe<Scalars['AWSURL']['input']>;
   profile_picture?: InputMaybe<Scalars['AWSURL']['input']>;
 };
 
@@ -691,6 +853,7 @@ export type Workout = Document & {
   name: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   tenantId: Scalars['ID']['output'];
+  trainer?: Maybe<Trainer>;
   trainerId: Scalars['ID']['output'];
   updated_at: Scalars['AWSDateTime']['output'];
 };
@@ -743,7 +906,7 @@ export type GetPlanByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetPlanByIdQuery = { __typename?: 'Query', getPlanById?: { __typename?: 'Plan', id: string, tenantId: string, weeks: number, meetings: number, created_at: string, updated_at: string, trainerId: string, memberId: string, events?: { __typename?: 'EventConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Event', id: string, start_at: string }> | null } | null, workouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string }> | null } | null, member?: { __typename?: 'Member', name?: string | null } | null } | null };
+export type GetPlanByIdQuery = { __typename?: 'Query', getPlanById?: { __typename?: 'Plan', id: string, tenantId: string, weeks: number, meetings: number, created_at: string, updated_at: string, trainerId: string, memberId: string, events?: { __typename?: 'EventConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Event', id: string, start_at: string }> | null } | null, workouts?: { __typename?: 'WorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'Workout', id: string, name: string, created_at: string, updated_at: string }> | null } | null, member?: { __typename?: 'Member', name?: string | null } | null, activeWorkouts?: { __typename?: 'ActiveWorkoutConnection', nextToken?: string | null, items?: Array<{ __typename?: 'ActiveWorkout', end_at?: string | null, id: string, name: string }> | null } | null } | null };
 
 export type CreateTrainerMutationVariables = Exact<{
   input: CreateTrainerInput;
@@ -764,7 +927,7 @@ export type AddExerciseToWorkoutMutationVariables = Exact<{
 }>;
 
 
-export type AddExerciseToWorkoutMutation = { __typename?: 'Mutation', addExerciseToWorkout?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type AddExerciseToWorkoutMutation = { __typename?: 'Mutation', addExerciseToWorkout?: { __typename?: 'Workout', trainerId: string, id: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type AddIntervalToExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -774,7 +937,7 @@ export type AddIntervalToExerciseMutationVariables = Exact<{
 }>;
 
 
-export type AddIntervalToExerciseMutation = { __typename?: 'Mutation', addIntervalToExercise?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type AddIntervalToExerciseMutation = { __typename?: 'Mutation', addIntervalToExercise?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type AddSetToExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -784,7 +947,7 @@ export type AddSetToExerciseMutationVariables = Exact<{
 }>;
 
 
-export type AddSetToExerciseMutation = { __typename?: 'Mutation', addSetToExercise?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type AddSetToExerciseMutation = { __typename?: 'Mutation', addSetToExercise?: { __typename?: 'Workout', trainerId: string, updated_at: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type AddWorkoutToLibraryMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -809,7 +972,7 @@ export type DeleteExerciseFromWorkoutMutationVariables = Exact<{
 }>;
 
 
-export type DeleteExerciseFromWorkoutMutation = { __typename?: 'Mutation', deleteExerciseFromWorkout?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type DeleteExerciseFromWorkoutMutation = { __typename?: 'Mutation', deleteExerciseFromWorkout?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type DeleteIntervalFromExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -819,7 +982,7 @@ export type DeleteIntervalFromExerciseMutationVariables = Exact<{
 }>;
 
 
-export type DeleteIntervalFromExerciseMutation = { __typename?: 'Mutation', deleteIntervalFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type DeleteIntervalFromExerciseMutation = { __typename?: 'Mutation', deleteIntervalFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type DeleteSetFromExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -829,7 +992,7 @@ export type DeleteSetFromExerciseMutationVariables = Exact<{
 }>;
 
 
-export type DeleteSetFromExerciseMutation = { __typename?: 'Mutation', deleteSetFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type DeleteSetFromExerciseMutation = { __typename?: 'Mutation', deleteSetFromExercise?: { __typename?: 'Workout', id: string, updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type DeleteWorkoutMutationVariables = Exact<{
   workoutId: Scalars['ID']['input'];
@@ -840,14 +1003,14 @@ export type DeleteWorkoutMutation = { __typename?: 'Mutation', deleteWorkout?: {
 
 export type StrengthExerciseFragmentFragment = { __typename?: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null };
 
-export type CardioExerciseFragmentFragment = { __typename?: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null };
+export type CardioExerciseFragmentFragment = { __typename?: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null };
 
 export type GetWorkoutByIdQueryVariables = Exact<{
   workoutId: Scalars['ID']['input'];
 }>;
 
 
-export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, library?: boolean | null, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type GetWorkoutByIdQuery = { __typename?: 'Query', getWorkoutById?: { __typename?: 'Workout', id: string, tenantId: string, clubId: string, created_at: string, updated_at: string, trainerId: string, memberId?: string | null, name: string, notes?: string | null, library?: boolean | null, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type ParameterFragmentFragment = { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null };
 
@@ -868,7 +1031,7 @@ export type MoveExerciseInWorkoutMutationVariables = Exact<{
 }>;
 
 
-export type MoveExerciseInWorkoutMutation = { __typename?: 'Mutation', moveExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type MoveExerciseInWorkoutMutation = { __typename?: 'Mutation', moveExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type MoveIntervalInExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -879,7 +1042,7 @@ export type MoveIntervalInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type MoveIntervalInExerciseMutation = { __typename?: 'Mutation', moveIntervalInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type MoveIntervalInExerciseMutation = { __typename?: 'Mutation', moveIntervalInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type MoveSetInExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -890,7 +1053,7 @@ export type MoveSetInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type MoveSetInExerciseMutation = { __typename?: 'Mutation', moveSetInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type MoveSetInExerciseMutation = { __typename?: 'Mutation', moveSetInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateExerciseInWorkoutMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -900,7 +1063,7 @@ export type UpdateExerciseInWorkoutMutationVariables = Exact<{
 }>;
 
 
-export type UpdateExerciseInWorkoutMutation = { __typename?: 'Mutation', updateExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type UpdateExerciseInWorkoutMutation = { __typename?: 'Mutation', updateExerciseInWorkout?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateIntervalInExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -911,7 +1074,7 @@ export type UpdateIntervalInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type UpdateIntervalInExerciseMutation = { __typename?: 'Mutation', updateIntervalInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type UpdateIntervalInExerciseMutation = { __typename?: 'Mutation', updateIntervalInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateSetInExerciseMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -922,7 +1085,7 @@ export type UpdateSetInExerciseMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSetInExerciseMutation = { __typename?: 'Mutation', updateSetInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+export type UpdateSetInExerciseMutation = { __typename?: 'Mutation', updateSetInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
 
 export type UpdateWorkoutMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -1033,6 +1196,9 @@ export const CardioExerciseFragmentFragmentDoc = gql`
       ...ParameterFragment
     }
     rest {
+      ...ParameterFragment
+    }
+    target_heart_rate {
       ...ParameterFragment
     }
   }
@@ -1300,6 +1466,14 @@ export const GetPlanByIdDocument = gql`
     member {
       name
     }
+    activeWorkouts {
+      items {
+        end_at
+        id
+        name
+      }
+      nextToken
+    }
   }
 }
     `;
@@ -1418,6 +1592,7 @@ export const AddExerciseToWorkoutDocument = gql`
     mutation AddExerciseToWorkout($trainerId: ID!, $id: ID!, $input: AddExerciseToWorkoutInput!) {
   addExerciseToWorkout(trainerId: $trainerId, workoutId: $id, input: $input) {
     trainerId
+    id
     exercises {
       __typename
       ... on StrengthExercise {
