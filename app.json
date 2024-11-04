@@ -49,6 +49,10 @@
     },
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "permissions": [
+      "android.permission.INTERNET",
+      "android.permission.ACCESS_NETWORK_STATE"
+    ]
   }
 }

@@ -16,6 +16,12 @@ const config: ResourcesConfig = {
             userPoolId: awsJson.UserPoolId,
             userPoolClientId: awsJson.UserPoolClientId,
             identityPoolId: awsJson.IdentityPoolId,
+            mfa: { smsEnabled: true, status: "on" },
+            loginWith: {
+                username: true,
+                email: true,
+                phone: true
+            }
         }
     },
 };

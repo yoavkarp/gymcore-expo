@@ -1,15 +1,17 @@
+import "@/initialize";
 import { AuthenticationDetails, ClientMetadata, CognitoUser, CognitoUserPool, CognitoUserSession, ICognitoUserPoolData } from "amazon-cognito-identity-js";
 import { AuthenticateUserMfaResult, AuthenticateUserResult, AuthenticateUserSuccessResult } from "./types";
 import { AuthNotInitializedError, MfaNotSupportedError, NoSessionError } from "./errors";
+import { signIn as si } from 'aws-amplify/auth'
 
 let userPool: CognitoUserPool | null = null;
 let initialized: boolean = false;
 let currentUser: CognitoUser | null = null;
 
-
 function withInitialized<T extends (...args: any[]) => any = () => any>(fn: T): (...args: Parameters<T>) => ReturnType<T> {
     return (...args) => {
         if (!initialized) {
+            console.error("GYMCORE", "features/auth/actions.ts", "Auth not initialized")
             throw new AuthNotInitializedError(fn.name)
         }
         return fn(...args);
@@ -59,7 +61,9 @@ export function getCurrentSession() {
 
 export async function initialize(pool: ICognitoUserPoolData) {
     userPool = new CognitoUserPool(pool);
+    console.log("GYMCORE", "features/auth/actions.ts", "Initializing...")
     await sync();
+    console.log("GYMCORE", "features/auth/actions.ts", "Initialized")
     initialized = true;
     return userPool;
 }
@@ -105,11 +109,14 @@ export const signOut = withInitialized((callback?: () => any) => {
 
 export const signIn = withInitialized((username: string, clientMetadata?: ClientMetadata) => {
     return new Promise<AuthenticateUserResult>((resolve, reject) => {
+        console.log("GYMCORE USERNAME", username)
         const user = new CognitoUser({ Username: username, Pool: userPool! });
         currentUser = user;
         user.authenticateUser(new AuthenticationDetails({ Username: username, Password: "Abcd1234!@", ClientMetadata: clientMetadata }), {
             onSuccess: (session, userConfirmationNecessary) => {
+                console.log("GYMCORE", "handleOnSuccess starting")
                 const result = handleOnSuccess(session, userConfirmationNecessary)
+                console.log("GYMCORE", "handleOnSuccess finished", result)
                 resolve(result);
             },
             onFailure: (err: Error) => {
@@ -153,14 +160,17 @@ export const resendOTP = withInitialized(() => {
 export const sync = () => {
     return new Promise<string>((resolve, reject) => {
         if (!userPool) {
+            console.error("GYMCORE SYNC", "No user pool found")
             reject(new Error("No user pool found"))
         }
         else {
             (userPool as any).storage.sync(function (err: Error | null, result: string) {
                 if (err) {
+                    console.error("GYMCORE SYNC", err)
                     reject(err)
                 }
                 else {
+                    console.log("GYMCORE SYNC", result)
                     resolve(result)
                 }
             });

@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gymcoreexpo-dev-2031f-authRole",
+      "UnauthRoleArn": "arn:aws:iam::181032208684:role/amplify-gymcoreexpo-dev-2031f-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::181032208684:role/amplify-gymcoreexpo-dev-2031f-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-gymcoreexpo-dev-2031f-deployment",
+      "UnauthRoleName": "amplify-gymcoreexpo-dev-2031f-unauthRole",
+      "StackName": "amplify-gymcoreexpo-dev-2031f",
+      "StackId": "arn:aws:cloudformation:eu-central-1:181032208684:stack/amplify-gymcoreexpo-dev-2031f/193aa820-944a-11ef-9004-06076c96fd33",
+      "AmplifyAppId": "d30rpld5prtdob"
+    },
+    "categories": {
+      "auth": {
+        "gymcoreexpoc9e5b681": {}
+      }
+    }
+  }
+}
