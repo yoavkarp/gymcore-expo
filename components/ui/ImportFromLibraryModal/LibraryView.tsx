@@ -27,9 +27,6 @@ const LibraryView: React.FC<LibraryViewProps> = ({ onPressWorkout }) => {
 
     return (
         <Section>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: theme.spacing.sm }}>
-                <Text h1>ספרייה</Text>
-            </View>
             <View style={Styles.header}>
                 <View style={[{ flex: 1 / 3 }]}>
                     <Text style={Styles.thText} center >שם האימון</Text>

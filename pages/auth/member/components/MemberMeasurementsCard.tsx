@@ -11,6 +11,7 @@ import { CreateMeasurementFormValues, useCreateMeasurementForm } from "@/feature
 import { Controller } from "react-hook-form";
 import Section from "@/components/ui/Section";
 import { theme } from "@/theme";
+import { Keyboard } from "react-native";
 
 interface MemberMeasurementsCardProps {
     measurement?: DeepPartial<Measurement> | null;
@@ -40,6 +41,7 @@ const MemberMeasurementsCard: React.FC<MemberMeasurementsCardProps> = ({ measure
                 memberId
             },
             onCompleted() {
+                Keyboard.dismiss();
                 showToast("המדד נוסף בהצלחה!")
             },
             onError(err) {
@@ -117,7 +119,7 @@ const MemberMeasurementsCard: React.FC<MemberMeasurementsCardProps> = ({ measure
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value }, fieldState }) => {
-                        return <TextInput keyboardType="number-pad" onBlur={onBlur} value={value ? value.toString() : ""} onChangeText={(val) => onChange(Number(val) || undefined)} error={Boolean(fieldState.error)} style={{ width: 100, textAlign: 'center' }} maxLength={3} />
+                        return <TextInput onSubmitEditing={handleSubmit(onSubmit, (err) => showToast(err[Object.keys(err)[0] as keyof typeof err]?.message!, "error"))} keyboardType="number-pad" onBlur={onBlur} value={value ? value.toString() : ""} onChangeText={(val) => onChange(Number(val) || undefined)} error={Boolean(fieldState.error)} style={{ width: 100, textAlign: 'center' }} maxLength={3} />
                     }}
                     name="fat"
                 />

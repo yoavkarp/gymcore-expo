@@ -41,6 +41,9 @@ const CardioExerciseSection: React.FC<CardioExerciseSectionProps> = ({ exercise 
                         <Text style={Styles.thText} center>עצימות</Text>
                     </View>
                     <View style={[{ flex: 0.9 / 7 }]}>
+                        <Text style={Styles.thText} center>דופק מטרה</Text>
+                    </View>
+                    <View style={[{ flex: 0.9 / 7 }]}>
                         <Text style={Styles.thText} center>שיפוע</Text>
                     </View>
                     <View style={[{ flex: 0.9 / 7 }]}>
@@ -54,6 +57,7 @@ const CardioExerciseSection: React.FC<CardioExerciseSectionProps> = ({ exercise 
                     removeClippedSubviews
                     data={exercise.intervals}
                     keyExtractor={(item) => item?.id!}
+                    style={{ maxHeight: 100 }}
                     renderItem={({ item, index }) => (
                         <View style={[Styles.tr]}>
                             <View style={{ flex: 0.1 }}>
@@ -77,6 +81,11 @@ const CardioExerciseSection: React.FC<CardioExerciseSectionProps> = ({ exercise 
                             <View style={{ flex: 0.9 / 7 }}>
                                 <Text center style={Styles.tdText}>
                                     {parameterToString(item?.intensity)}
+                                </Text>
+                            </View>
+                            <View style={{ flex: 0.9 / 7 }}>
+                                <Text center style={Styles.tdText}>
+                                    {parameterToString(item?.target_heart_rate)}
                                 </Text>
                             </View>
                             <View style={{ flex: 0.9 / 7 }}>

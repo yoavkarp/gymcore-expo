@@ -28,14 +28,16 @@ export const ExerciseListItem: React.FC<ExerciseListItemProps> = ({ item, select
         <TouchableOpacity style={[{ padding: 5 }, selected && { backgroundColor: `${theme.colors.primary.toString()}55`, borderRadius: 8 }]} onPress={() => onPress(item.id)}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Text>{item.name}</Text>
+                <View style={{ flexDirection: "row", gap: theme.spacing.sm }}>
+                    {item.machine_number && <><Label>מספר מכונה:</Label><Text>{item.machine_number}</Text></>}
+                    {item.seat_height && <><Label>גובה מושב:</Label><Text>{item.seat_height}</Text></>}
+                </View>
             </View>
-            <View style={{ flexDirection: "row", justifyContent: 'space-evenly' }}>
-                {item.machine_number && <Text>מספר מכונה: {item.machine_number}</Text>}
-                {item.seat_height && <Text>גובה מושב: {item.seat_height}</Text>}
-            </View>
+
         </TouchableOpacity>
     );
 }
+
 
 type ExerciseListProps = {
     onChangeSelect: (exerciseId: string | null) => any;
@@ -61,6 +63,7 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ onChangeSelect, exercises }
                 <Label>תרגילים</Label>
             </View>
             <FlatList
+                style={{ maxHeight: 200 }}
                 persistentScrollbar
                 data={exercises || []}
                 ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: theme.colors.primary, marginBottom: 10 }} />}

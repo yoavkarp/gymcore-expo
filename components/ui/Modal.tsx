@@ -1,6 +1,6 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, TouchableOpacity, Modal as M, ModalProps as MP, StyleSheet, ViewProps } from 'react-native';
 
 export type ModalProps = ViewProps & {
@@ -16,6 +16,9 @@ const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, 
     const { theme } = useTheme();
     const _styles = styles(theme);
 
+    const ContainerComponent = useMemo(() => dismissable ? TouchableOpacity : View, [dismissable]);
+    const containerComponentProps = useMemo(() => dismissable ? { onPress: onDismiss, activeOpacity: 0.9 } : {}, [dismissable, onDismiss]);
+
     return (
         <M
             onShow={onShow}
@@ -24,9 +27,10 @@ const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, 
             animationType="fade"
             onRequestClose={onDismiss}
         >
-            <TouchableOpacity style={_styles.modalBackground} onPress={dismissable ? onDismiss : undefined} activeOpacity={0.9}>
+            {/* @ts-ignore */}
+            <ContainerComponent style={_styles.modalBackground} {...containerComponentProps}>
                 <View {...props} style={[_styles.modalContent, props.style, Boolean(props.width) && { width: props.width }]} />
-            </TouchableOpacity>
+            </ContainerComponent>
         </M>
     );
 };

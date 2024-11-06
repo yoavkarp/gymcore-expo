@@ -11,6 +11,7 @@ import { parameterToString } from "@/utils/parameter-to-string";
 import { router } from "expo-router";
 import { useRef } from "react";
 import { FlatList, StyleSheet } from "react-native";
+import Label from "../../Label";
 
 interface StrengthExerciseSectionProps {
     exercise: StrengthExercise
@@ -44,7 +45,7 @@ const StrengthExerciseSection: React.FC<StrengthExerciseSectionProps> = ({ exerc
                         </View>
                     </View>
                     <FlatList
-                        style={{ height: 165 }}
+                        style={{ maxHeight: 100 }}
                         removeClippedSubviews
                         data={exercise.sets}
                         keyExtractor={(item) => item?.id!}
@@ -69,7 +70,19 @@ const StrengthExerciseSection: React.FC<StrengthExerciseSectionProps> = ({ exerc
                                     </Text>
                                 </View>
                                 <View style={{ flex: 0.9 / 4 }}>
-                                    <Text>#TODO:SETDROPSET</Text>
+                                    {
+                                        item?.dropsets?.map((dropset, index) => (
+                                            <View key={index} style={{ gap: theme.spacing.sm }}>
+                                                <Label>דרופסט {index + 1}</Label>
+                                                <Text center style={Styles.tdText}>
+                                                    {parameterToString(dropset?.reps)}
+                                                </Text>
+                                                <Text center style={Styles.tdText}>
+                                                    {parameterToString(dropset?.weight)}
+                                                </Text>
+                                            </View>
+                                        ))
+                                    }
                                 </View>
                             </View>
                         )}
