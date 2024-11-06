@@ -29,7 +29,12 @@ const MembersSection: React.FC<MembersSectionProps> = () => {
 
     const [createMemberMutation, { data: createMemberMutationData }] = useCreateMemberMutation({
         onCompleted(data) {
+            show("המנוי נוצר בהצלחה", "success")
             handleMemberCardPress(data.createMember as Member)
+        },
+        onError(err) {
+            console.log(err)
+            show("אירעה שגיאה ביצירת המנוי", "error")
         }
     });
     const [searchMembersQuery, { data: searchMembersQueryData, loading: isSearchingMembers, client }] = useSearchMembersLazyQuery();
@@ -57,6 +62,7 @@ const MembersSection: React.FC<MembersSectionProps> = () => {
 
     const handleMemberCardPress = (member: Partial<Member>) => {
         pushToMembersHistory(member)
+        console.log("HERE");
         router.push(`member/${member.id}` as Href)
     }
 
@@ -91,14 +97,6 @@ const MembersSection: React.FC<MembersSectionProps> = () => {
                             birthdate: info.birthdate,
                             gender: info.gender as Gender,
                         }
-                    },
-                    onCompleted() {
-                        show("המנוי נוצר בהצלחה", "success")
-                        setShowCreateMemberModal(false);
-                    },
-                    onError(err) {
-                        console.log(err)
-                        show("אירעה שגיאה ביצירת המנוי", "error")
                     }
                 })
 

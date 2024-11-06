@@ -22,15 +22,10 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval, interva
 
     const { workoutId } = useWorkout();
     const { exercise } = useExercise();
-    const [selectedIntervalId, setSelectedIntervalId] = useState<string | null>(null);
 
     const { deleteIntervalFromExercise } = useDeleteIntervalFromExercise(workoutId);
 
     const { addIntervalToExercise } = useAddIntervalToExercise(workoutId);
-    const handleIntervalPressed = (setId: string) => {
-        setSelectedIntervalId(setId);
-        onSelectInterval?.(setId);
-    }
 
     if (exercise.__typename !== "CardioExercise") {
         return null;
@@ -75,7 +70,7 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval, interva
                     style={{ maxHeight: 340 }}
                     keyExtractor={(item) => item?.id!}
                     renderItem={({ item, index }) => (
-                        <TouchableOpacity onPress={() => handleIntervalPressed(item?.id!)} style={[Styles.tr, selectedIntervalId === item?.id && Styles.selectedTr]}>
+                        <View style={[Styles.tr]}>
                             <View style={{ flex: 0.05 }}>
                                 <Text center>{index + 1}</Text>
                             </View>
@@ -139,7 +134,7 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval, interva
                                     <Ionicons color="white" name="copy" size={20} />
                                 </TouchableOpacity>
                             </View>
-                        </TouchableOpacity>
+                        </View>
                     )}
 
                     ListEmptyComponent={

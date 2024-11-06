@@ -106,9 +106,9 @@ const WorkoutPage: React.FC = () => {
                         }
 
                         return (
-                            <View style={{ alignSelf: 'flex-start', flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center' }}>
+                            <View style={{ alignSelf: 'flex-start', flexDirection: 'row', gap: theme.spacing.sm, alignItems: 'center', marginTop: 4 }}>
                                 <Label>הערות על האימון:</Label>
-                                <TextInput readOnly={isSubmitting} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={handleChange} onBlur={handleBlur} value={value || ""} />
+                                <TextInput readOnly={isSubmitting} style={{ width: 960, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={handleChange} onBlur={handleBlur} value={value || ""} />
                                 {isSubmitting && isDirty && <LoadingIndicator />}
                                 {error && <Text error>{error.message}</Text>}
                             </View>

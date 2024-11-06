@@ -52,7 +52,7 @@ const MemberProfileWorkoutsSection = () => {
             <FlatList
                 refreshControl={<RefreshControl refreshing={loading} onRefresh={() => refetch()} />}
                 refreshing={loading}
-                style={{ maxHeight: 250 }}
+                style={{ height: 550, maxHeight: 550 }}
                 removeClippedSubviews
                 data={data?.listLibraryWorkouts?.items}
                 keyExtractor={(item) => item?.id!}

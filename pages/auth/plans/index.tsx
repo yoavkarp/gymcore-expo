@@ -98,6 +98,11 @@ const MemberProfileWorkoutsSection = () => {
                         <Text>אין תכניות להצגה</Text>
                     </View>
                 }
+
+                style={{
+                    maxHeight: 520,
+                    height: 520
+                }}
             />
 
             <YesNoDialog ref={yesNoDialogRef} />

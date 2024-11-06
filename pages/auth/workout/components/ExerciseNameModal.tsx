@@ -39,8 +39,9 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
 
     const { addExerciseToWorkout, result: addExerciseToWorkoutResult } = useAddExerciseToWorkout(workoutId, {
         onCompleted(data) {
-            if (data.addExerciseToWorkout?.exercises?.[-1].id)
-                router.push(`/workout/${workoutId}/exercise/${data.addExerciseToWorkout?.exercises?.[-1].id}`)
+            console.log(data.addExerciseToWorkout?.exercises?.at(-1)?.id)
+            if (data.addExerciseToWorkout?.exercises?.at(-1)?.id)
+                router.push(`/workout/${workoutId}/${data.addExerciseToWorkout?.exercises?.at(-1)?.id}`)
         }
     });
     const { updateExerciseInWorkout, result: updateExerciseInWorkoutResult } = useUpdateExerciseInWorkout(workoutId);
@@ -133,33 +134,35 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
 
             <Controller control={control} name="notes"
                 render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                    <View style={{ alignSelf: 'flex-start' }}>
+                    <View style={{ alignSelf: 'flex-start', width: '100%' }}>
                         <Label>הערות</Label>
-                        <TextInput multiline numberOfLines={3} style={{ width: 500, textAlign: 'right', maxHeight: 100 }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value || ""} />
+                        <TextInput style={{ width: '100%', textAlign: 'right' }} error={Boolean(error)} onChangeText={onChange} onBlur={onBlur} value={value || ""} />
                         {error && <Text error>{error.message}</Text>}
                     </View>
                 )}
             />
 
-            <Controller control={control} name="machine_number"
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <View>
-                        <Label>מספר מכונה</Label>
-                        <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} value={value || ""} />
-                        {error && <Text error>{error.message}</Text>}
-                    </View>
-                )}
-            />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Controller control={control} name="machine_number"
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                        <View>
+                            <Label>מספר מכונה</Label>
+                            <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} value={value || ""} />
+                            {error && <Text error>{error.message}</Text>}
+                        </View>
+                    )}
+                />
 
-            <Controller control={control} name="seat_height"
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <View>
-                        <Label>גובה מושב</Label>
-                        <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} value={value || ""} />
-                        {error && <Text error>{error.message}</Text>}
-                    </View>
-                )}
-            />
+                <Controller control={control} name="seat_height"
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                        <View>
+                            <Label>גובה מושב</Label>
+                            <TextInput style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={onChange} value={value || ""} />
+                            {error && <Text error>{error.message}</Text>}
+                        </View>
+                    )}
+                />
+            </View>
             <Button isLoading={isSubmitting} disabled={isSubmitting} onPress={handleSubmit(onSubmit, (err) => console.log(err))}>
                 {openProps?.exerciseId ? 'עדכון' : 'הוספה'}
             </Button>

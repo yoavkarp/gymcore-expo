@@ -26,6 +26,7 @@ const MembersHistorySection: React.FC<MembersHistorySectionProps> = () => {
             <FlatList
                 data={membersHistory}
                 keyExtractor={(item) => item.id!}
+                style={{ maxHeight: 570 }}
                 renderItem={({ item }) => {
                     return (
                         <TouchableOpacity onPress={() => handleMemberCardPress(item)}>
