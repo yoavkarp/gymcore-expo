@@ -12,6 +12,7 @@ import { useDeleteSetFromExercise } from '@/features/workout/hooks/api/useDelete
 import { useWorkout } from '@/features/workout';
 import { useAddSetToExercise } from '@/features/workout/hooks/api/useAddSetToExercise';
 import { removeTypename } from '@/utils/remove-typename';
+import YesNoDialog from '@/components/YesNoDialog';
 
 type SetsListProps = {
     onSelectSet?: (setId: string) => void;
@@ -25,6 +26,7 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
     const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
 
     const setFormModalRef = useRef<SetFormModal>(null);
+    const yesNoDialogRef = useRef<YesNoDialog>(null);
 
     const { deleteSetFromExercise } = useDeleteSetFromExercise(workoutId);
     const { addSetToExercise } = useAddSetToExercise(workoutId);
@@ -32,6 +34,12 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
     const handleSetPressed = (setId: string) => {
         setSelectedSetId(setId);
         onSelectSet?.(setId);
+    }
+
+    const handleDeleteSet = (setId: string) => {
+        yesNoDialogRef.current?.open(async () => {
+            await deleteSetFromExercise(exercise.id, setId)
+        })
     }
 
     if (exercise.__typename !== "StrengthExercise") {
@@ -86,7 +94,7 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
                                 <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => setFormModalRef.current?.open(item?.id)}>
                                     <Ionicons color="white" name="pencil-sharp" size={20} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.error, borderRadius: 8 }} onPress={() => deleteSetFromExercise(exercise.id, item?.id!)}>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.error, borderRadius: 8 }} onPress={() => handleDeleteSet(item?.id!)}>
                                     <Ionicons color="white" name="trash" size={20} />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => addSetToExercise(exercise.id, removeTypename({
@@ -110,6 +118,7 @@ const SetsList: React.FC<SetsListProps> = ({ onSelectSet }) => {
                 />
             </View>
             <SetFormModal ref={setFormModalRef} />
+            <YesNoDialog ref={yesNoDialogRef} title='מחיקת סט' />
         </View>
     )
 

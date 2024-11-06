@@ -106,7 +106,7 @@ const DropsetsList: React.FC<DropsetsListProps> = ({ onSelectDropset, dropsets =
                     }
                 />
             </View>
-            <YesNoDialog ref={yesNoDialogRef} />
+            <YesNoDialog ref={yesNoDialogRef} title='מחיקת דרופ סט' />
             <DropSetFormModal ref={dropsetFormModalRef} />
         </View>
     )

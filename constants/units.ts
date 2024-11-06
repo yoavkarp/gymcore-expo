@@ -89,4 +89,15 @@ export const TEMPO_UNITS = [
     }
 ]
 
-export const ALL_UNITS = REPS_UNITS.concat(WEIGHT_UNITS).concat(REST_UNITS).concat(DISTANCE_UNITS).concat(TEMPO_UNITS);
+export const MORE_UNITS = [
+    {
+        value: "%",
+        title: "%"
+    },
+    {
+        value: "BPM",
+        title: "BPM"
+    }
+]
+
+export const ALL_UNITS = REPS_UNITS.concat(WEIGHT_UNITS).concat(REST_UNITS).concat(DISTANCE_UNITS).concat(TEMPO_UNITS).concat(MORE_UNITS);

@@ -12,6 +12,7 @@ import { useWorkout } from '@/features/workout';
 import { useDeleteIntervalFromExercise } from '@/features/workout/hooks/api/useDeleteIntervalFromExercise';
 import { useAddIntervalToExercise } from '@/features/workout/hooks/api/useAddIntervalToExercise';
 import { removeTypename } from '@/utils/remove-typename';
+import YesNoDialog from '@/components/YesNoDialog';
 
 type IntervalsListProps = {
     onSelectInterval?: (setId: string) => void;
@@ -23,9 +24,18 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval, interva
     const { workoutId } = useWorkout();
     const { exercise } = useExercise();
 
+    const yesNoDialogRef = useRef<YesNoDialog>(null);
+
     const { deleteIntervalFromExercise } = useDeleteIntervalFromExercise(workoutId);
 
     const { addIntervalToExercise } = useAddIntervalToExercise(workoutId);
+
+    const handleDeleteInterval = (intervalId: string) => {
+        yesNoDialogRef.current?.open(async () => {
+            await deleteIntervalFromExercise(exercise.id, intervalId)
+        })
+    }
+
 
     if (exercise.__typename !== "CardioExercise") {
         return null;
@@ -118,7 +128,7 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval, interva
                                 <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => intervalFormModalRef.current?.open(item?.id)}>
                                     <Ionicons color={'white'} name="pencil-sharp" size={20} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.error, borderRadius: 8 }} onPress={() => deleteIntervalFromExercise(exercise.id, item?.id!)}>
+                                <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.error, borderRadius: 8 }} onPress={() => handleDeleteInterval(item?.id!)}>
                                     <Ionicons color="white" name="trash" size={20} />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ padding: 8, backgroundColor: theme.colors.primary, borderRadius: 8 }} onPress={() => addIntervalToExercise(exercise.id, removeTypename({
@@ -146,6 +156,8 @@ const IntervalsList: React.FC<IntervalsListProps> = ({ onSelectInterval, interva
                 />
             </View>
             <IntervalFormModal ref={intervalFormModalRef} />
+            <YesNoDialog ref={yesNoDialogRef} title='מחיקת אינטרוול' />
+
         </View>
     )
 
