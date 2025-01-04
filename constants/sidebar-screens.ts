@@ -3,6 +3,8 @@ import { SvgProps } from 'react-native-svg';
 import { CollectionSolidIcon, HomeSolidIcon, LibrarySolidIcon, PSolidIcon, PlanSolidIcon, ScheduleSolidIcon } from '@/components/SvgIcons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Href } from 'expo-router';
+import { Platform } from 'react-native';
+import { Placeholder } from './icon-placeholder';
 
 export interface NavigationScreen {
     icon?: (props: SvgProps) => JSX.Element;
@@ -14,17 +16,17 @@ const SCREENS: NavigationScreen[] = [
     {
         name: "בית",
         href: "/home",
-        icon: HomeSolidIcon,
+        icon: Platform.OS === 'web' ? Placeholder : HomeSolidIcon,
     },
     {
         name: "ספריה",
         href: "/library",
-        icon: LibrarySolidIcon,
+        icon: Platform.OS === 'web' ? Placeholder : LibrarySolidIcon,
     },
     {
         name: "תכניות",
         href: "/plans",
-        icon: LibrarySolidIcon,
+        icon: Platform.OS === 'web' ? Placeholder : LibrarySolidIcon,
     },
 ] as const;
 

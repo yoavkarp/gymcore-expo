@@ -16,7 +16,6 @@ import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useExercise } from "./ExerciseProvider";
-import CloseButton from "@/components/ui/CloseButton";
 import { Keyboard } from "react-native";
 
 interface IntervalFormModalProps {
@@ -98,7 +97,6 @@ const IntervalFormModal = React.forwardRef<IntervalFormModal, IntervalFormModalP
         <Modal width={1200} onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text h1>{openProps?.intervalId ? 'עריכת אינטרוול קיים' : 'הוספת אינטרוול'}</Text>
-                <CloseButton onPress={() => setVisible(false)} />
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

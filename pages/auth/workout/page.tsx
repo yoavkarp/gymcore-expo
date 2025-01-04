@@ -88,7 +88,7 @@ const WorkoutPage: React.FC = () => {
 
                             return (
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
-                                    <Label>שם האימון:</Label>
+                                    <Label style={{}}>שם האימון:</Label>
                                     <TextInput readOnly={isSubmitting} style={{ width: 300, textAlign: 'center' }} error={Boolean(error)} onChangeText={handleChange} onBlur={handleBlur} value={value} />
                                     {isSubmitting && isDirty && <LoadingIndicator />}
                                     {error && <Text error>{error.message}</Text>}

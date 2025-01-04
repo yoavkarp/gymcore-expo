@@ -4,7 +4,6 @@ import Text from "../Text";
 import Button from "../Button";
 import LibraryView from "./LibraryView";
 import WorkoutView from "./WorkoutView";
-import CloseButton from "../CloseButton";
 import { View } from "../View";
 import { theme } from "@/theme";
 
@@ -40,9 +39,6 @@ const ImportFromLibraryModal = React.forwardRef<ImportFromLibraryModal, ImportFr
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: theme.spacing.sm }}>
                     <Text h1>ייבוא מספריה</Text>
-                </View>
-                <View style={{ flex: 0, alignItems: 'flex-end' }}>
-                    <CloseButton onPress={() => setVisible(false)} />
                 </View>
             </View>
 

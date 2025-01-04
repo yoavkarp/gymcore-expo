@@ -17,7 +17,6 @@ import { Controller } from "react-hook-form";
 import { View } from "react-native";
 import Label from "@/components/ui/Label";
 import TextInput from "@/components/ui/TextInput";
-import CloseButton from "@/components/ui/CloseButton";
 import { router } from "expo-router";
 
 interface ExerciseNameModalProps {
@@ -112,9 +111,8 @@ const ExerciseNameModal = React.forwardRef<ExerciseNameModal, ExerciseNameModalP
 
     return (
         <Modal visible={visible} onDismiss={() => { dismiss() }} style={{ gap: 8, width: 700 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ justifyContent: 'space-between' }}>
                 <Text h1>{openProps?.exerciseId ? 'עריכת תרגיל קיים' : 'הוספת תרגיל'}</Text>
-                <CloseButton onPress={() => dismiss()} />
             </View>
 
             <SearchExerciseModal defaultValue={selectedExercise || undefined} onChangeValue={(val) => {

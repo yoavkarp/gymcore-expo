@@ -60,7 +60,7 @@ const CreateWorkoutModal = forwardRef<CreateWorkoutModal, CreateWorkoutModalProp
     }
 
     return (
-        <Modal visible={visible} dismissable onDismiss={() => setIsVisible(false)} style={{ gap: 8 }}>
+        <Modal visible={visible} onDismiss={() => setIsVisible(false)} style={{ gap: 8 }}>
             <Text h1>יצירת אימון חדש</Text>
             <Text subtitle>הכניסו שם לאימון</Text>
             <Controller control={control} name="name"

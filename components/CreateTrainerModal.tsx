@@ -1,5 +1,4 @@
 import Button from "@/components/ui/Button";
-import CloseButton from "@/components/ui/CloseButton";
 import DateSelect from "@/components/ui/DateSelect";
 import Label from "@/components/ui/Label";
 import Modal from "@/components/ui/Modal";
@@ -8,7 +7,7 @@ import Text from "@/components/ui/Text";
 import TextInput, { TextInputRef } from "@/components/ui/TextInput";
 import { View } from "@/components/ui/View";
 import { CreateTrainerFormValues, useCreateTrainerForm } from "@/features/trainers/hooks/useCreateTrainerForm";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { StyleSheet } from "react-native";
 
@@ -37,7 +36,7 @@ interface CreateTrainerModalProps {
 
 const CreateTrainerModal: React.FC<CreateTrainerModalProps> = ({ error, visible = false, onDismiss, onSubmit }) => {
     const { control, formState: { isSubmitting }, handleSubmit, reset } = useCreateTrainerForm({
-        mode: "onChange"
+        mode: "onChange",
     });
     const [nameInputRef, phoneNumberInputRef, emailInputRef] = [React.useRef<TextInputRef>(null), React.useRef<TextInputRef>(null), React.useRef<TextInputRef>(null)];
     const [genderSelectRef] = [React.useRef<SelectRef>(null)];
@@ -45,14 +44,13 @@ const CreateTrainerModal: React.FC<CreateTrainerModalProps> = ({ error, visible 
     return (
         <Modal visible={visible} onDismiss={onDismiss} onShow={() => {
             console.log("SHow")
-            reset()
+            reset({ name: "as" });
             setTimeout(() => {
                 nameInputRef.current?.focus();
             }, 100);
         }}>
             <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
                 <Text h1>מאמן חדש</Text>
-                <CloseButton onPress={onDismiss} />
             </View>
             <Text subtitle>יש להשלים את הטופס על מנת להוסיף מאמן חדש</Text>
 

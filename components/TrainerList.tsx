@@ -3,7 +3,6 @@ import List from "./ui/List";
 import { View } from "./ui/View";
 import Text from "./ui/Text";
 import Button from "./ui/Button";
-import CloseButton from "./ui/CloseButton";
 import { useClub } from "@/features/club/components/ClubProvider";
 
 const TrainerList: React.FC = () => {
@@ -14,7 +13,6 @@ const TrainerList: React.FC = () => {
         <View style={{ gap: 10 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text h1>בחירת מאמן</Text>
-                {Boolean(currentTrainer?.id) && <CloseButton onPress={() => setIsTrainersListVisible(false)} />}
             </View>
             <List
                 data={trainers.map((trainer) => ({

@@ -1,7 +1,8 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Theme } from '@/theme';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, TouchableOpacity, Modal as M, ModalProps as MP, StyleSheet, ViewProps } from 'react-native';
+import CloseButton from './CloseButton';
 
 export type ModalProps = ViewProps & {
     onShow?: MP['onShow'];
@@ -11,13 +12,13 @@ export type ModalProps = ViewProps & {
     width?: number;
 }
 
-const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, ...props }) => {
+const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, children, ...props }) => {
 
     const { theme } = useTheme();
     const _styles = styles(theme);
 
-    const ContainerComponent = useMemo(() => dismissable ? TouchableOpacity : View, [dismissable]);
-    const containerComponentProps = useMemo(() => dismissable ? { onPress: onDismiss, activeOpacity: 0.9 } : {}, [dismissable, onDismiss]);
+    // const ContainerComponent = useMemo(() => dismissable ? TouchableOpacity : View, [dismissable]);
+    // const containerComponentProps = useMemo(() => dismissable ? { onPress: onDismiss, activeOpacity: 0.9 } : {}, [dismissable, onDismiss]);
 
     return (
         <M
@@ -28,9 +29,14 @@ const Modal: React.FC<ModalProps> = ({ onShow, visible, dismissable, onDismiss, 
             onRequestClose={onDismiss}
         >
             {/* @ts-ignore */}
-            <ContainerComponent style={_styles.modalBackground} {...containerComponentProps}>
-                <View {...props} style={[_styles.modalContent, props.style, Boolean(props.width) && { width: props.width }]} />
-            </ContainerComponent>
+            <View style={[_styles.modalBackground, { position: 'relative' }]}>
+                <View {...props} style={[_styles.modalContent, props.style, Boolean(props.width) && { width: props.width }]}>
+                    <View style={{ position: 'absolute', left: 5, top: 5, zIndex: 1000 }}>
+                        <CloseButton onPress={onDismiss} />
+                    </View>
+                    {children}
+                </View>
+            </View>
         </M>
     );
 };

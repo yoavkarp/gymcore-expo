@@ -1,5 +1,8 @@
 import { Club } from "./appsync/API";
 
+
+declare module 'react-native-svg-web'
+
 declare module global {
     declare namespace NodeJS {
         interface ProcessEnv {
@@ -8,5 +11,6 @@ declare module global {
         }
     }
 }
+
 
 export { }

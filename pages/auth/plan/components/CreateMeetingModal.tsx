@@ -10,7 +10,6 @@ import DateSelect from "@/components/ui/DateSelect";
 import TimeSelect from "@/components/ui/TimeSelect";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { theme } from "@/theme";
-import CloseButton from "@/components/ui/CloseButton";
 
 
 type CreateMeetingModal = {
@@ -75,7 +74,6 @@ const CreateMeetingModal = forwardRef<CreateMeetingModal>((_, ref) => {
         <Modal visible={visible} onDismiss={() => setIsVisible(false)} style={{ gap: 8 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text h1>יצירת מפגש</Text>
-                <CloseButton onPress={() => setIsVisible(false)} />
             </View>
 
             <View style={{ gap: theme.spacing.md }}>

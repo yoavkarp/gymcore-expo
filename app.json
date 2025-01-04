@@ -33,13 +33,9 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization",
-      "expo-font"
+      "expo-font",
+      "expo-localization"
     ],
-    "locales": {
-      "he": "./locales/he.json",
-      "en": "./locales/en.json"
-    },
     "extra": {
       "supportsRTL": true,
       "forceRTL": true,
@@ -49,10 +45,6 @@
     },
     "experiments": {
       "typedRoutes": true
-    },
-    "permissions": [
-      "android.permission.INTERNET",
-      "android.permission.ACCESS_NETWORK_STATE"
-    ]
+    }
   }
 }

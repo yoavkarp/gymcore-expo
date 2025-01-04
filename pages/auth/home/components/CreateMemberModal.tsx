@@ -1,5 +1,4 @@
 import Button from "@/components/ui/Button";
-import CloseButton from "@/components/ui/CloseButton";
 import DateSelect from "@/components/ui/DateSelect";
 import Label from "@/components/ui/Label";
 import Modal from "@/components/ui/Modal";
@@ -54,8 +53,7 @@ const CreateMemberModal: React.FC<CreateMemberModalProps> = ({ visible = false, 
             }, 100);
         }}>
             <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
-                <Text h1>מנוי חדש</Text>
-                <CloseButton onPress={onDismiss} />
+                <Text h1>מנוי חדש1</Text>
             </View>
             <Text subtitle>יש להשלים את הטופס על מנת להוסיף מנוי חדש</Text>
 

@@ -97,6 +97,12 @@ const MembersSection: React.FC<MembersSectionProps> = () => {
                             birthdate: info.birthdate,
                             gender: info.gender as Gender,
                         }
+                    },
+                    onCompleted(data) {
+                        setShowCreateMemberModal(false)
+                        setSearchText("");
+                        pushToMembersHistory(data.createMember as Partial<Member>);
+                        router.push(`member/${data.createMember?.id}` as Href)
                     }
                 })
 

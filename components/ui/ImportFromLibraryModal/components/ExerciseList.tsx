@@ -1,19 +1,12 @@
-import Button from "@/components/ui/Button";
+import React from 'react';
 import Text from "@/components/ui/Text";
 import { View } from "@/components/ui/View";
-import { Exercise, useMoveExerciseInWorkoutMutation } from "@/graphql";
+import { Exercise } from "@/graphql";
 import FlatList from "react-native-draggable-flatlist";
 import { useEffect, useRef, useState } from "react";
-import YesNoDialog from "@/components/YesNoDialog";
-import { Ionicons } from "@expo/vector-icons";
-import { useDeleteExerciseFromWorkout } from "@/features/workout/hooks/api/useDeleteExerciseFromWorkout";
-import { useWorkout } from "@/features/workout";
 import { useTheme } from "@/contexts/ThemeContext";
-import { Pressable } from "react-native";
 import TouchableOpacity from "@/components/ui/TouchableOpacity";
-import { useSnackbar } from "@/contexts/SnackbarContext";
 import Label from "@/components/ui/Label";
-import { useMoveExerciseInWorkout } from "@/features/workout/hooks/api/useMoveExerciseInWorkout";
 
 interface ExerciseListItemProps {
     item: Exercise;

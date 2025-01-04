@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
     return (
         <View style={[Styles.container, { height: Dimensions.get('screen').height }]}>
             <View id='logo'>
-                <Image style={{ height: 90, width: 90, borderTopRightRadius: 12 }} source={require("../../../assets/images/logo.jpeg")} />
+                <Image resizeMode="cover" resizeMethod="scale" style={{ height: 150, width: 110, borderTopRightRadius: 12 }} source={require("../../../assets/images/logogymcore.png")} />
                 {/* <LogoIcon width={70} height={70} fill={'white'} /> */}
             </View>
             <View id='buttons' style={Styles.buttonsContainer}>

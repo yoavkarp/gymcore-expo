@@ -1,6 +1,7 @@
 import SearchModal, { SearchResultItem } from "@/components/SearchModal";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import exercisesJSON from "@/assets/exercises2.json";
+import { useSearchExercisesLazyQuery } from "@/graphql";
 
 type SearchExerciseModalProps = {
     onChangeValue?: (value: SearchResultItem) => any;
@@ -16,26 +17,50 @@ const translate_with = {
     bodyWeight: "משקל גוף",
     olympicBarble: "מוט אולימפי",
     plate: "פלטה",
-    rubberBand: "גומיה"
+    rubberBand: "גומיה",
+    "treadmill": "הליכון"
 }
 
 const SearchExerciseModal: React.FC<SearchExerciseModalProps> = ({ onChangeValue, defaultValue }) => {
 
     const [items, setItems] = useState<{ value: string, title: string }[]>([]);
     const [isPending, startTransition] = useTransition();
+    const [text, setText] = useState("");
 
-    const searchExercise = (text: string) => {
-        startTransition(() => {
-            const result: { value: string, title: string }[] = []
-            if (text.trim().length > 2)
-                result.push(
-                    ...exercisesJSON.strength.filter((exercise) => exercise.name.he.includes(text.trim()))
-                        .map((ex) => ({ value: ex.id, title: `${ex.name.he} כנגד ${translate_with[ex.against as keyof typeof translate_with]}` })).slice(0, 5)
-                );
+    const [searchExerciseQuery, { }] = useSearchExercisesLazyQuery({
+        fetchPolicy: 'cache-first'
+    });
 
-            setItems(result);
-        });
-    }
+    useEffect(() => {
+
+        const sanitized = text.trim().toLowerCase();
+
+        console.log("HRE");
+
+        let to = setTimeout(() => {
+            console.log("EXERCUTED");
+            searchExerciseQuery({
+                variables: {
+                    query: sanitized
+                },
+                onCompleted(data) {
+                    console.log(data);
+                    setItems(data.searchExercises?.items?.map((item) => ({
+                        value: item.id,
+                        title: item.hebrew
+                    })) || [])
+                },
+                onError(err) {
+                    console.error(err)
+                }
+            })
+        }, 800)
+
+        return () => {
+            clearTimeout(to)
+        }
+    }, [text])
+
 
     return (
         <SearchModal
@@ -43,7 +68,7 @@ const SearchExerciseModal: React.FC<SearchExerciseModalProps> = ({ onChangeValue
             title="חיפוש תרגיל מהמאגר"
             subtitle="יש להתחיל להקליד על מנת לראות תוצאות"
             searching={isPending}
-            onChangeText={searchExercise}
+            onChangeText={setText}
             items={items}
             onChangeValue={onChangeValue}
         />

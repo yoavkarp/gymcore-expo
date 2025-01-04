@@ -11,7 +11,34 @@ import Button from "@/components/ui/Button";
 import { View } from "@/components/ui/View";
 import { theme } from "@/theme";
 import '@/initialize';
-import { ClubProvider } from "@/features/club";
+import { ClubProvider, useClub } from "@/features/club";
+import CreateTrainerModal from "@/components/CreateTrainerModal";
+import Modal from "@/components/ui/Modal";
+import TrainerList from "@/components/TrainerList";
+import { Gender } from "@/graphql";
+
+function ClubLayout() {
+
+  const { setIsCreateTrainerModalVisible, isLoading, createTrainerError, clubTrainersData, createTrainer, isCreateTrainerModalVisible, isTrainersListVisible } = useClub();
+  return (
+    <>
+
+      <Modal visible={isTrainersListVisible}>
+        <TrainerList />
+        <CreateTrainerModal
+          onDismiss={() => {
+            console.log("hi")
+
+            setIsCreateTrainerModalVisible(false)
+          }}
+          visible={!isLoading && (isCreateTrainerModalVisible || (clubTrainersData?.getClubTrainers || []).length === 0)}
+          onSubmit={(input) => createTrainer({ ...input, gender: input.gender as Gender, phone_number: `+972${input.phone_number}` })}
+          error={createTrainerError} />
+      </Modal>
+    </>
+  )
+
+}
 
 export default function Layout() {
 
@@ -48,6 +75,7 @@ export default function Layout() {
           </View>
         </View>
       </SafeAreaView>
+      <ClubLayout />
     </ClubProvider>
   );
 }

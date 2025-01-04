@@ -90,6 +90,7 @@ export type StrengthExercise = {
   __typename: "StrengthExercise",
   id: string,
   xid: string,
+  exerciseListItem: ExerciseListItem,
   name: string,
   type: ExerciseType,
   notes?: string | null,
@@ -98,6 +99,16 @@ export type StrengthExercise = {
   angle?: Parameter | null,
   resistance?: Parameter | null,
   sets?:  Array<StrengthExerciseSet | null > | null,
+};
+
+export type ExerciseListItem = {
+  __typename: "ExerciseListItem",
+  id: string,
+  exercise: string,
+  hebrew: string,
+  equipment: string,
+  equipment_hebrew: string,
+  search: string,
 };
 
 export enum ExerciseType {
@@ -133,6 +144,7 @@ export type CardioExercise = {
   __typename: "CardioExercise",
   id: string,
   xid: string,
+  exerciseListItem: ExerciseListItem,
   name: string,
   type: ExerciseType,
   notes?: string | null,
@@ -292,6 +304,7 @@ export type ActiveParameter = {
   max?: number | null,
   unit?: string | null,
   done?: number | null,
+  end_at?: string | null,
 };
 
 export type ActiveStrengthExerciseSet = {
@@ -301,6 +314,7 @@ export type ActiveStrengthExerciseSet = {
   rest?: ActiveParameter | null,
   weight?: ActiveParameter | null,
   dropsets?:  Array<ActiveStrengthExerciseDropSet > | null,
+  end_at?: string | null,
 };
 
 export type ActiveStrengthExerciseDropSet = {
@@ -308,6 +322,7 @@ export type ActiveStrengthExerciseDropSet = {
   id: string,
   reps?: ActiveParameter | null,
   weight?: ActiveParameter | null,
+  end_at?: string | null,
 };
 
 export type ActiveCardioExercise = {
@@ -321,7 +336,6 @@ export type ActiveCardioExercise = {
   seat_height?: string | null,
   angle?: ActiveParameter | null,
   resistance?: ActiveParameter | null,
-  target_heart_rate?: ActiveParameter | null,
   intervals?:  Array<ActiveCardioExerciseInterval | null > | null,
 };
 
@@ -335,6 +349,8 @@ export type ActiveCardioExerciseInterval = {
   angle?: ActiveParameter | null,
   resistance?: ActiveParameter | null,
   rest?: ActiveParameter | null,
+  target_heart_rate?: ActiveParameter | null,
+  end_at?: string | null,
 };
 
 export type Tenant = {
@@ -498,6 +514,12 @@ export type UpdateMemberProfileInput = {
   birthdate?: string | null,
   gender?: Gender | null,
   picture?: string | null,
+};
+
+export type ExerciseList = {
+  __typename: "ExerciseList",
+  items?:  Array<ExerciseListItem > | null,
+  nextToken?: string | null,
 };
 
 export type TestMutationVariables = {
@@ -2570,6 +2592,26 @@ export type SearchMembersQuery = {
     } | null,
     picture?: string | null,
   } | null > | null,
+};
+
+export type SearchExercisesQueryVariables = {
+  query: string,
+};
+
+export type SearchExercisesQuery = {
+  searchExercises?:  {
+    __typename: "ExerciseList",
+    items?:  Array< {
+      __typename: "ExerciseListItem",
+      id: string,
+      exercise: string,
+      hebrew: string,
+      equipment: string,
+      equipment_hebrew: string,
+      search: string,
+    } > | null,
+    nextToken?: string | null,
+  } | null,
 };
 
 export type GetActiveWorkoutQueryVariables = {

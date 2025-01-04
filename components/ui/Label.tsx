@@ -19,7 +19,7 @@ const Label = forwardRef<TextRef, LabelProps>(({ ...rootProps }, ref) => {
     return <Text {...rootProps} ref={ref} style={[
         _style.default,
         rootProps.style,
-        ...Object.keys(rootProps).filter((key) => key in _style).map((key) => _style[key as keyof typeof _style])
+        ...Object.keys(rootProps).filter((key) => key in _style).map((key) => _style[key as keyof typeof _style]),
     ]} />
 })
 
@@ -30,7 +30,8 @@ const styles = (theme: Theme) => StyleSheet.create<Record<(keyof LabelStyles) | 
     default: {
         fontSize: 20,
         fontWeight: "semibold",
-        letterSpacing: 0.5
+        letterSpacing: 0.5,
+        writingDirection: 'rtl',
     }
 })
 

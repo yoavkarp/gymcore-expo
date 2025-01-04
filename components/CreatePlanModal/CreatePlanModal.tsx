@@ -56,7 +56,7 @@ const CreatePlanModal = forwardRef<CreatePlanModal, CreatePlanModalProps>(({ mem
     }
 
     return (
-        <Modal visible={visible} dismissable onDismiss={() => setIsVisible(false)} style={{ gap: 8 }}>
+        <Modal visible={visible} onDismiss={() => setIsVisible(false)} style={{ gap: 8 }}>
             <Text h1>יצירת תכנית חדשה</Text>
             <Controller control={control} name="weeks"
                 render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {

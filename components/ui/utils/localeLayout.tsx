@@ -23,6 +23,7 @@ export const textLayout = (styleProp?: StyleProp<TextStyle>, dir: 'rtl' | 'ltr' 
 
     const styles: TextStyle = {
         ...flattenStyle,
+        direction: 'rtl',
         writingDirection: I18nManager.isRTL ? 'rtl' : 'ltr',
     }
     return styles;

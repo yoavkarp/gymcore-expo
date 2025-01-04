@@ -63,8 +63,12 @@ const Text = forwardRef<TextRef, TextProps>(({ bulletColor, style, ...rootProps 
     const { fontWeight, ...otherStyles } = flattenedStyle || {};
 
     const textComponent = <T {...rootProps} ref={ref} style={textLayout({
+        writingDirection: 'rtl',
+        textAlign: 'right',
+        direction: 'rtl',
         ...otherStyles,
         fontFamily: fontFamilyForWeight[fontWeight ?? '400'],
+
     })} />
 
     if (rootProps.h1) {
@@ -81,6 +85,7 @@ Text.displayName = "Text";
 
 const styles = (theme: Theme) => StyleSheet.create<Record<(keyof TextStyles) | "default" | "bullet", TextStyle>>({
     default: {
+        writingDirection: 'rtl',
         fontFamily: "regular",
         color: theme.colors.text,
         fontSize: 20,

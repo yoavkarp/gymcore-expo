@@ -15,7 +15,6 @@ import { useExercise } from "./ExerciseProvider";
 import { useWorkout } from "@/features/workout";
 import { useUpdateSetInExercise } from "@/features/workout/hooks/api/useUpdateSetInExercise";
 import { removeTypename } from "@/utils/remove-typename";
-import CloseButton from "@/components/ui/CloseButton";
 import { Keyboard } from "react-native";
 
 interface DropSetFormModalProps {
@@ -87,7 +86,6 @@ const DropSetFormModal = React.forwardRef<DropSetFormModal, DropSetFormModalProp
         <Modal onDismiss={() => setVisible(false)} style={{ gap: 8 }} visible={visible}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text h2>דרופסט</Text>
-                <CloseButton onPress={() => setVisible(false)} />
             </View>
             <Text subtitle>הכנס משקל וחזרות עבור דרופסט</Text>
             <View>

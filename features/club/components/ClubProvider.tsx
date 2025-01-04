@@ -1,10 +1,7 @@
 import { createContext, PropsWithChildren, useState } from "react";
 import { useContext } from "react";
-import { CreateTrainerInput, Gender, GetClubTrainersDocument, GetClubTrainersQuery, GetClubTrainersQueryResult, GetClubTrainersQueryVariables, Tenant, Trainer, useCreateTrainerMutation, useGetClubTrainersQuery } from "@/graphql";
-import { NetworkStatus } from "@apollo/client";
-import Modal from "@/components/ui/Modal";
-import CreateTrainerModal from "@/components/CreateTrainerModal";
-import TrainerList from "@/components/TrainerList";
+import { CreateTrainerInput, GetClubTrainersDocument, GetClubTrainersQuery, GetClubTrainersQueryVariables, Tenant, Trainer, useCreateTrainerMutation, useGetClubTrainersQuery } from "@/graphql";
+import { ApolloError, NetworkStatus } from "@apollo/client";
 import { useSession } from "@/features/auth";
 
 type ClubContextValue = {
@@ -18,6 +15,11 @@ type ClubContextValue = {
     deleteTrainer: (trainerId: string) => void;
     setIsCreateTrainerModalVisible: (visible: boolean) => void;
     setIsTrainersListVisible: (visible: boolean) => void;
+
+    isCreateTrainerModalVisible: boolean;
+    isTrainersListVisible: boolean;
+    createTrainerError?: ApolloError;
+    clubTrainersData?: GetClubTrainersQuery;
 }
 
 const ClubContext = createContext<ClubContextValue | null>(null);
@@ -81,22 +83,17 @@ export function ClubProvider({ children }: PropsWithChildren<ClubProviderProps>)
             trainers: clubTrainersData?.getClubTrainers || [],
             tenant,
             setCurrentTrainer,
-            createTrainer: (input) => createTrainer({ variables: { input } }),
+            createTrainer: (input) => createTrainer({ variables: { input }, onCompleted() { setIsCreateTrainerModalVisible(false); } }),
             deleteTrainer: () => null,
             setIsCreateTrainerModalVisible,
-            setIsTrainersListVisible
+            setIsTrainersListVisible,
+            isCreateTrainerModalVisible,
+            isTrainersListVisible,
+            createTrainerError,
+            clubTrainersData
         }}
         >
             {children}
-            <CreateTrainerModal
-                onDismiss={() => setIsCreateTrainerModalVisible(false)}
-                visible={!isLoading && (isCreateTrainerModalVisible || (clubTrainersData?.getClubTrainers || []).length === 0)}
-                onSubmit={(input) => createTrainer({ variables: { input: { ...input, gender: input.gender as Gender, phone_number: `+972${input.phone_number}` } }, onCompleted() { setIsCreateTrainerModalVisible(false) } })}
-                error={createTrainerError}
-            />
-            <Modal visible={isTrainersListVisible} dismissable>
-                <TrainerList />
-            </Modal>
         </ClubContext.Provider>
     )
 };

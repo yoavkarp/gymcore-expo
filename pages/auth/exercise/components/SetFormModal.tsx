@@ -17,7 +17,6 @@ import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useExercise } from "./ExerciseProvider";
-import CloseButton from "@/components/ui/CloseButton";
 import { Keyboard } from "react-native";
 
 interface SetFormModalProps {
@@ -86,7 +85,6 @@ const SetFormModal = React.forwardRef<SetFormModal, SetFormModalProps>(({ onDism
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                 <Text h1>{openProps?.setId ? 'עריכת סט קיים' : 'הוספת סט'}</Text>
-                <CloseButton onPress={() => setVisible(false)} />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View>

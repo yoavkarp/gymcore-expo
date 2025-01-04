@@ -7,7 +7,7 @@ import TextInput, { TextInputRef } from "@/components/ui/TextInput";
 import Text from "@/components/ui/Text";
 import Label from "@/components/ui/Label";
 import Card from "@/components/ui/Card";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import Button from "@/components/ui/Button";
 import Section from "@/components/ui/Section";
 import OTPForm from "./components/OTPForm";
@@ -28,6 +28,7 @@ export default function SignInPage() {
             }}
         >
             <Section style={{ gap: 5 }}>
+                <Image style={{ height: 120, width: 200, borderTopRightRadius: 12, alignSelf: "center" }} source={require("../../assets/images/logogymcore.png")} />
                 <Text h1>כניסה</Text>
                 <Text subtitle>יש להזין את פרטי משתמש המועדון כדי להמשיך</Text>
                 {status === "MFA_REQUIRED" ? <OTPForm /> : <SignInForm />}

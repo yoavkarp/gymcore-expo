@@ -2,7 +2,7 @@ import "@/initialize";
 import { AuthenticationDetails, ClientMetadata, CognitoUser, CognitoUserPool, CognitoUserSession, ICognitoUserPoolData } from "amazon-cognito-identity-js";
 import { AuthenticateUserMfaResult, AuthenticateUserResult, AuthenticateUserSuccessResult } from "./types";
 import { AuthNotInitializedError, MfaNotSupportedError, NoSessionError } from "./errors";
-import { signIn as si } from 'aws-amplify/auth'
+import { Platform } from "react-native";
 
 let userPool: CognitoUserPool | null = null;
 let initialized: boolean = false;
@@ -159,6 +159,11 @@ export const resendOTP = withInitialized(() => {
 
 export const sync = () => {
     return new Promise<string>((resolve, reject) => {
+
+        if (Platform.OS === 'web') {
+            return resolve("Web platform does not support sync")
+        }
+
         if (!userPool) {
             console.error("GYMCORE SYNC", "No user pool found")
             reject(new Error("No user pool found"))

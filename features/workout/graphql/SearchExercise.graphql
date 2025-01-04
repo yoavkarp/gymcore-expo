@@ -1,0 +1,10 @@
+query SearchExercises($query: String!) {
+  searchExercises(query: $query) {
+    items {
+        id
+        exercise
+        hebrew
+        equipment_hebrew
+    }
+  }
+}

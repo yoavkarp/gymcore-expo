@@ -33,7 +33,6 @@ export type ActiveCardioExercise = {
   notes?: Maybe<Scalars['String']['output']>;
   resistance?: Maybe<ActiveParameter>;
   seat_height?: Maybe<Scalars['String']['output']>;
-  target_heart_rate?: Maybe<ActiveParameter>;
   type: ExerciseType;
   xid: Scalars['ID']['output'];
 };
@@ -43,10 +42,12 @@ export type ActiveCardioExerciseInterval = {
   angle?: Maybe<ActiveParameter>;
   distance?: Maybe<ActiveParameter>;
   duration?: Maybe<ActiveParameter>;
+  end_at?: Maybe<Scalars['AWSDateTime']['output']>;
   id: Scalars['ID']['output'];
   intensity?: Maybe<ActiveParameter>;
   resistance?: Maybe<ActiveParameter>;
   rest?: Maybe<ActiveParameter>;
+  target_heart_rate?: Maybe<ActiveParameter>;
   tempo?: Maybe<ActiveParameter>;
 };
 
@@ -55,6 +56,7 @@ export type ActiveExercise = ActiveCardioExercise | ActiveStrengthExercise;
 export type ActiveParameter = {
   __typename?: 'ActiveParameter';
   done?: Maybe<Scalars['Float']['output']>;
+  end_at?: Maybe<Scalars['AWSDateTime']['output']>;
   max?: Maybe<Scalars['Float']['output']>;
   unit?: Maybe<Scalars['String']['output']>;
   val?: Maybe<Scalars['Float']['output']>;
@@ -76,6 +78,7 @@ export type ActiveStrengthExercise = {
 
 export type ActiveStrengthExerciseDropSet = {
   __typename?: 'ActiveStrengthExerciseDropSet';
+  end_at?: Maybe<Scalars['AWSDateTime']['output']>;
   id: Scalars['ID']['output'];
   reps?: Maybe<ActiveParameter>;
   weight?: Maybe<ActiveParameter>;
@@ -84,6 +87,7 @@ export type ActiveStrengthExerciseDropSet = {
 export type ActiveStrengthExerciseSet = {
   __typename?: 'ActiveStrengthExerciseSet';
   dropsets?: Maybe<Array<ActiveStrengthExerciseDropSet>>;
+  end_at?: Maybe<Scalars['AWSDateTime']['output']>;
   id: Scalars['ID']['output'];
   reps?: Maybe<ActiveParameter>;
   rest?: Maybe<ActiveParameter>;
@@ -125,6 +129,7 @@ export type AddExerciseToWorkoutInput = {
 export type CardioExercise = {
   __typename?: 'CardioExercise';
   angle?: Maybe<Parameter>;
+  exerciseListItem: ExerciseListItem;
   id: Scalars['ID']['output'];
   intervals?: Maybe<Array<Maybe<CardioExerciseInterval>>>;
   machine_number?: Maybe<Scalars['String']['output']>;
@@ -276,6 +281,22 @@ export type EventConnection = {
 };
 
 export type Exercise = CardioExercise | StrengthExercise;
+
+export type ExerciseList = {
+  __typename?: 'ExerciseList';
+  items?: Maybe<Array<ExerciseListItem>>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
+export type ExerciseListItem = {
+  __typename?: 'ExerciseListItem';
+  equipment: Scalars['String']['output'];
+  equipment_hebrew: Scalars['String']['output'];
+  exercise: Scalars['String']['output'];
+  hebrew: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  search: Scalars['String']['output'];
+};
 
 export enum ExerciseType {
   Cardio = 'CARDIO',
@@ -673,6 +694,7 @@ export type Query = {
   listPlansByClub?: Maybe<PlanConnection>;
   listPlansByMemberId?: Maybe<PlanConnection>;
   listPlansByTrainerId?: Maybe<PlanConnection>;
+  searchExercises?: Maybe<ExerciseList>;
   searchMembers?: Maybe<Array<Maybe<Member>>>;
 };
 
@@ -728,6 +750,11 @@ export type QueryListPlansByTrainerIdArgs = {
 };
 
 
+export type QuerySearchExercisesArgs = {
+  query: Scalars['String']['input'];
+};
+
+
 export type QuerySearchMembersArgs = {
   text: Scalars['String']['input'];
 };
@@ -752,6 +779,7 @@ export type SetInput = {
 export type StrengthExercise = {
   __typename?: 'StrengthExercise';
   angle?: Maybe<Parameter>;
+  exerciseListItem: ExerciseListItem;
   id: Scalars['ID']['output'];
   machine_number?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
@@ -1054,6 +1082,13 @@ export type MoveSetInExerciseMutationVariables = Exact<{
 
 
 export type MoveSetInExerciseMutation = { __typename?: 'Mutation', moveSetInExercise?: { __typename?: 'Workout', updated_at: string, trainerId: string, exercises?: Array<{ __typename: 'CardioExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, intervals?: Array<{ __typename?: 'CardioExerciseInterval', id: string, duration?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, distance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, tempo?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, intensity?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, angle?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, resistance?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, target_heart_rate?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null } | null> | null } | { __typename: 'StrengthExercise', type: ExerciseType, id: string, xid: string, name: string, notes?: string | null, machine_number?: string | null, seat_height?: string | null, sets?: Array<{ __typename?: 'StrengthExerciseSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, rest?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, dropsets?: Array<{ __typename?: 'StrengthExerciseDropSet', id: string, reps?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null, weight?: { __typename?: 'Parameter', max?: number | null, val?: number | null, unit?: string | null } | null }> | null } | null> | null }> | null } | null };
+
+export type SearchExercisesQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+}>;
+
+
+export type SearchExercisesQuery = { __typename?: 'Query', searchExercises?: { __typename?: 'ExerciseList', items?: Array<{ __typename?: 'ExerciseListItem', id: string, exercise: string, hebrew: string, equipment_hebrew: string }> | null } | null };
 
 export type UpdateExerciseInWorkoutMutationVariables = Exact<{
   trainerId: Scalars['ID']['input'];
@@ -2270,6 +2305,51 @@ export function useMoveSetInExerciseMutation(baseOptions?: Apollo.MutationHookOp
 export type MoveSetInExerciseMutationHookResult = ReturnType<typeof useMoveSetInExerciseMutation>;
 export type MoveSetInExerciseMutationResult = Apollo.MutationResult<MoveSetInExerciseMutation>;
 export type MoveSetInExerciseMutationOptions = Apollo.BaseMutationOptions<MoveSetInExerciseMutation, MoveSetInExerciseMutationVariables>;
+export const SearchExercisesDocument = gql`
+    query SearchExercises($query: String!) {
+  searchExercises(query: $query) {
+    items {
+      id
+      exercise
+      hebrew
+      equipment_hebrew
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchExercisesQuery__
+ *
+ * To run a query within a React component, call `useSearchExercisesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchExercisesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchExercisesQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchExercisesQuery(baseOptions: Apollo.QueryHookOptions<SearchExercisesQuery, SearchExercisesQueryVariables> & ({ variables: SearchExercisesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchExercisesQuery, SearchExercisesQueryVariables>(SearchExercisesDocument, options);
+      }
+export function useSearchExercisesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchExercisesQuery, SearchExercisesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchExercisesQuery, SearchExercisesQueryVariables>(SearchExercisesDocument, options);
+        }
+export function useSearchExercisesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchExercisesQuery, SearchExercisesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchExercisesQuery, SearchExercisesQueryVariables>(SearchExercisesDocument, options);
+        }
+export type SearchExercisesQueryHookResult = ReturnType<typeof useSearchExercisesQuery>;
+export type SearchExercisesLazyQueryHookResult = ReturnType<typeof useSearchExercisesLazyQuery>;
+export type SearchExercisesSuspenseQueryHookResult = ReturnType<typeof useSearchExercisesSuspenseQuery>;
+export type SearchExercisesQueryResult = Apollo.QueryResult<SearchExercisesQuery, SearchExercisesQueryVariables>;
 export const UpdateExerciseInWorkoutDocument = gql`
     mutation UpdateExerciseInWorkout($trainerId: ID!, $workoutId: ID!, $exerciseId: ID!, $input: UpdateExerciseInWorkoutInput!) {
   updateExerciseInWorkout(

@@ -437,6 +437,25 @@ export const searchMembers = /* GraphQL */ `query SearchMembers($text: String!) 
   APITypes.SearchMembersQueryVariables,
   APITypes.SearchMembersQuery
 >;
+export const searchExercises = /* GraphQL */ `query SearchExercises($query: String!) {
+  searchExercises(query: $query) {
+    items {
+      id
+      exercise
+      hebrew
+      equipment
+      equipment_hebrew
+      search
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SearchExercisesQueryVariables,
+  APITypes.SearchExercisesQuery
+>;
 export const getActiveWorkout = /* GraphQL */ `query GetActiveWorkout {
   getActiveWorkout {
     id

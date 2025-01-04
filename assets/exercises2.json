@@ -2,6 +2,56 @@
     "strength": [
         {
             "name": {
+                "shared": "Running",
+                "en": "Running",
+                "he": "ריצה"
+            },
+            "against": "treadmill",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push",
+            "id": "bd856b72-087f-4570-a2e8-746579a5ca26"
+        },
+        {
+            "name": {
+                "shared": "Swimming",
+                "en": "Swimming",
+                "he": "שחיה"
+            },
+            "against": "",
+            "muscle": "pectoralis major",
+            "type": "compound",
+            "weight": {
+                "intermediate": [
+                    40,
+                    60
+                ],
+                "advanced": [
+                    60,
+                    80
+                ]
+            },
+            "units": "kg",
+            "position": "center",
+            "direction": "h",
+            "motion": "push",
+            "id": "bd856b72-087f-4570-a2e8-746579a5ca26"
+        },
+        {
+            "name": {
                 "shared": "Chest Press",
                 "en": "Chest Press",
                 "he": "לחיצת חזה"
