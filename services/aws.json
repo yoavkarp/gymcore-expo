@@ -1,11 +1,11 @@
 {
     "awssdklayerLayerPathD25219AF": "src/layers/aws-sdk-layer",
-    "UserPoolClientId": "6mgk08pco7tnehpq24f37bqtra",
-    "UserPoolId": "eu-central-1_MehUDfcFk",
-    "tenantName": "Dev_Israel",
-    "tenantId": "6334c862-6041-7018-7094-9d7686054bd9",
-    "IdentityPoolId": "eu-central-1:b5a4c971-a427-4dd6-b6d6-ddca977381ea",
-    "ApiEndpoint": "https://lp7dern7nzgrhjry4isonixs2i.appsync-api.eu-central-1.amazonaws.com/graphql",
+    "UserPoolClientId": "57hd9kd8o4dimqecc6vb1iefcu",
+    "UserPoolId": "eu-central-1_7jNlB2mJg",
+    "tenantName": "SpinPlus_Israel",
+    "tenantId": "43e48822-4001-7060-b9ed-d70b828c71e2",
+    "IdentityPoolId": "eu-central-1:c26cf6c8-28a6-4f14-a1b1-c7e27536cd1a",
+    "ApiEndpoint": "https://aywd3l54evd4bgekyjp3fuwyxm.appsync-api.eu-central-1.amazonaws.com/graphql",
     "region": "eu-central-1",
-    "ApiId": "bfyuql6d5jhulnm3doohaof7wi"
+    "ApiId": "2jyhy6bcrvffhcubpzrydjfh54"
 }

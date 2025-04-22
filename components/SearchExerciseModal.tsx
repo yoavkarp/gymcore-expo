@@ -54,7 +54,7 @@ const SearchExerciseModal: React.FC<SearchExerciseModalProps> = ({ onChangeValue
                     console.error(err)
                 }
             })
-        }, 800)
+        }, 300)
 
         return () => {
             clearTimeout(to)

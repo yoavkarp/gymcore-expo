@@ -88,6 +88,7 @@ const MembersSection: React.FC<MembersSectionProps> = () => {
                     </View>
                 }} />
             <CreateMemberModal onSubmit={async (info) => {
+                console.log(`+972${Number(info.phone_number)}`);
                 await createMemberMutation({
                     variables: {
                         input: {
