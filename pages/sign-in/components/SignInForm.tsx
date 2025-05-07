@@ -21,7 +21,7 @@ const SignInForm = () => {
     const { control, handleSubmit, formState: { isSubmitting } } = useForm<SignInFormInput>({
         resolver: zodResolver(validator),
         defaultValues: {
-            username: "0501111112"
+            username: ""
         }
     });
 
